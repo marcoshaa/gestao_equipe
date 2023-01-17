@@ -24,17 +24,18 @@ class LoginController extends Controller
     protected function validator(array $dados){       
         $mensagens = [
             'required' => 'O :attribute é obrigatório!',
-            'nome.min' => 'É necessário no mínimo 4 caracteres no nome!',
-            'email.email' => 'Digite um email válido!'
+            'password.min' => 'É necessário no mínimo 4 caracteres no senha!',
+            'password.max' => 'É no máximo 6 caracteres no senha!',
+            'email.email' => 'Digite um email válido!',
+            'email.max' => 'É no máximo 255 caracteres no campo email!'
         ];
 
-        $x = $dados->validate([
+        return $dados->validate([
             'nome' => 'required|min:5|max:10|unique:clientes',
-            'idade' => 'required',
-            'email' => 'required|email'
+            'password' => 'required|min:4|max:6',
+            'email' => 'required|email|max:255'
         ], $mensagens);
-
-        return $x;
+         
     }
 
     public function login(){
