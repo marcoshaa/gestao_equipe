@@ -38,7 +38,29 @@ class LoginController extends Controller
          
     }
 
-    public function login(){
+    public function login(Request $request){
+        $data = $request->only([
+            'email',
+            'password',
+            'remember'
+        ]);
+
+        $userValidator = $this->validator($data);
+
+        if($userValidator->fails()){
+            return redirect()->route('login')
+            ->withErrors($userValidator)
+            ->withInput();  
+        }
+
+        if(Auth::attempt($data)){
+            return redirect()->route('inicio');
+        }else{
+            $userValidator->errors()->add('password','E-mail e/ou Senha Incorreto.');
+            return redirect()->route('login')
+            ->withErrors($userValidator)
+            ->withInput();  
+        }
 
     }
 }
