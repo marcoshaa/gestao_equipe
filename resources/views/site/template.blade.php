@@ -7,13 +7,20 @@
     <title>PLATAFORMA EDUCACIONAL LP</title>
     <style>
         .content{
-
+            display: flex;
+        }
+        .topo_content{
+            width: 100%;
+            height: 45px;
         }
     </style>
 </head>
 <body>
     <div class="content">
-        <div class="menu"></div>
+        <div class="topo_content"></div>
+        <div class="menu">
+
+        </div>
         @yield('content')
     </div>
 </body>
