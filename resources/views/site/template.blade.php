@@ -14,6 +14,7 @@
             height: 45px;
         }
     </style>
+    @yield('style')
 </head>
 <body>
     <div class="content">
