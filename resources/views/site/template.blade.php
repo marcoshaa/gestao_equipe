@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PLATAFORMA EDUCACIONAL LP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <style>
         :root {
             --background_site: #1e90ff;
@@ -51,9 +52,6 @@
                         <a href="{{$item->url}}">$item->title</a><i class="{{$item->icon}}"></i>
                     </li>
                 @endforeach
-                <li><a href="{{}}">Inicio</a></li>
-                <li><a href="">Meu Perfil</a></li>
-                <li><a href="">Cursos</a></li>
             </ul>
         </div>
         @yield('content')
