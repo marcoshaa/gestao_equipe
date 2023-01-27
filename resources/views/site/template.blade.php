@@ -1,5 +1,12 @@
+<?php
+use App\Models\Menu;
+use App\Models\User;
+use App\Http\Controllers\site\InicialController;
+
+
+?>
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
