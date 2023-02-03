@@ -9,7 +9,7 @@
         :root{
             --background_fundo: #145ca4b3;
         }
-        html {
+        *{
             margin:0px;
             padding: 0px;
             background:var(--background_fundo);
@@ -17,8 +17,21 @@
     </style>
 </head>
 <body>
-    <div>
-
+    <div class="primeiro_pai">
+        <div class="primeiro_filho">
+            <div class="painel_login">
+                <form action="" class="formulario_login">
+                    <div class="primeiro_elemento_login">
+                        <label for="email_login">Login</label>
+                        <input type="email" id="email_login">
+                    </div>
+                    <div>
+                        <label for="senha_login">Senha</label>
+                        <input type="password" id="senha_login">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>
