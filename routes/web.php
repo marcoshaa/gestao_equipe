@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\site\auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/login', function () {
-    return view('login');
+    return view('site.login');
+    Route::post('/login/validacao',[LoginController::class, 'index'])->name('login');
 });
 
 Route::prefix('/')->group(function(){
