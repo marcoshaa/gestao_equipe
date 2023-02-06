@@ -14,8 +14,8 @@ use App\Http\Controllers\site\auth\LoginController;
 |
 */
 
-Route::get('/login', function () {
-    return view('site.login');
+Route::prefix('/')->group(function(){
+    Route::get('login', function (){return view('site.login');});
     Route::post('/login/validacao',[LoginController::class, 'index'])->name('login');
 });
 
