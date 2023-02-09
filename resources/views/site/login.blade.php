@@ -111,7 +111,7 @@
     <script>
         $.ajax({
             type: "POST",
-            url: `{{Route('')}}`,
+            url: `{{Route('login_validacao')}}`,
             data:$('#formLogin').serialize(),
             datatype: 'json',
         }).then(function(volta){ 

@@ -7,21 +7,27 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Suport\Facedes\Auth;
 use Illuminate\Suport\Facedes\Validator;
+use App\Models\User;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
     public function index(){
-        return view('site.inicio');
+        $email = $_POST['email'];
+        $senha = $_POST['senha'];
+        
     }
 
     public function logout(){
         Auth::logout();
         return redirect()->route('login');
     }
+    protected function validador($email,$senha){
+        $check = User::where()->get();
+    }
 
-    protected function validator(array $dados){       
+    protected function validator2(array $dados){       
         $mensagens = [
             'required' => 'O :attribute é obrigatório!',
             'password.min' => 'É necessário no mínimo 4 caracteres no senha!',

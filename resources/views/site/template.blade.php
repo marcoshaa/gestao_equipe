@@ -1,7 +1,7 @@
 <?php
 use App\Http\Controllers\site\InicialController;
 
-$userRe = $this->getUser();
+$user = $this->getUser();
 
 
 ?>
