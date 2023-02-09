@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Login</title>
     <style>
         :root{
@@ -86,7 +87,7 @@
     <div class="primeiro_pai">
         <div class="primeiro_filho">
             <div class="painel_login">
-                <form action="" class="formulario_login">
+                <form id="formLogin" class="formulario_login">
                     <div class="elemento_login espaco_form_login">  
                         <label class="labelLogin" for="email_login">Login</label>
                         <input class="campoLogin" type="email" id="email_login" required>
@@ -109,7 +110,22 @@
     </div>
     <script>
         $.ajax({
-            
+            type: "POST",
+            url: `{{Route('')}}`,
+            data:$('#formLogin').serialize(),
+            datatype: 'json',
+        }).then(function(volta){ 
+            if(volta == 'fail'){
+                Swal.fire({
+                    position: 'Center',
+                    icon: 'error',
+                    title: 'Falha ao realizar o Login !',
+                    showConfirmButton: false,
+                    timer: 3000
+                })  
+                limpaCampos();
+                $('#fileSave').fileinput('clear');
+            }
         });
     </script>
 </body>
