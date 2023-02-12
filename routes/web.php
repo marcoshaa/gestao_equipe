@@ -14,11 +14,11 @@ use App\Http\Controllers\site\auth\LoginController;
 |
 */
 
-Route::prefix('/')->group(function(){
-    Route::get('login', function (){return view('site.login');});
+Route::prefix('/login')->group(function(){
+    Route::get('/', function (){return view('site.login');});
     Route::post('/login/validacao',[LoginController::class, 'index'])->name('login_validacao');
 });
 
 Route::prefix('/')->group(function(){
-    Route::get('inicio',);
+    Route::get('inicio',[LoginController::class, 'index'])->name('inicio');
 });

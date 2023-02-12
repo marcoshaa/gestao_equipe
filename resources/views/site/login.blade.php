@@ -87,18 +87,19 @@
     <div class="primeiro_pai">
         <div class="primeiro_filho">
             <div class="painel_login">
-                <form id="formLogin" class="formulario_login">
+                <form id="formLogin" onsubmit="event.preventDefault();" class="formulario_login">
+                    @csrf
                     <div class="elemento_login espaco_form_login">  
                         <label class="labelLogin" for="email_login">Login</label>
-                        <input class="campoLogin" type="email" id="email_login" required>
+                        <input class="campoLogin" type="email" id="email_login" name="email_login" required>
                     </div>
                     <div class="elemento_login espaco_form_login">
                         <label class="labelLogin" for="senha_login">Email</label>
-                        <input class="campoLogin" type="password" id="senha_login" required>
+                        <input class="campoLogin" type="password" id="senha_login" name="senha_login" required>
                     </div>
                     <div class="grupo_botao_login espaco_form_login">
                         <div>
-                            <button class="botao_login">Entrar</button> 
+                            <button class="botao_login" id="envia_bt_entrar">Entrar</button> 
                         </div>
                         <div>
                             <button class="botao_login">Cadastrar-se</button> 
@@ -109,24 +110,38 @@
         </div>
     </div>
     <script>
-        $.ajax({
-            type: "POST",
-            url: `{{Route('login_validacao')}}`,
-            data:$('#formLogin').serialize(),
-            datatype: 'json',
-        }).then(function(volta){ 
-            if(volta == 'fail'){
+        
+        $('#envia_bt_entrar').on('click', function(){
+            $.ajax({
+                type: "POST",
+                url: `{{Route('login_validacao')}}`,
+                data:$('#formLogin').serialize(),
+                datatype: 'json',
+            }).then(function(volta){
+                console.log(volta);
+                trazErros(volta);
+                htmlnew();
                 Swal.fire({
                     position: 'Center',
                     icon: 'error',
                     title: 'Falha ao realizar o Login !',
-                    showConfirmButton: false,
-                    timer: 3000
-                })  
-                limpaCampos();
-                $('#fileSave').fileinput('clear');
-            }
+                    html:`<div id="resolErros"></div>`,
+                    showConfirmButton: true,                    
+                });                 
+            });
         });
+
+        function trazErros(volta){
+            for(var i = 0; i<volta['password'].length; i++ ){
+                consolr.log(volta['password']);
+            }   
+            for(var i = 0; i<volta['email'].length; i++ ){
+                consolr.log(volta[i]);
+            }         
+        }
+        function htmlnew(){
+            document.getElementById("resolErros").innerHTML = text;
+        }
     </script>
 </body>
 </html>

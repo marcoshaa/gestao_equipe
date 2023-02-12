@@ -142,8 +142,14 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'required' => 'O atributo email é obrigatório!',
+            'max' => 'É no máximo 255 caracteres no campo email!'
+        ],
+        'email' => [
+            'required' => 'O atributo email é obrigatório!',
+            'max' => 'É no máximo 6 caracteres no senha!',
+            'min'=> 'É necessário no mínimo 6 caracteres na senha!',
         ],
     ],
 
