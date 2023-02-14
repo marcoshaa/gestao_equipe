@@ -23,7 +23,7 @@ class LoginController extends Controller
         $userValidator = $this->validadorCred($data['email'],$data['password']);
         
         if($userValidator[0] == '1'){
-            return json_encode($userValidator[1]);
+            return $userValidator[1];
         }
         $check = $userValidator[1];
         //$check = User::where('email',$data['email'])->first();

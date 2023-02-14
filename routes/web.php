@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\site\auth\LoginController;
+use App\Http\Controllers\site\RegistroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,11 @@ use App\Http\Controllers\site\auth\LoginController;
 
 Route::prefix('/login')->group(function(){
     Route::get('/', function (){return view('site.login');});
-    Route::post('/login/validacao',[LoginController::class, 'index'])->name('login_validacao');
+    Route::post('/validacao',[LoginController::class, 'index'])->name('login_validacao');
+});
+
+Route::prefix('/registro')->group(function(){
+    Route::get('/novo',[RegistroController::class, 'index'])->name('cad_novo_us');
 });
 
 Route::prefix('/')->group(function(){
