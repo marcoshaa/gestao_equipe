@@ -21,7 +21,7 @@ Route::prefix('/login')->group(function(){
 });
 
 Route::prefix('/registro')->group(function(){
-    Route::get('/novo',[RegistroController::class, 'index'])->name('cad_novo_us');
+    Route::get('/', function (){return view('site.cadastro');})->name('cad_novo_us');
 });
 
 Route::prefix('/')->group(function(){

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 class RegistroController extends Controller
 {
+    function index(){
+        return view('site.cadastro');
+    }
     function created(Request $request){
         $check = $this->check();
         if($check != 'novo'){
