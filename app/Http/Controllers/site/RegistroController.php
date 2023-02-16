@@ -20,6 +20,13 @@ class RegistroController extends Controller
         $user->password = hash::make($request->nome);
         $user->data_nascimento = $request->data_nascimento;
         $user->cor = $request->cor_perfil;
+        $user->save();
+        if(!empty($user->id)){
+            $x = "ok";
+        }else{
+            $x = "fail";
+        }
+        return $x;
     }
      
     function check($email){

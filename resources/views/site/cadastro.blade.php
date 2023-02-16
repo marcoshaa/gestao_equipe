@@ -138,13 +138,23 @@
                 data:$('#formLogin').serialize(),
                 datatype: 'json',
             }).then(function(volta){
-                Swal.fire({
-                    position: 'Center',
-                    icon: 'error',
-                    title: 'Falha ao realizar o Login !',
-                    html:`<div id="resolErros">${volta}</div>`,
-                    showConfirmButton: true,                    
-                });                 
+                if(volta == 'ok'){
+                    Swal.fire({
+                        position: 'Center',
+                        icon: 'success',
+                        title: 'Falha ao realizar o Cadastro !',
+                        html:`<div id="resolErros">${volta}</div>`,
+                        showConfirmButton: true,                    
+                    });
+                }else if(volta == 'fail'){
+                    Swal.fire({
+                        position: 'Center',
+                        icon: 'error',
+                        title: 'Falha ao realizar o Cadastro !',
+                        html:`<div id="resolErros">${volta}</div>`,
+                        showConfirmButton: true,                    
+                    });  
+                }            
             });
         });
         $('#form_senha_confirm').on('change', function(){
