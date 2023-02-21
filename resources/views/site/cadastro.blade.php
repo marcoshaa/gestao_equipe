@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="content-language" content="pt-br" />
+        <link rel="stylesheet" type="text/css" href="{{asset('/css/loading.css')}}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>Cadastro</title>
@@ -134,29 +135,57 @@
         $('#envia_dados').on('click', function(){
             $.ajax({
                 type: "POST",
-                url: `{{Route('login_validacao')}}`,
+                url: `{{Route('new_user')}}`,
                 data:$('#formLogin').serialize(),
                 datatype: 'json',
-            }).then(function(volta){
-                if(volta == 'ok'){
+                beforeSend: function() {
                     Swal.fire({
-                        position: 'Center',
-                        icon: 'success',
-                        title: 'Falha ao realizar o Cadastro !',
-                        html:`<div id="resolErros">${volta}</div>`,
-                        showConfirmButton: true,                    
-                    });
-                }else if(volta == 'fail'){
+                        title:'Carregando',
+                        showConfirmButton: false,
+                        background:'#f1f2f3',
+                        html:`
+                            <div class="div_load">
+                                <div class="carregando_espera"></div>
+                            </div>
+                        `
+                    })
+                },
+                success: function(volta){
+                    Swal.close();
+                    if(volta == 'ok'){
+                        Swal.fire({
+                            position: 'Center',
+                            icon: 'success',
+                            title: 'Cadastro Realizado com Sucesso !',                            
+                            showConfirmButton: true,                    
+                        }).then(function(isConfirm) {
+                            if (isConfirm) {
+                                window.location.href = "{{route('login')}}";
+                            }
+                        })
+                    }else if(volta == 'fail'){
+                        Swal.fire({
+                            position: 'Center',
+                            icon: 'error',
+                            title: 'Falha ao realizar o Cadastro !',
+                            html:`<div id="resolErros">${volta}</div>`,
+                            showConfirmButton: true,                    
+                        });  
+                    }  
+                }, 
+                error: function(volta) { 
+                    Swal.close();
                     Swal.fire({
                         position: 'Center',
                         icon: 'error',
                         title: 'Falha ao realizar o Cadastro !',
                         html:`<div id="resolErros">${volta}</div>`,
                         showConfirmButton: true,                    
-                    });  
-                }            
+                    });           
+                },
             });
         });
+
         $('#form_senha_confirm').on('change', function(){
            let senhaUm = document.getElementById("form_senha").value;
            let senhaDois = document.getElementById("form_senha_confirm").value;

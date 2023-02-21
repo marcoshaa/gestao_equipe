@@ -119,13 +119,17 @@
                 data:$('#formLogin').serialize(),
                 datatype: 'json',
             }).then(function(volta){
-                Swal.fire({
-                    position: 'Center',
-                    icon: 'error',
-                    title: 'Falha ao realizar o Login !',
-                    html:`<div id="resolErros">${volta}</div>`,
-                    showConfirmButton: true,                    
-                });                 
+                if(volta != 'Email e/ou Senha incorretos'){
+                    window.location.href = volta;
+                }else{
+                    Swal.fire({
+                        position: 'Center',
+                        icon: 'error',
+                        title: 'Falha ao realizar o Login !',
+                        html:`<div id="resolErros">${volta}</div>`,
+                        showConfirmButton: true,                    
+                    });   
+                }              
             });
         });
         $('#cad_novo_usuario').on('click', function(){

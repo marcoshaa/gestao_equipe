@@ -4,14 +4,14 @@ namespace App\Http\Controllers\site\auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Suport\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Redirect;
+use Hash;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
 
     public function index(Request $request){
 
@@ -26,19 +26,21 @@ class LoginController extends Controller
             return $userValidator[1];
         }
         $check = $userValidator[1];
+        
         //$check = User::where('email',$data['email'])->first();
         if(empty($check)){
             $error = 'Email e/ou Senha incorretos';
             return json_encode($error);
-        }else{
-            if (Hash::check($data['password'], $check->password)){
-               return redirect()->route('inicio');
-            }
-            
+        }else{     
+            if(Hash::check($data['password'], $check->password)){       
+                if(Auth::attempt($data)){
+                    return route('inicio');
+                }
+            }          
         }
     }
 
-    public function logout(){
+    public function logout(){        
         Auth::logout();
         return redirect()->route('login');
     }
@@ -83,13 +85,15 @@ class LoginController extends Controller
 
     // }
     protected function validadorCred($email,$senha){        
-        $check = User::where('email',$email)->first(); 
+        $check = User::where('email',$email)->first();         
         $msg[0]='0';       
         $msg[1]=$check;
+        //caso nao ache o  email
         if(empty($check)){
             $msg[0]='1';
             $msg[1] = 'Email não encontrado';
         }
+        //caso nao ache a senha
         if(!empty($senha)){
             if(strlen($senha) < 6){
                 $msg[0]='1';
@@ -101,7 +105,7 @@ class LoginController extends Controller
         }else{
             $msg[0]='1';
             $msg[1] = 'O campo Senha é obrigatorio';
-        }       
+        }
         return $msg;
     }
 
