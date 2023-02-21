@@ -20,7 +20,30 @@
                     <div class="circle" id="circle9">9</div>
                     <div class="circle" id="circle10">10</div>
                 </div>
-                <div class="questao"></div>
+                <div class="questao">
+                    <div><p class="titulo_pergunta">LorenLorenLorenLorenLorenLorenLoren LorenLoren LorenLorenLorenLorenLorenLorenLoren Loren</p></div>
+                    <hr>
+                    <div>
+                        <ul>
+                            <li class="li_questao">
+                                <input type="radio" name="answer" id="a" class="answer">
+                                <label for="a" id="a_text" class="label_questao">Question</label>
+                            </li>
+                            <li class="li_questao">
+                                <input type="radio" name="answer" id="b" class="answer">
+                                <label for="b" id="a_text" class="label_questao">Question</label>
+                            </li>
+                            <li class="li_questao">
+                                <input type="radio" name="answer" id="c" class="answer">
+                                <label for="c" id="a_text" class="label_questao">Question</label>
+                            </li>
+                            <li class="li_questao">
+                                <input type="radio" name="answer" id="d" class="answer">
+                                <label for="d" id="a_text" class="label_questao">Question</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="flex_btn_grupo">
                     <button class="btn" id="prev" disabled>Voltar</button>
                     <button class="btn" id="next">Proximo</button>

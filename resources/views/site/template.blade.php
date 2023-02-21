@@ -7,7 +7,9 @@ use App\Models\User;
 use Redirect;
 
 $user = User::where('id', Auth::id())->first();
-
+if(empty(Auth::check())){
+    return redirect ('/login');
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">

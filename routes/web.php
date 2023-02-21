@@ -6,6 +6,19 @@ use App\Http\Controllers\site\RegistroController;
 use App\Http\Controllers\site\PainelController;
 use App\Http\Controllers\site\InicialController;
 
+// Página principal
+Route::get('/', function () {
+    // Caso user não esteja logado
+    if(Auth::check()){
+        // será direcionado para a dashboard
+        return redirect ('/painel');
+    }
+    // Caso esteja logado
+    else{
+        // Será redirecionado para a dashboard falsa para fazer login
+        return redirect ('/login');
+    }
+});
 
 Route::prefix('/login')->group(function(){
     Route::get('/', function (){return view('site.login');})->name('login');
@@ -18,13 +31,13 @@ Route::prefix('/registro')->group(function(){
     Route::post('/registro-novo',[RegistroController::class, 'created'])->name('new_user');
 });
 
-Route::prefix('/')->group(function(){
+Route::middleware(['auth','verified'])->prefix('/')->group(function(){
     Route::get('painel',[InicialController::class, 'index'])->name('inicio');
     Route::get('/perfil',[InicialController::class, 'perfil'])->name('perfil');
     Route::get('/quiz',[InicialController::class, 'quiz'])->name('quiz');
     // Route::post('inicio',[LoginController::class, 'index'])->name('inicio');
 });
 
-Route::prefix('/inicio/analise')->group(function(){
+Route::middleware(['auth','verified'])->prefix('/inicio/analise')->group(function(){
     Route::get('/',function (){return view('site.perguntas');});
 });

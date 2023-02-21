@@ -3,6 +3,7 @@
 :root {
   --line-border-fill: #ff3d00;
   --line-border-empty: #383838;
+  --borda_questao: #a6a6a6;
 
 }
 
@@ -89,4 +90,25 @@
 .flex_btn_grupo{
     display: flex;
     justify-content: center;
+}
+
+.li_questao{
+    border: 2px solid var(--borda_questao);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    padding: 0px;
+}
+
+.label_questao{
+    width: 100%;
+    margin: 8px 4px;
+    color: white;
+    font-weight: 500;
+}
+
+.titulo_pergunta{
+    color: white;
+    font-weight: 500;
+    text-indent: 3ch;
 }
