@@ -5,6 +5,7 @@ use App\Http\Controllers\site\auth\LoginController;
 use App\Http\Controllers\site\RegistroController;
 use App\Http\Controllers\site\PainelController;
 use App\Http\Controllers\site\InicialController;
+use App\Http\Controllers\site\QuestaoController;
 
 // Página principal
 Route::get('/', function () {
@@ -34,8 +35,12 @@ Route::prefix('/registro')->group(function(){
 Route::middleware(['auth','verified'])->prefix('/')->group(function(){
     Route::get('painel',[InicialController::class, 'index'])->name('inicio');
     Route::get('/perfil',[InicialController::class, 'perfil'])->name('perfil');
-    Route::get('/quiz',[InicialController::class, 'quiz'])->name('quiz');
+    Route::get('/quiz',[InicialController::class, 'quiz'])->name('quiz');    
     // Route::post('inicio',[LoginController::class, 'index'])->name('inicio');
+});
+
+Route::prefix('/questao')->group(function(){
+    Route::post('/envia_questao',[QuestaoController::class, 'questaoEnviada'])->name('questao_enviada');
 });
 
 Route::middleware(['auth','verified'])->prefix('/inicio/analise')->group(function(){

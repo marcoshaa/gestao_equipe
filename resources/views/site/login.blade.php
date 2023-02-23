@@ -91,11 +91,11 @@
                 <form id="formLogin" onsubmit="event.preventDefault();" class="formulario_login">
                     @csrf
                     <div class="elemento_login espaco_form_login">  
-                        <label class="labelLogin" for="email_login">Login</label>
+                        <label class="labelLogin" for="email_login">Email</label>
                         <input class="campoLogin" type="email" id="email_login" name="email_login" required>
                     </div>
                     <div class="elemento_login espaco_form_login">
-                        <label class="labelLogin" for="senha_login">Email</label>
+                        <label class="labelLogin" for="senha_login">Senha</label>
                         <input class="campoLogin" type="password" id="senha_login" name="senha_login" required>
                     </div>
                     <div class="grupo_botao_login espaco_form_login">
