@@ -21,30 +21,7 @@
                     <div class="circle" id="circle10">10</div>
                 </div>
                 <form id="perguntas_form" onsubmit="event.preventDefault();">
-                    <div class="questao">
-                        <div><p class="titulo_pergunta">LorenLorenLorenLorenLorenLorenLoren LorenLoren LorenLorenLorenLorenLorenLorenLoren Loren</p></div>
-                        <hr>
-                        <div>
-                            <ul>
-                                <li class="li_questao">
-                                    <input type="radio" name="answer" id="a">
-                                    <label for="a" id="a_text" class="label_questao">Question</label>
-                                </li>
-                                <li class="li_questao">
-                                    <input type="radio" name="answer" id="b">
-                                    <label for="b" id="a_text" class="label_questao">Question</label>
-                                </li>
-                                <li class="li_questao">
-                                    <input type="radio" name="answer" id="c">
-                                    <label for="c" id="a_text" class="label_questao">Question</label>
-                                </li>
-                                <li class="li_questao">
-                                    <input type="radio" name="answer" id="d">
-                                    <label for="d" id="a_text" class="label_questao">Question</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    
                 </form>
                 <div class="flex_btn_grupo">
                     <button class="btn" id="prev" disabled>Voltar</button>
@@ -58,11 +35,24 @@
 @section('script')
     <script src="{{asset('/js/first_quiz.js')}}"></script>  
     <script>
+        function convertFormToJSON(form) {
+            const array = $(form).serializeArray();
+            const json = {};
+            $.each(array, function() {
+                json[this.name] = this.value || "";
+            });
+            return json;
+        }
+       
         $('#sub').on('click', function(){
+            let enviaDados = convertFormToJSON('#perguntas_form');
             $.ajax({
                 type: "POST",
                 url: `{{Route('questao_enviada')}}`,
-                data:$('#perguntas_form').serialize(),
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    'dados':enviaDados
+                },
                 datatype: 'json',
                 beforeSend: function() {
                     Swal.fire({
@@ -86,6 +76,68 @@
                     })
                 }
             })
+        });
+        $(document).ready(function(){
+            (function (){
+                $.ajax({
+                    type: "POST",
+                    url: `{{Route('questao_enviada')}}`,
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        'dados':enviaDados
+                    },
+                    datatype: 'json',
+                    beforeSend: function() {
+                    Swal.fire({
+                        title:'Carregando',
+                        showConfirmButton: false,
+                        background:'#f1f2f3',
+                        html:`
+                            <div class="div_load">
+                                <div class="carregando_espera"></div>
+                            </div>
+                        `
+                    })
+                },
+                success: function(result){
+                    Swal.close();
+                    let autoLop = document.getElementById("perguntas_form");
+                    if(result != 'erro'){
+                        for(var i = 0; i<result.length; i++ ){
+                        autoLop.innerHTML += 
+                            `
+                            <div class="questao">
+                            <div><p class="titulo_pergunta">${result[i].title}{</p></div>
+                            <hr>
+                            <div>
+                                <ul>
+                                    <li class="li_questao">
+                                        <input type="radio" value="${result[i].title}" name="answer${i}">
+                                        <label for="a" id="a_text" class="label_questao">${result[i].alternative_1}</label>
+                                    </li>
+                                    <li class="li_questao">
+                                        <input type="radio" value="${result[i].title}" name="answer">
+                                        <label for="b" id="a_text" class="label_questao">${result[i].alternative_2}</label>
+                                    </li>
+                                    <li class="li_questao">
+                                        <input type="radio" value="${result[i].title}" name="answer">
+                                        <label for="c" id="a_text" class="label_questao">${result[i].alternative_3}</label>
+                                    </li>
+                                    <li class="li_questao">
+                                        <input type="radio" value="${result[i].title}" name="answer">
+                                        <label for="d" id="a_text" class="label_questao">${result[i].alternative_4}</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                            `
+                        }
+                    }else{
+                        $("#form_cpfOper").val('');
+                    }
+                }
+                })                
+            })();
         });
     </script>  
 @endsection
