@@ -113,3 +113,7 @@
     font-weight: 500;
     text-indent: 3ch;
 }
+
+.oculto{
+	display: none;
+}

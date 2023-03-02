@@ -22,7 +22,7 @@
                 </div>
                 <form id="perguntas_form" onsubmit="event.preventDefault();">
                     
-                </form>
+                </form>                
                 <div class="flex_btn_grupo">
                     <button class="btn" id="prev" disabled>Voltar</button>
                     <button class="btn" id="next">Proximo</button>
@@ -82,21 +82,18 @@
                 $.ajax({
                     type: "POST",
                     url: `{{Route('questao_enviada')}}`,
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        'dados':enviaDados
-                    },
+                    data:{"_token": "{{ csrf_token() }}"},
                     datatype: 'json',
-                    beforeSend: function() {
+                beforeSend: function() {
                     Swal.fire({
-                        title:'Carregando',
-                        showConfirmButton: false,
-                        background:'#f1f2f3',
-                        html:`
-                            <div class="div_load">
-                                <div class="carregando_espera"></div>
-                            </div>
-                        `
+                    title:'Carregando',
+                    showConfirmButton: false,
+                    background:'#f1f2f3',
+                    html:`
+                        <div class="div_load">
+                            <div class="carregando_espera"></div>
+                        </div>
+                    `
                     })
                 },
                 success: function(result){
@@ -104,39 +101,44 @@
                     let autoLop = document.getElementById("perguntas_form");
                     if(result != 'erro'){
                         for(var i = 0; i<result.length; i++ ){
-                        autoLop.innerHTML += 
+                        autoLop.innerHTML +=
                             `
-                            <div class="questao">
-                            <div><p class="titulo_pergunta">${result[i].title}{</p></div>
+                        <div class="questao oculto" id="questao${i+1}">
+                            <div><p class="titulo_pergunta">${result[i].title}</p></div>
                             <hr>
                             <div>
                                 <ul>
                                     <li class="li_questao">
-                                        <input type="radio" value="${result[i].title}" name="answer${i}">
-                                        <label for="a" id="a_text" class="label_questao">${result[i].alternative_1}</label>
+                                        <input type="radio" value="${result[i].alternativa_1}" name="answer_${i+1}" id="a_${i+1}">
+                                        <label for="a_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_1}</label>
                                     </li>
                                     <li class="li_questao">
-                                        <input type="radio" value="${result[i].title}" name="answer">
-                                        <label for="b" id="a_text" class="label_questao">${result[i].alternative_2}</label>
+                                        <input type="radio" value="${result[i].alternativa_2}" name="answer_${i+1}" id="b_${i+1}">
+                                        <label for="b_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_2}</label>
                                     </li>
                                     <li class="li_questao">
-                                        <input type="radio" value="${result[i].title}" name="answer">
-                                        <label for="c" id="a_text" class="label_questao">${result[i].alternative_3}</label>
+                                        <input type="radio" value="${result[i].alternativa_3}" name="answer_${i+1}" id="c_${i+1}">
+                                        <label for="c_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_3}</label>
                                     </li>
                                     <li class="li_questao">
-                                        <input type="radio" value="${result[i].title}" name="answer">
-                                        <label for="d" id="a_text" class="label_questao">${result[i].alternative_4}</label>
+                                        <input type="radio" value="${result[i].alternativa_4}" name="answer_${i+1}" id="d_${i+1}">
+                                        <label for="d_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_4}</label>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                             `
                         }
-                    }else{
-                        $("#form_cpfOper").val('');
                     }
+                    let perguntaFrist = document.getElementById('questao1')
+                    perguntaFrist.classList.remove('oculto')
+                    let timeout
+                    function myFunction() {
+                        timeout = setTimeout(geral, 1500000);
+                    }                
+                    myFunction()
                 }
-                })                
+                })
             })();
         });
     </script>  
