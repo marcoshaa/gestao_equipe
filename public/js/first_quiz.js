@@ -13,7 +13,7 @@ next.addEventListener('click', () => {
     if(currentActive > circles.length) {
         currentActive = circles.length
     }
-    update()
+    update('avc')
 })
 
 prev.addEventListener('click', () => {
@@ -21,10 +21,10 @@ prev.addEventListener('click', () => {
     if(currentActive < 1) {
         currentActive = 1
     }
-    update()
+    update('vlt')
 })
 
-function update() {
+function update(msg) {
     console.log(currentActive);
     circles.forEach((circle, idx) => {                
         if(idx < currentActive) {
@@ -34,7 +34,7 @@ function update() {
         }
     })
 
-    questaoAtual(currentActive)
+    questaoAtual(msg,currentActive);
     const actives = document.querySelectorAll('.active')
 
     progress.style.width = (actives.length - 1) / (circles.length - 1) * 100 + '%'
@@ -52,9 +52,4 @@ function update() {
         sub.style.display = "none";
     }
 
-}
-function questaoAtual(id){
-    let after = id-1;
-    document.getElementById('questao'+id).classList.remove('oculto');
-    document.getElementById('questao'+after).classList.add('oculto');
 }

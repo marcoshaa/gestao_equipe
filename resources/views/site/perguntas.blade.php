@@ -131,12 +131,22 @@
                         }
                     }
                     let perguntaFrist = document.getElementById('questao1')
-                    perguntaFrist.classList.remove('oculto')
-                    let timeout
-                    function myFunction() {
-                        timeout = setTimeout(geral, 1500000);
-                    }                
-                    myFunction()
+                    perguntaFrist.classList.remove('oculto')                    
+                    function questaoAtual(msg,id){
+                        var after;
+                        if(msg == 'avc'){
+                            after = id-1;
+                        }else{
+                            after = id+1;
+                        }
+                        console.log(msg);
+                        var novoCls = document.getElementById('questao'+id);
+                        var antgCls = document.getElementById('questao'+after);
+                        novoCls.classList.remove('oculto');
+                        antgCls.classList.add('oculto');
+                        console.log(novoCls,antgCls);
+                    }
+                    window.questaoAtual = questaoAtual;
                 }
                 })
             })();
