@@ -19,7 +19,9 @@ if(empty(Auth::check())){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PLATAFORMA EDUCACIONAL LP</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">        
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">    
+    <link href="{{ asset('/css/newblade.css') }}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>    
     
     <style>
         :root {
@@ -121,7 +123,7 @@ if(empty(Auth::check())){
     @yield('style')
 </head>
 <body>
-    <div class="content">
+    <!-- <div class="content">
         <div class="topo_content_banner">
             <div class="topo_first_element"><span class="logo">PLATAFORMA EDUCACIONAL LP</span></div>
             <div class="topo_logout_banner"><span class="sair_sistema"> Usuario: {{$user->nome ?? ''}} |</span> <a class="a_sair_sistema" href="{{route('logout')}}"><span class="sair_sistema">Sair</span></a></div>
@@ -143,10 +145,63 @@ if(empty(Auth::check())){
                     </li>
                 </ul>
             </div>
-            @yield('content')
         </div>
-    </div>    
+    </div> -->
+    <div id="all">
+        <div class="cursor"></div>
+        <div id="breaker">
+        
+        </div>
+        <div id="breaker-two">
+
+        </div>
+        <div id="navigation-content">
+            <div class="logo">
+                <img src="images/willy wonka logo.png" alt="logo">
+            </div>
+            <div class="navigation-close">
+                <span class="close-first"></span>
+                <span class="close-second"></span>
+            </div>
+            <div class="navigation-links">
+                <a href="{{route('inicio')}}" data-text="INÍCIO" id="home-link" >INÍCIO</a>
+                <a href="{{route('perfil')}}" data-text="PERFIL" id="about-link" >PERFIL</a>
+                <a href="{{route('quiz')}}" data-text="QUIZ" id="quiz" >QUIZ</a>
+                <a href="{{route('perfil')}}" data-text="MATERIAL" id="about-link" >MATERIAL</a>
+            </div>
+        </div>
+        <div id="navigation-bar">
+            <img src="images/willy wonka logo.png" alt="logo">
+            <div class="menubar">
+                <span class="first-span"></span>
+                <span class="second-span"></span>
+                <span class="third-span"></span>
+            </div>
+        </div>
+        <div id="header">
+            <div id="particles"></div>
+                <div class="header-content">
+                    <div class="header-content-box">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="footer-text">
+                    Trabalho De Conclusao De Curso UNIP
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="{{asset('js/jquery.min.js')}}"></script>
+    <script src="{{asset('js/particles.js')}}"></script>
+    <script src="{{asset('js/particles.min.js')}}"></script>
+    <script src="{{asset('js/index.js')}}"></script>
+    <script>
+        particlesJS("particles", {"particles":{"number":{"value":40,"density":{"enable":true,"value_area":800}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":0.5,"random":false,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":40,"size_min":0.1,"sync":false}},"line_linked":{"enable":true,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":6,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":1200}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":400,"size":40,"duration":2,"opacity":8,"speed":3},"repulse":{"distance":200,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});
+    </script>
     @yield('script')
 </body>
 </html>
