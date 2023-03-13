@@ -35,6 +35,7 @@ if(empty(Auth::check())){
             --text_padrao:#000;
             --text_offPadrao:#010;
             --cor_linha: linear-gradient(to right, rgb(235 129 23) 0%,rgb(6 251 0) 23%,rgb(0 154 0) 35%,rgb(0 80 0) 57%,rgba(0,2,2,1) 100%);
+            --corNewblade:#272a2b;
         }
         body, html{
             height: 100%;
@@ -82,11 +83,11 @@ if(empty(Auth::check())){
             color: white;
             margin-left: 10px;            
         }
-        .page_content{            
-            width: 100%;
-            margin: 0px 10px 0px 20px;
+        .page_content{
+            position: absolute;
+            width: 100%;            
             border-radius: 5px;
-            background:  var(--corMenuLateal);
+            background:  var(--corNewblade);
         }
         .banner{
             display: flex;
@@ -116,6 +117,9 @@ if(empty(Auth::check())){
             font-size:20px;
             color: white;
             font-weight: bold;
+        }
+        canvas.particles-js-canvas-el {
+            position: absolute;
         }
     </style>    
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -180,11 +184,11 @@ if(empty(Auth::check())){
         </div>
         <div id="header">
             <div id="particles"></div>
-                <div class="header-content">
-                    <div class="header-content-box">
+                <!-- <div class="header-content">
+                    <div class="header-content-box"> -->
                         @yield('content')
-                    </div>
-                </div>
+                    <!-- </div>
+                </div> -->
             </div>
             <div class="footer">
                 <div class="footer-text">
