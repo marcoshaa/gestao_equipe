@@ -35,7 +35,7 @@
             'height':300,
             'is3D': true,
             'legend': { 'textStyle': { 'fontSize': 12,'color':'#fff' } },
-            'backgroundColor': '#05566a'
+            'backgroundColor': '#272a2b'
         };
 
         // Instantiate and draw our chart, passing in some options.

@@ -84,10 +84,10 @@ if(empty(Auth::check())){
             margin-left: 10px;            
         }
         .page_content{
-            position: absolute;
-            width: 100%;            
+            width: 100%;
+            height: 100%;
             border-radius: 5px;
-            background:  var(--corNewblade);
+            background: var(--corNewblade);
         }
         .banner{
             display: flex;
@@ -121,36 +121,22 @@ if(empty(Auth::check())){
         canvas.particles-js-canvas-el {
             position: absolute;
         }
+        #corpo_html{
+            height: 80%;
+            z-index: 1;
+        }
+        .all_elements{
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
     </style>    
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>       
     @yield('style')
 </head>
 <body>
-    <!-- <div class="content">
-        <div class="topo_content_banner">
-            <div class="topo_first_element"><span class="logo">PLATAFORMA EDUCACIONAL LP</span></div>
-            <div class="topo_logout_banner"><span class="sair_sistema"> Usuario: {{$user->nome ?? ''}} |</span> <a class="a_sair_sistema" href="{{route('logout')}}"><span class="sair_sistema">Sair</span></a></div>
-        </div>
-        <div class="banner">
-            <div class="menu">
-                <ul class="menu_lista">
-                    <li>
-                        <a class="item_menu" href="{{route('inicio')}}"><i class="fa-solid fa-house menu_icon"></i><span class="leg">Inicio</span></a>
-                    </li>
-                    <li>
-                        <a class="item_menu" href="{{route('perfil')}}"><i class="fa-solid fa-user menu_icon"></i><span class="leg">Perfil</span></a>
-                    </li>
-                    <li>
-                        <a class="item_menu" href="{{route('quiz')}}"><i class="fa-solid fa-question menu_icon"></i><span class="leg">Quiz</span></a>
-                    </li>
-                    <li>
-                        <a class="item_menu" href="{{route('perfil')}}"><i class="fa-solid fa-book menu_icon"></i><span class="leg">Material</span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div> -->
+    <div id="particles"></div>
     <div id="all">
         <div class="cursor"></div>
         <div id="breaker">
@@ -170,26 +156,21 @@ if(empty(Auth::check())){
             <div class="navigation-links">
                 <a href="{{route('inicio')}}" data-text="INÍCIO" id="home-link" >INÍCIO</a>
                 <a href="{{route('perfil')}}" data-text="PERFIL" id="about-link" >PERFIL</a>
-                <a href="{{route('quiz')}}" data-text="QUIZ" id="quiz" >QUIZ</a>
-                <a href="{{route('perfil')}}" data-text="MATERIAL" id="about-link" >MATERIAL</a>
+                <a href="{{route('quiz')}}" data-text="QUIZ" id="quiz-link" >QUIZ</a>
+                <a href="{{route('perfil')}}" data-text="MATERIAL" id="mat-link" >MATERIAL</a>
             </div>
         </div>
-        <div id="navigation-bar">
-            <img src="images/willy wonka logo.png" alt="logo">
+        <div id="navigation-bar">     
+            <div class="firstline"><span class="color">Lógica </span>de Programação</div>       
             <div class="menubar">
                 <span class="first-span"></span>
                 <span class="second-span"></span>
                 <span class="third-span"></span>
             </div>
         </div>
-        <div id="header">
-            <div id="particles"></div>
-                <!-- <div class="header-content">
-                    <div class="header-content-box"> -->
-                        @yield('content')
-                    <!-- </div>
-                </div> -->
-            </div>
+        <div id="corpo_html">
+            @yield('content')
+        </div>
             <div class="footer">
                 <div class="footer-text">
                     Trabalho De Conclusao De Curso UNIP

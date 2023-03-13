@@ -86,6 +86,7 @@
 
 .topo_content{
     margin: 20px;
+    width: 100%;
 }
 .flex_btn_grupo{
     display: flex;
