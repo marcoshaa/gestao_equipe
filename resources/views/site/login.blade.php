@@ -8,6 +8,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link href="{{ asset('/css/newblade.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{asset('/css/loading.css')}}">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
         <title>Login</title>
         <style>
@@ -62,6 +63,7 @@
                 border-radius: 5px;
                 border: 1px solid #fafafa;
                 width: 250px;
+                height: 32px;
             }
             .grupo_botao_login{
                 display: flex;
@@ -169,6 +171,19 @@
                 url: `{{Route('login_validacao')}}`,
                 data:$('#formLogin').serialize(),
                 datatype: 'json',
+                beforeSend: function() {
+                    Swal.fire({
+                        title:'Carregando',
+                        showConfirmButton: false,
+                        background:'#272a2b',
+                        color:"#fff",
+                        html:`
+                            <div class="div_load">
+                                <div class="carregando_espera"></div>
+                            </div>
+                        `
+                    })
+                },
             }).then(function(volta){
                 if(volta != 'Email e/ou Senha incorretos'){
                     window.location.href = volta;

@@ -1,6 +1,7 @@
 @extends('site.template')
 @section('style')
-    <link rel="stylesheet" type="text/css" href="{{asset('/css/first_quiz.css')}}"> 
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/first_quiz.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/loading.css')}}">
 @endsection
 
 @section('content')
@@ -58,7 +59,8 @@
                     Swal.fire({
                         title:'Carregando',
                         showConfirmButton: false,
-                        background:'#f1f2f3',
+                        background:'#272a2b',
+                        color:"#fff",
                         html:`
                             <div class="div_load">
                                 <div class="carregando_espera"></div>
@@ -72,7 +74,8 @@
                         title:'Respostas Enviadas',
                         icon:'success',
                         showConfirmButton: true,
-                        background:'#f1f2f3',                        
+                        background:'#272a2b', 
+                        color:"#fff",                       
                     })
                 }
             })
@@ -88,7 +91,8 @@
                     Swal.fire({
                     title:'Carregando',
                     showConfirmButton: false,
-                    background:'#f1f2f3',
+                    background:'#272a2b',
+                    color:"#fff",
                     html:`
                         <div class="div_load">
                             <div class="carregando_espera"></div>
@@ -105,7 +109,7 @@
                             `
                         <div class="questao oculto" id="questao${i+1}">
                             <div><p class="titulo_pergunta">${result[i].title}</p></div>
-                            <hr>
+                            <hr class="lineQuestao">
                             <div>
                                 <ul>
                                     <li class="li_questao">

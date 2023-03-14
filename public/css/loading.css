@@ -5,7 +5,10 @@
     align-items: center;
     min-height: 30vh;
 }
-
+.swal2-popup {
+    border: 5px solid #c70032;
+    border-radius: 5px;
+}
 .carregando_espera {
 position: absolute;
 width: 200px;
@@ -17,21 +20,21 @@ animation: carregando_espera 2s linear infinite;
 @keyframes carregando_espera {
     0%{
         transform:rotate(0deg);
-        box-shadow: 1px 5px 2px #00cc00;
+        box-shadow: 1px 5px 2px #c70032;
     }
 
     50%{
         transform:rotate(180deg);
-        box-shadow: 1px 5px 2px #00cc00;
+        box-shadow: 1px 5px 2px #c70032;
     }
 
     80%{
         transform:rotate(288deg);
-        box-shadow: 1px 5px 2px #00cc00;
+        box-shadow: 1px 5px 2px #c70032;
     }
     100%{
         transform:rotate(360deg);
-        box-shadow: 1px 5px 2px #00cc00;
+        box-shadow: 1px 5px 2px #c70032;
     }
 }
 

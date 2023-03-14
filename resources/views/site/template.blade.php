@@ -7,6 +7,7 @@ use App\Models\User;
 use Redirect;
 
 $user = User::where('id', Auth::id())->first();
+
 if(empty(Auth::check())){
     return redirect ('/login');
 }
@@ -114,6 +115,9 @@ if(empty(Auth::check())){
             text-decoration: none;
         }
         .logo{
+            position: absolute;
+            top: 6%;
+            left: 4%;
             font-size:20px;
             color: white;
             font-weight: bold;
@@ -129,6 +133,14 @@ if(empty(Auth::check())){
             height: 100%;
             display: flex;
             flex-wrap: wrap;
+        }
+        .firstline{
+            font-size: 30px;
+            color:white;
+        }
+        #userLogado{
+            font-variant: petite-caps;
+            font-weight: 200;
         }
     </style>    
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -147,7 +159,7 @@ if(empty(Auth::check())){
         </div>
         <div id="navigation-content">
             <div class="logo">
-                <img src="images/willy wonka logo.png" alt="logo">
+            <span class="color">Usuário: </span><span id="userLogado"><?php echo $user->nome?></span>
             </div>
             <div class="navigation-close">
                 <span class="close-first"></span>
@@ -158,6 +170,7 @@ if(empty(Auth::check())){
                 <a href="{{route('perfil')}}" data-text="PERFIL" id="about-link" >PERFIL</a>
                 <a href="{{route('quiz')}}" data-text="QUIZ" id="quiz-link" >QUIZ</a>
                 <a href="{{route('perfil')}}" data-text="MATERIAL" id="mat-link" >MATERIAL</a>
+                <a href="{{route('logout')}}" data-text="SAIR" id="mat-link" >SAIR</a>
             </div>
         </div>
         <div id="navigation-bar">     
