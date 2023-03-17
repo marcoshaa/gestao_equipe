@@ -49,7 +49,7 @@
             let enviaDados = convertFormToJSON('#perguntas_form');
             $.ajax({
                 type: "POST",
-                url: `{{Route('questao_enviada')}}`,
+                url: `{{Route('recebeQuestao')}}`,
                 data:{
                     "_token": "{{ csrf_token() }}",
                     'dados':enviaDados
@@ -113,19 +113,19 @@
                             <div>
                                 <ul>
                                     <li class="li_questao">
-                                        <input type="radio" value="${result[i].alternativa_1}" name="answer_${i+1}" id="a_${i+1}">
+                                        <input type="radio" value="${result[i].alternativa_1}" name="answer_${result[i].id}" id="a_${i+1}">
                                         <label for="a_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_1}</label>
                                     </li>
                                     <li class="li_questao">
-                                        <input type="radio" value="${result[i].alternativa_2}" name="answer_${i+1}" id="b_${i+1}">
+                                        <input type="radio" value="${result[i].alternativa_2}" name="answer_${result[i].id}" id="b_${i+1}">
                                         <label for="b_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_2}</label>
                                     </li>
                                     <li class="li_questao">
-                                        <input type="radio" value="${result[i].alternativa_3}" name="answer_${i+1}" id="c_${i+1}">
+                                        <input type="radio" value="${result[i].alternativa_3}" name="answer_${result[i].id}" id="c_${i+1}">
                                         <label for="c_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_3}</label>
                                     </li>
                                     <li class="li_questao">
-                                        <input type="radio" value="${result[i].alternativa_4}" name="answer_${i+1}" id="d_${i+1}">
+                                        <input type="radio" value="${result[i].alternativa_4}" name="answer_${result[i].id}" id="d_${i+1}">
                                         <label for="d_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_4}</label>
                                     </li>
                                 </ul>

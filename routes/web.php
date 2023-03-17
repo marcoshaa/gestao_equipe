@@ -41,6 +41,7 @@ Route::middleware(['auth','verified'])->prefix('/')->group(function(){
 
 Route::prefix('/questao')->group(function(){
     Route::post('/envia_questao',[QuestaoController::class, 'questaoEnviada'])->name('questao_enviada');
+    Route::post('/recebe_questao',[QuestaoController::class, 'recebeQuestao'])->name('recebeQuestao');
 });
 
 Route::middleware(['auth','verified'])->prefix('/inicio/analise')->group(function(){
