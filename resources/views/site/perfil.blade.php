@@ -50,12 +50,18 @@
             color: white;
             margin: 10px;
         }
+        .borderDivi{
+            border-right: 1px solid white;
+        }
+        .h100{
+            height: 100%;
+        }
     </style>
 @endsection
 @section('content')
     <div class="page_content">
-        <div class="flex">
-            <div class="div_element_50">
+        <div class="flex h100">
+            <div class="div_element_50 borderDivi">
                 <h2 class="title_perfil">Dados do Aluno</h2>
                 <div class="topo_content flex">
                     <form id="formLogin" onsubmit="event.preventDefault();" class="formulario_login flex">
@@ -68,9 +74,22 @@
                             <label class="labelUser" for="form_date_register">Data de Nascimento</label>
                             <input class="campoUser_input" type="date" id="form_date_register" name="form_date_register" required>
                         </div>
-                        <div class=" perfil_campo">
+                        <!-- <div class=" perfil_campo">
                             <label class="labelUser" for="form_color">Cor do Perfil</label>
                             <input class="campoUser_input" type="color" id="form_color" name="form_color" required>
+                        </div> -->
+                        <div class=" perfil_campo">
+                            <label class="labelUser" for="form_color">Formação</label>
+                            <select class="campoUser_input">
+                                <option value="NAO_ALFABETIZADO">Não Alfabetizado</option>
+                                <option value="ENSINO_FUNDAMENTAL_INCOMPLETO">Ensino Fundamental Incompleto</option>
+                                <option value="ENSINO_FUNDAMENTAL_COMPLETO">Ensino Fundamental Completo</option>
+                                <option value="ENSINO_MEDIO_INCOMPLETO">Ensino Medio Incompleto</option>
+                                <option value="ENSINO_MEDIO_COMPLETO">Ensino Medio Completo</option>
+                                <option value="ENSINO_SUPERIOR_INCOMPLETO">Ensino Superior Incompleto</option>
+                                <option value="ENSINO_SUPERIOR_COMPLETO">Ensino Superior Completo</option>
+                                <option value="POS_GRADUACAO">Pos Graduação</option>
+                            </select>
                         </div>
                     </form>
                     <!-- <form id="formLogin" onsubmit="event.preventDefault();" class="formulario_login flex">
@@ -97,9 +116,12 @@
                         </div>                                      
                     </form>                     -->
                 </div>
-                <div class="flex" style="justify-content: center;">
+                <div class="flex" style="justify-content: space-evenly;">
                     <div>
                         <button type="button" class="botao_perfil" id="envia_dados">Salvar</button> 
+                    </div>
+                    <div>
+                        <button type="button" class="botao_perfil" id="envia_dados">Trocar Senha</button> 
                     </div>                       
                 </div>
             </div>
