@@ -36,10 +36,6 @@ class InicialController extends Controller
         return view('site.inicio');
     }
 
-    function perfil(){
-        return view('site.perfil');
-    }
-
     function quiz(){
         return view('site.perguntas');
     }

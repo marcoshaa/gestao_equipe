@@ -22,7 +22,7 @@
 
 .progress-container::before {
   content: '';
-  background-color: #c70032;
+  background-color: var(--line-border-fill);
   position: absolute;
   top: 50%;
   left: 0;

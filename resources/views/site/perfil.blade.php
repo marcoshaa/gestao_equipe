@@ -1,5 +1,6 @@
 @extends('site.template')
 @section('style')
+<link rel="stylesheet" type="text/css" href="{{asset('/css/loading.css')}}">
     <style>
         .flex{
             display:flex;
@@ -56,6 +57,12 @@
         .h100{
             height: 100%;
         }
+        .perfil_campo_swal{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            margin:7px;
+        }
     </style>
 @endsection
 @section('content')
@@ -73,6 +80,14 @@
                         <div class=" perfil_campo">  
                             <label class="labelUser" for="form_date_register">Data de Nascimento</label>
                             <input class="campoUser_input" type="date" id="form_date_register" name="form_date_register" required>
+                        </div>
+                        <div class=" perfil_campo">  
+                            <label class="labelUser" for="sexo_aluno">Sexo</label>
+                            <select class="campoUser_input">
+                                <option value="PREFIRO NÃO IDENTIFICAR">Prefiro não identificar</option>
+                                <option value="FEMININO">Feminino</option>
+                                <option value="MASCULINO">Masculino</option>
+                            </select>
                         </div>
                         <!-- <div class=" perfil_campo">
                             <label class="labelUser" for="form_color">Cor do Perfil</label>
@@ -121,7 +136,7 @@
                         <button type="button" class="botao_perfil" id="envia_dados">Salvar</button> 
                     </div>
                     <div>
-                        <button type="button" class="botao_perfil" id="envia_dados">Trocar Senha</button> 
+                        <button type="button" class="botao_perfil" id="trocaSenha">Trocar Senha</button> 
                     </div>                       
                 </div>
             </div>
@@ -135,4 +150,66 @@
 @endsection
 
 @section('script')
+<script>
+    $('#trocaSenha').click(function(){
+        swal.fire({
+            customClass: {
+                confirmButton: 'botao_perfil'                
+            },
+            buttonsStyling: false,
+            title:'Alterar Senha',
+            allowOutsideClick: false,
+            showCloseButton: true,
+            showConfirmButton: true,
+            confirmeBackgroud:'#ff3d00',
+            confirmButtonText:'Enviar',
+            background:'#272a2b',
+            color:"#fff",
+            html:`
+                <div class=" perfil_campo_swal">  
+                    <label class="labelUser" for="senha_atual">senha atual</label>
+                    <input class="campoUser_input" type="password" id="senha_atual" name="senha_atual" required maxlength="6" minlength="6">
+                </div>
+                <div class=" perfil_campo_swal">  
+                    <label class="labelUser" for="senha_nova">Nova senha</label>
+                    <input class="campoUser_input" type="password" id="senha_nova" name="senha_nova" required maxlength="6" minlength="6">
+                </div>
+                <div class=" perfil_campo_swal">  
+                    <label class="labelUser" for="senha_nova_cf">Confirma nova senha</label>
+                    <input class="campoUser_input" type="password" id="senha_nova_cf" name="senha_nova_cf" required maxlength="6" minlength="6">
+                </div>
+            `
+        }).then(function(isConfirm){
+            if(isConfirm){
+                let pAtu =document.getElementById("senha_atual").value;
+                let pNew =document.getElementById("senha_nova").value;
+                let pNewCf =document.getElementById("senha_nova_cf").value;
+                $.ajax({
+                    'type':post,
+                    'url':`{{route('trocaSenha')}}`,
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        'senhaAtual':pAtu,
+                        'senhaNova':pNew,
+                        'confirmSenhaNova':pNewCf,
+                    },
+                    datatype: 'json',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title:'Carregando',
+                            showConfirmButton: false,
+                            background:'#272a2b',
+                            color:"#fff",
+                            html:`
+                                <div class="div_load">
+                                    <div class="carregando_espera"></div>
+                                </div>
+                            `
+                        })
+                    },
+                });         
+            }
+        })
+    })
+</script>
 @endsection

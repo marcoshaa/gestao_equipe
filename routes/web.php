@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\site\auth\LoginController;
 use App\Http\Controllers\site\RegistroController;
-use App\Http\Controllers\site\PainelController;
+use App\Http\Controllers\site\PerfilController;
 use App\Http\Controllers\site\InicialController;
 use App\Http\Controllers\site\QuestaoController;
 
@@ -33,8 +33,7 @@ Route::prefix('/registro')->group(function(){
 });
 
 Route::middleware(['auth','verified'])->prefix('/')->group(function(){
-    Route::get('painel',[InicialController::class, 'index'])->name('inicio');
-    Route::get('/perfil',[InicialController::class, 'perfil'])->name('perfil');
+    Route::get('painel',[InicialController::class, 'index'])->name('inicio');    
     Route::get('/quiz',[InicialController::class, 'quiz'])->name('quiz');    
     // Route::post('inicio',[LoginController::class, 'index'])->name('inicio');
 });
@@ -46,4 +45,10 @@ Route::prefix('/questao')->group(function(){
 
 Route::middleware(['auth','verified'])->prefix('/inicio/analise')->group(function(){
     Route::get('/',function (){return view('site.perguntas');});
+});
+
+Route::prefix('/perfil')->group(function(){
+    Route::get('/',[PerfilController::class, 'perfil'])->name('perfil');
+    Route::post('/troca/senha',[PerfilController::class, 'trocaSenha'])->name('trocaSenha');
+    Route::post('/troca/dados/user',[PerfilController::class, 'trocaDadosUser'])->name('trocaDadosUser');
 });
