@@ -174,6 +174,7 @@
                 beforeSend: function() {
                     Swal.fire({
                         title:'Carregando',
+                        allowOutsideClick: false,
                         showConfirmButton: false,
                         background:'#272a2b',
                         color:"#fff",
@@ -191,6 +192,7 @@
                     Swal.fire({
                         position: 'Center',
                         icon: 'error',
+                        allowOutsideClick: false,
                         title: 'Falha ao realizar o Login !',
                         html:`<div id="resolErros">${volta}</div>`,
                         showConfirmButton: true,                    

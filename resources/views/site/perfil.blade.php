@@ -26,7 +26,7 @@
             padding: 5px;
             outline: none;
             border: none;
-            width: 95%;
+            width: 100%;
         }
         .labelUser{
             color: white;
@@ -63,6 +63,27 @@
             justify-content: flex-start;
             margin:7px;
         }
+        .campo_endereco{
+            display:flex;
+            margin-right: 10px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .w100{
+            width: 100%;
+        }
+        .w20{
+            width: 20%;
+        }
+        .w40{
+            width: 40%;
+        }
+        .w50{
+            width: 50%;
+        }
+        .w10{
+            width: 10%;
+        }
     </style>
 @endsection
 @section('content')
@@ -73,27 +94,29 @@
                 <div class="topo_content flex">
                     <form id="formLogin" onsubmit="event.preventDefault();" class="formulario_login flex">
                         @csrf
-                        <div class=" perfil_campo">  
+                        <div class="perfil_campo">  
                             <label class="labelUser" for="form_nome_register">Nome</label>
                             <input class="campoUser_input" type="email" id="form_nome_register" name="form_nome_register" required>
                         </div>
-                        <div class=" perfil_campo">  
-                            <label class="labelUser" for="form_date_register">Data de Nascimento</label>
-                            <input class="campoUser_input" type="date" id="form_date_register" name="form_date_register" required>
-                        </div>
-                        <div class=" perfil_campo">  
-                            <label class="labelUser" for="sexo_aluno">Sexo</label>
-                            <select class="campoUser_input">
-                                <option value="PREFIRO NÃO IDENTIFICAR">Prefiro não identificar</option>
-                                <option value="FEMININO">Feminino</option>
-                                <option value="MASCULINO">Masculino</option>
-                            </select>
+                        <div class="flex w100" style="justify-content: space-between;margin: 0px 10px 10px 0px;">
+                            <div class="w50">  
+                                <label class="labelUser" for="form_date_register">Data de Nascimento</label>
+                                <input class="campoUser_input" type="date" id="form_date_register" name="form_date_register" required>
+                            </div>
+                            <div style="width: 47%;">  
+                                <label class="labelUser" for="sexo_aluno">Sexo</label>
+                                <select class="campoUser_input">
+                                    <option value="PREFIRO NÃO IDENTIFICAR">Prefiro não identificar</option>
+                                    <option value="FEMININO">Feminino</option>
+                                    <option value="MASCULINO">Masculino</option>
+                                </select>
+                            </div>
                         </div>
                         <!-- <div class=" perfil_campo">
                             <label class="labelUser" for="form_color">Cor do Perfil</label>
                             <input class="campoUser_input" type="color" id="form_color" name="form_color" required>
                         </div> -->
-                        <div class=" perfil_campo">
+                        <div class="perfil_campo">
                             <label class="labelUser" for="form_color">Formação</label>
                             <select class="campoUser_input">
                                 <option value="NAO_ALFABETIZADO">Não Alfabetizado</option>
@@ -106,8 +129,75 @@
                                 <option value="POS_GRADUACAO">Pos Graduação</option>
                             </select>
                         </div>
+                        <div class="campo_endereco w100">
+                            <div class="w20">
+                                <div class="perfil_campo">
+                                    <label class="labelUser" for="cep_registro">CEP</label>
+                                    <input class="campoUser_input" type="email" id="cep_registro" name="cep_registro">
+                                </div>
+                            </div>
+                            <div class="w30">
+                                <div class="perfil_campo">
+                                    <label class="labelUser" for="estado_casa">Estado</label>
+                                    <select class="campoUser_input" id="estado_casa" name="estado_casa">
+                                        <option value="">Selecione o estado</option>
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espírito Santo</option>
+                                        <option value="GO">Goiás</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PR">Paraná</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP">São Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="w40">
+                                <div class="perfil_campo">
+                                    <label class="labelUser" for="cidade_casa">Cidade</label>
+                                    <input class="campoUser_input" type="email" id="cidade_casa" name="cidade_casa">
+                                </div>
+                            </div>
+                            <div class="w40">
+                                <div class="perfil_campo">
+                                    <label class="labelUser" for="bairro_casa">Bairro</label>
+                                    <input class="campoUser_input" type="email" id="bairro_casa" name="bairro_casa">
+                                </div>
+                            </div>
+                            <div class="w40">
+                                <div class="perfil_campo">
+                                    <label class="labelUser" for="rua_casa">Rua</label>
+                                    <input class="campoUser_input" type="email" id="rua_casa" name="rua_casa">
+                                </div>
+                            </div>
+                            <div class="w10">
+                                <div class="perfil_campo">
+                                    <label class="labelUser" for="numero_casa">N°</label>
+                                    <input class="campoUser_input" type="email" id="numero_casa" name="numero_casa">
+                                </div>
+                            </div>
+                        </div>
                     </form>
-                    <!-- <form id="formLogin" onsubmit="event.preventDefault();" class="formulario_login flex">
+                    <!--<form id="formLogin" onsubmit="event.preventDefault();" class="formulario_login flex">
                         @csrf
                         <div class=" perfil_campo">  
                             <label class="labelUser" for="form_nome_register">Email Institucional</label>
@@ -129,7 +219,7 @@
                             <label class="labelUser" for="form_date_register">Data de Inicio do Curso</label>
                             <input class="campoUser_input" type="date" id="form_date_register" name="form_date_register" required>
                         </div>                                      
-                    </form>                     -->
+                    </form>-->
                 </div>
                 <div class="flex" style="justify-content: space-evenly;">
                     <div>
@@ -150,7 +240,29 @@
 @endsection
 
 @section('script')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script>
+    $("#cep_registro").mask("99999-999");
+    $(function() {
+        $('#cep_registro').change(function() {
+        const cep = this.value.replace("-","");
+        $.ajax({
+            method: 'GET',
+            mode: 'cors',
+            cache: 'default',       
+            url: `https://brasilapi.com.br/api/cep/v2/${cep}`,  
+            dataType: 'json',        
+            success: function(result){
+                if(result != 'erro'){
+                    document.getElementById("rua_casa").value = result.street;
+                    document.getElementById("bairro_casa").value = result.neighborhood;
+                    document.getElementById("cidade_casa").value = result.city;
+                    document.getElementById("estado_casa").value = result.state
+                }             
+            }            
+        });
+        });
+    });
     $('#trocaSenha').click(function(){
         swal.fire({
             customClass: {
