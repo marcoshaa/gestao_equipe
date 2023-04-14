@@ -12,7 +12,12 @@ use Hash;
 
 class LoginController extends Controller
 {
-
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request){
 
         $data = [
@@ -22,21 +27,23 @@ class LoginController extends Controller
 
         $userValidator = $this->validadorCred($data['email'],$data['password']);
         
-        if($userValidator[0] == '1'){
-            return $userValidator[1];
+        if($userValidator[0] == '1'){            
+            return ['falha',$userValidator[1]];
         }
         $check = $userValidator[1];
         
         //$check = User::where('email',$data['email'])->first();
         if(empty($check)){
-            $error = 'Email e/ou Senha incorretos';
-            return json_encode($error);
+            
+            return ['falha','Email e/ou Senha incorretos'];
         }else{     
             if(Hash::check($data['password'], $check->password)){       
                 if(Auth::attempt($data)){
-                    return route('inicio');
-                }
-            }          
+                    //dd(['email' => $data['email'], 'password' => $data['password']]);
+                    $request->session()->regenerate();                        
+                    return ['sucesso',route('inicio')];
+                }  
+            }    
         }
     }
 

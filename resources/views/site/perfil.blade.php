@@ -84,6 +84,24 @@
         .w10{
             width: 10%;
         }
+        .w30{
+            width: 30%;
+        }
+        .w80{
+            width: 80%;
+        }
+        .auto_largura_maior{
+            flex: auto;            
+        }
+        .div_divis{
+            margin-right: 15px;
+        }
+        .auto_largura_menor{
+            flex: inherit;
+        }
+        .completa_line{
+            flex: auto;
+        }
     </style>
 @endsection
 @section('content')
@@ -130,69 +148,73 @@
                             </select>
                         </div>
                         <div class="campo_endereco w100">
-                            <div class="w20">
-                                <div class="perfil_campo">
-                                    <label class="labelUser" for="cep_registro">CEP</label>
-                                    <input class="campoUser_input" type="email" id="cep_registro" name="cep_registro">
+                            <div class="flex w100">
+                                <div class="w20 div_divis">
+                                    <div class="perfil_campo">
+                                        <label class="labelUser" for="cep_registro">CEP</label>
+                                        <input class="campoUser_input" type="email" id="cep_registro" name="cep_registro">
+                                    </div>
+                                </div>
+                                <div class="w30 div_divis">
+                                    <div class="perfil_campo">
+                                        <label class="labelUser" for="estado_casa">Estado</label>
+                                        <select class="campoUser_input" id="estado_casa" name="estado_casa">
+                                            <option value="">Selecione o estado</option>
+                                            <option value="AC">Acre</option>
+                                            <option value="AL">Alagoas</option>
+                                            <option value="AP">Amapá</option>
+                                            <option value="AM">Amazonas</option>
+                                            <option value="BA">Bahia</option>
+                                            <option value="CE">Ceará</option>
+                                            <option value="DF">Distrito Federal</option>
+                                            <option value="ES">Espírito Santo</option>
+                                            <option value="GO">Goiás</option>
+                                            <option value="MA">Maranhão</option>
+                                            <option value="MT">Mato Grosso</option>
+                                            <option value="MS">Mato Grosso do Sul</option>
+                                            <option value="MG">Minas Gerais</option>
+                                            <option value="PA">Pará</option>
+                                            <option value="PB">Paraíba</option>
+                                            <option value="PR">Paraná</option>
+                                            <option value="PE">Pernambuco</option>
+                                            <option value="PI">Piauí</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                            <option value="RN">Rio Grande do Norte</option>
+                                            <option value="RS">Rio Grande do Sul</option>
+                                            <option value="RO">Rondônia</option>
+                                            <option value="RR">Roraima</option>
+                                            <option value="SC">Santa Catarina</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="SE">Sergipe</option>
+                                            <option value="TO">Tocantins</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="completa_line">
+                                    <div class="perfil_campo">
+                                        <label class="labelUser" for="cidade_casa">Cidade</label>
+                                        <input class="campoUser_input" type="email" id="cidade_casa" name="cidade_casa">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="w30">
-                                <div class="perfil_campo">
-                                    <label class="labelUser" for="estado_casa">Estado</label>
-                                    <select class="campoUser_input" id="estado_casa" name="estado_casa">
-                                        <option value="">Selecione o estado</option>
-                                        <option value="AC">Acre</option>
-                                        <option value="AL">Alagoas</option>
-                                        <option value="AP">Amapá</option>
-                                        <option value="AM">Amazonas</option>
-                                        <option value="BA">Bahia</option>
-                                        <option value="CE">Ceará</option>
-                                        <option value="DF">Distrito Federal</option>
-                                        <option value="ES">Espírito Santo</option>
-                                        <option value="GO">Goiás</option>
-                                        <option value="MA">Maranhão</option>
-                                        <option value="MT">Mato Grosso</option>
-                                        <option value="MS">Mato Grosso do Sul</option>
-                                        <option value="MG">Minas Gerais</option>
-                                        <option value="PA">Pará</option>
-                                        <option value="PB">Paraíba</option>
-                                        <option value="PR">Paraná</option>
-                                        <option value="PE">Pernambuco</option>
-                                        <option value="PI">Piauí</option>
-                                        <option value="RJ">Rio de Janeiro</option>
-                                        <option value="RN">Rio Grande do Norte</option>
-                                        <option value="RS">Rio Grande do Sul</option>
-                                        <option value="RO">Rondônia</option>
-                                        <option value="RR">Roraima</option>
-                                        <option value="SC">Santa Catarina</option>
-                                        <option value="SP">São Paulo</option>
-                                        <option value="SE">Sergipe</option>
-                                        <option value="TO">Tocantins</option>
-                                    </select>
+                            <div class="flex w100">
+                                <div class="w40 div_divis">
+                                    <div class="perfil_campo">
+                                        <label class="labelUser" for="bairro_casa">Bairro</label>
+                                        <input class="campoUser_input" type="email" id="bairro_casa" name="bairro_casa">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="w40">
-                                <div class="perfil_campo">
-                                    <label class="labelUser" for="cidade_casa">Cidade</label>
-                                    <input class="campoUser_input" type="email" id="cidade_casa" name="cidade_casa">
+                                <div class="auto_largura_maior div_divis">
+                                    <div class="perfil_campo">
+                                        <label class="labelUser" for="rua_casa">Rua</label>
+                                        <input class="campoUser_input" type="email" id="rua_casa" name="rua_casa">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="w40">
-                                <div class="perfil_campo">
-                                    <label class="labelUser" for="bairro_casa">Bairro</label>
-                                    <input class="campoUser_input" type="email" id="bairro_casa" name="bairro_casa">
-                                </div>
-                            </div>
-                            <div class="w40">
-                                <div class="perfil_campo">
-                                    <label class="labelUser" for="rua_casa">Rua</label>
-                                    <input class="campoUser_input" type="email" id="rua_casa" name="rua_casa">
-                                </div>
-                            </div>
-                            <div class="w10">
-                                <div class="perfil_campo">
-                                    <label class="labelUser" for="numero_casa">N°</label>
-                                    <input class="campoUser_input" type="email" id="numero_casa" name="numero_casa">
+                                <div class="">
+                                    <div class="perfil_campo">
+                                        <label class="labelUser" for="numero_casa">N°</label>
+                                        <input class="campoUser_input" type="email" id="numero_casa" name="numero_casa">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -321,6 +343,20 @@
                     },
                 });         
             }
+        })
+    })
+
+    $('#cep_registro').on('change',function(){
+        let cep = document.getElementById("cep_registro").value;
+        $.ajax({
+            type:'get',
+            url:`https://brasilapi.com.br/api/cep/v1/${cep}`,
+            datatype:'json',
+        }).then(function(volta){
+            document.getElementById("estado_casa").value = volta.state;
+            document.getElementById("cidade_casa").value = volta.city;
+            document.getElementById("bairro_casa").value = volta.neighborhood;
+            document.getElementById("rua_casa").value = volta.street;
         })
     })
 </script>

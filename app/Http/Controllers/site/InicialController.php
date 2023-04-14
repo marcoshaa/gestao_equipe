@@ -16,7 +16,7 @@ class InicialController extends Controller
        $this->setUser();
     }
 
-    public function setUser(){
+    private function setUser(){
         $this->user = User::where('id', Auth::id())->first();
     }
 

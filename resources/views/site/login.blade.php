@@ -174,7 +174,7 @@
                 beforeSend: function() {
                     Swal.fire({
                         title:'Carregando',
-                        allowOutsideClick: false,
+                        //allowOutsideClick: false,
                         showConfirmButton: false,
                         background:'#272a2b',
                         color:"#fff",
@@ -185,16 +185,20 @@
                         `
                     })
                 },
-            }).then(function(volta){
-                if(volta != 'Email e/ou Senha incorretos'){
-                    window.location.href = volta;
+            }).then(function(voltaLogin){
+                let status = voltaLogin[0];
+                let msg = voltaLogin[1];
+                if(status== 'sucesso'){
+                    window.location.href = msg;
                 }else{
                     Swal.fire({
                         position: 'Center',
                         icon: 'error',
-                        allowOutsideClick: false,
+                        background:'#272a2b',
+                        color:'#fff',
+                        //allowOutsideClick: false,
                         title: 'Falha ao realizar o Login !',
-                        html:`<div id="resolErros">${volta}</div>`,
+                        html:`<div id="resolErros">${msg}</div>`,
                         showConfirmButton: true,                    
                     });   
                 }              

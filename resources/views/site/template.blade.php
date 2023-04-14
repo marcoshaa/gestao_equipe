@@ -159,7 +159,7 @@ if(empty(Auth::check())){
         </div>
         <div id="navigation-content">
             <div class="logo">
-            <span class="color">Usuário: </span><span id="userLogado"><?php echo $user->nome?></span>
+            <span class="color">Usuário: </span><span id="userLogado"><?php echo $user->name?></span>
             </div>
             <div class="navigation-close">
                 <span class="close-first"></span>
