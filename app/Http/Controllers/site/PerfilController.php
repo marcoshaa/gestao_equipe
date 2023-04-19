@@ -7,34 +7,47 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DetalhesUser;
 use App\Models\User;
+use App\Models\Materias;
+use App\Models\HistoricoQuestao;
 
 class PerfilController extends Controller
 {
+    private $user;
 
-    public function __construct(){                 
-        
+    public function __construct(){
+        $this->setUser(Controller::user());
     }
 
-    private function setUser($r){
-        PerfilController::$userLogado = $r;
+    private function setUser($us){
+        return $this->user=$us;
     }
 
     private function getUser(){
-        
-        return PerfilController::$userLogado;
+        return $this->user();
     }
 
-    public function perfil(){ 
-        dd(PerfilController::$userLogado,Auth::id());      
-        $this->getUser();                   
+    public function perfil(){
+       // dd($this->getUser());
         return view('site.perfil');
-    }
+    }    
 
     public function trocaSenha(){
 
     }
+//$this->getUser()->update(['name'=>'teste']) (retorna true, deu certo)
+
+    // public function trocaDadosUser(Request $r){
+    //     $detalheUser = DetalhesUser::where('id',$this->user['1']);
+    // }
 
     public function trocaDadosUser(Request $r){
-        $cliente = DetalhesUser::where('id',$this->user['1']);
+        $detalheUser = DetalhesUser::where('id',$this->user()->id)->first();
+        // $detalheUser->update([
+        //     ''=>
+        // ])
+    }
+
+    public function dadosGrafico(){
+
     }
 }
