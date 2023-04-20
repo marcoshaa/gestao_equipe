@@ -17,19 +17,23 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nome');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->integer('acesso')->unsigned()->default(1);
+            $table->string('primeiro_acesso',1)->default('s');
             $table->timestamps();
         });
 
         DB::table('users')->insert(
             array(
-                'name'=>'master acesso',
+                'nome'=>'master acesso',
                 'email'=>'email@email.com',
-                'password'=>hash::make('123456')
+                'password'=>hash::make('123456'),
+                'acesso'=>'0',
+                'primeiro_acesso'=>'n',
+                'created_at'=>date("Y-m-d H:i:s"),
+                'updated_at'=>date("Y-m-d H:i:s")
             )
         );
     }

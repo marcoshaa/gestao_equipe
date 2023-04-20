@@ -24,6 +24,20 @@ class CreateAlternativeTable extends Migration
             $table->string('alternativa_correta');
             $table->timestamps();
         });
+
+        foreach($this->items as $item){            
+            DB::table('alternative')->insert(
+                array(
+                    'title'=>$item,
+                    'id_materia'=>$item,
+                    'alternativa_1'=>$item,
+                    'alternativa_2'=>$item,
+                    'alternativa_3'=>$item,
+                    'alternativa_4'=>$item,
+                    'alternativa_correta'=>$item,
+                )
+            );
+        }
     }
 
     /**

@@ -10,11 +10,50 @@ use App\Models\HistoricoQuestao;
 
 class QuestaoController extends Controller
 {
-    public function questaoEnviada(){
-        $all = Questao::all();
-        return $all;
+    private $user;
+
+    public function __construct(){
+        $this->setUser(Controller::user());
     }
 
+    private function setUser($us){
+        return $this->user=$us;
+    }
+
+    private function getUser(){
+        return $this->user();
+    }
+
+    //******************************/
+
+    public function questaoEnviada(){        
+        if($this->user()->primeiro_acesso == 'n'){
+            $acesso = $this->buscaQuestao();
+        }else{
+            $acesso = $this->primeiraQuestao();
+        }
+        return $acesso;
+    }
+
+    private function primeiraQuestao(){
+        $perguntas = Questao::offset(0)->limit(10)->get();
+        return $perguntas;
+    }
+
+    private function buscaQuestao(){
+        $x = $this->buscaHistorico();
+        $falta = Questao::whereNotIn('id','!=','['.$x.']')->limit(10)->get();
+        return $falta;
+    }
+
+    private function buscaHistorico(){
+        $questoes = HistoricoQuestao::where('id_user',$this->user()->id)->get(['id_alternativa']);
+        $volta = '';
+        foreach($questoes as $questao){
+            $volta = $questao.','.$volta;
+        }
+        return $volta;
+    }
     public function newQuestao(Request $r){
         $new = new Questao();
         $new->title = $r->title;
@@ -32,6 +71,7 @@ class QuestaoController extends Controller
         $query = Questao::where('id',$id)->first();
         return $query;
     }
+
     function recebeQuestao(){
         $itens = $_POST['dados'];
         if(count($itens) != 10){
@@ -44,16 +84,22 @@ class QuestaoController extends Controller
             if($item == $qt->alternativa_correta){
                 $pontua = 1;
             }
-            $newH = $this->historicoQuestao($qt->id,$pontua);            
+            $newH = $this->historicoQuestao($pontua);            
         }
         return 'ok';
     }
 
-    function historicoQuestao($id,$ponto){
-        $novo = new HistoricoQuestao();
+    private function materiaId($id){
+        $x = Questao::where('id',$id)->first('id_materia');
+        return $x;
     }
 
-    function primeiraQuestao(Requeste $r){
-        $questao = Questao::where('id',$r);
+    private function historicoQuestao(){
+        $novoHistorico = new HistoricoQuestao();
+        $novoHistorico->id_user=$this->user()->id;
+        $novoHistorico->id_materia=$this->materiaId();
+        $novoHistorico->id_alternativa=
+        $novoHistorico->resultado=
+        $novoHistorico->save();
     }
 }

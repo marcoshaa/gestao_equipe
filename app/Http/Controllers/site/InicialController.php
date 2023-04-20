@@ -17,11 +17,11 @@ class InicialController extends Controller
     }
 
     private function setUser(){
-        $this->user = User::where('id', Auth::id())->first();
+        $this->user = Controller::user();
     }
 
     public function getUser(){
-        return $this->user;
+        return $this->user();
     }
 
     public function getMenu(){
@@ -32,11 +32,13 @@ class InicialController extends Controller
         $this->menu = menu::where('nivel', $this->user['niveis'])->get();
     }
 
-    function index(){
-        return view('site.inicio');
+    public function index(){
+        $user = $this->getUser();        
+        return view('site.inicio')
+        ->with('user',$user);
     }
 
-    function quiz(){
+    public function quiz(){
         return view('site.perguntas');
     }
 }

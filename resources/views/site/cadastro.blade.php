@@ -8,6 +8,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link href="{{ asset('/css/newblade.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{asset('/css/loading.css')}}">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
         <title>Cadastro</title>
         <style>
@@ -114,10 +115,6 @@
                                     <input class="campoLogin" type="date" id="form_date_register" name="form_date_register" required>
                                 </div>
                                 <div class="elemento_login espaco_form_login">
-                                    <label class="labelLogin" for="form_color">Cor do Perfil</label>
-                                    <input class="campoLogin" type="color" id="form_color" name="form_color" required>
-                                </div>
-                                <div class="elemento_login espaco_form_login">
                                     <label class="labelLogin" for="form_senha">Senha <span id="invalidacao_senha"  class="invi">*</span></label>
                                     <input class="campoLogin" type="password" id="form_senha" name="form_senha" required>
                                 </div>
@@ -167,7 +164,8 @@
                     Swal.fire({
                         title:'Carregando',
                         showConfirmButton: false,
-                        background:'#f1f2f3',
+                        background:'#272a2b',
+                        color:'#fff',
                         html:`
                             <div class="div_load">
                                 <div class="carregando_espera"></div>
@@ -181,6 +179,8 @@
                         Swal.fire({
                             position: 'Center',
                             icon: 'success',
+                            background:'#272a2b',
+                            color:'#fff',
                             title: 'Cadastro Realizado com Sucesso !',                            
                             showConfirmButton: true,                    
                         }).then(function(isConfirm) {
@@ -192,6 +192,8 @@
                         Swal.fire({
                             position: 'Center',
                             icon: 'error',
+                            color:'#fff',
+                            background:'#272a2b',
                             title: 'Falha ao realizar o Cadastro !',
                             html:`<div id="resolErros">${volta}</div>`,
                             showConfirmButton: true,                    
@@ -203,6 +205,8 @@
                     Swal.fire({
                         position: 'Center',
                         icon: 'error',
+                        color:'#fff',
+                        background:'#272a2b',
                         title: 'Falha ao realizar o Cadastro !',
                         html:`<div id="resolErros">${volta}</div>`,
                         showConfirmButton: true,                    

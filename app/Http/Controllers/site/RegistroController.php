@@ -21,12 +21,11 @@ class RegistroController extends Controller
         $user = new User;
         $user->nome = $request->form_nome_register;
         $user->email = $request->form_email_register;
-        $user->password = hash::make($request->form_senha);
-        $user->data_nascimento = $request->form_date_register;        
+        $user->password = hash::make($request->form_senha);        
         $user->save();
         if(!empty($user->id)){
             $x = "ok";
-            $this->criaDetalhesUser($user);
+            $this->criaDetalhesUser($user,$request->form_date_register);
         }else{
             $x = "fail";
         }
@@ -42,11 +41,11 @@ class RegistroController extends Controller
         return $volta;
     }
 
-    private function criaDetalhesUser($user){
+    private function criaDetalhesUser($user,$data){
         if(!empty($user->id)){
             $newDt = new DetalhesUser;
             $newDt->id_user = $user->id;
-            $newDt->data_nascimento = $user->data_nascimento;
+            $newDt->data_nascimento = $data;
             $newDt->save();
         }
     }
