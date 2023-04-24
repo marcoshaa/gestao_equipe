@@ -15,7 +15,7 @@ class CreateAlternativeTable extends Migration
     {
         Schema::create('alternative', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->text('title');
             $table->integer('id_materia');
             $table->string('alternativa_1');
             $table->string('alternativa_2');
@@ -25,16 +25,16 @@ class CreateAlternativeTable extends Migration
             $table->timestamps();
         });
 
-        foreach($this->items as $item){            
+        for($i = 0; $i < 30; $i++){            
             DB::table('alternative')->insert(
                 array(
-                    'title'=>$item,
-                    'id_materia'=>$item,
-                    'alternativa_1'=>$item,
-                    'alternativa_2'=>$item,
-                    'alternativa_3'=>$item,
-                    'alternativa_4'=>$item,
-                    'alternativa_correta'=>$item,
+                    'title'=>'questao_'.$i,
+                    'id_materia'=>1,
+                    'alternativa_1'=>'alternativa_1',
+                    'alternativa_2'=>'alternativa_2',
+                    'alternativa_3'=>'alternativa_3',
+                    'alternativa_4'=>'alternativa_4',
+                    'alternativa_correta'=>'alternativa'.$i,
                 )
             );
         }

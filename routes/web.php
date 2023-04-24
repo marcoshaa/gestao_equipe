@@ -6,6 +6,7 @@ use App\Http\Controllers\site\RegistroController;
 use App\Http\Controllers\site\PerfilController;
 use App\Http\Controllers\site\InicialController;
 use App\Http\Controllers\site\QuestaoController;
+use App\Http\Controllers\admin\AdmController;
 
 // Página principal
 Route::get('/', function () {
@@ -34,7 +35,8 @@ Route::prefix('/registro')->group(function(){
 
 Route::middleware(['auth','verified'])->prefix('/')->group(function(){
     Route::get('painel',[InicialController::class, 'index'])->name('inicio');    
-    Route::get('/quiz',[InicialController::class, 'quiz'])->name('quiz');    
+    Route::get('/quiz',[InicialController::class, 'quiz'])->name('quiz');
+    Route::get('/administrador',[InicialController::class, 'adm'])->name('adm');
     // Route::post('inicio',[LoginController::class, 'index'])->name('inicio');
 });
 
@@ -52,4 +54,12 @@ Route::prefix('/perfil')->group(function(){
     Route::get('/',[PerfilController::class, 'perfil'])->name('perfil');
     Route::post('/troca/senha',[PerfilController::class, 'trocaSenha'])->name('trocaSenha');
     Route::post('/troca/dados/user',[PerfilController::class, 'trocaDadosUser'])->name('trocaDadosUser');
+});
+
+Route::prefix('/ADM')->group(function(){
+    Route::get('/usuario',[AdmController::class, 'usuarioAdm'])->name('usuarioAdm');
+    Route::post('/usuario/envio-dados',[AdmController::class, 'criaNovoUsuarioAdm'])->name('newAdm');
+    Route::post('/pergunta/envio-dados',[AdmController::class, 'criaPergunta'])->name('newPergunta');
+    Route::get('/pergunta',[AdmController::class, 'novaPergunta'])->name('novaPergunta');
+    Route::get('/material',[AdmController::class, 'novoMaterial'])->name('novoMaterial');
 });

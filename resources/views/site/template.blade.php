@@ -3,10 +3,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\site\InicialController;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Redirect;
 
-$user = User::where('id', Auth::id())->first();
+$user = Controller::user();
 
 if(empty(Auth::check())){
     return redirect ('/login');
@@ -23,7 +22,7 @@ if(empty(Auth::check())){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">    
     <link href="{{ asset('/css/newblade.css') }}" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>    
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
     <style>
         :root {
             --background_site: #1e90ff;
@@ -159,7 +158,7 @@ if(empty(Auth::check())){
         </div>
         <div id="navigation-content">
             <div class="logo">
-            <span class="color">Usuário: </span><span id="userLogado"><?php echo $user->name?></span>
+            <span class="color">Usuário: </span><span id="userLogado"><?php echo $user->nome?></span>
             </div>
             <div class="navigation-close">
                 <span class="close-first"></span>
@@ -170,6 +169,9 @@ if(empty(Auth::check())){
                 <a href="{{route('perfil')}}" data-text="PERFIL" id="about-link" >PERFIL</a>
                 <a href="{{route('quiz')}}" data-text="QUIZ" id="quiz-link" >QUIZ</a>
                 <a href="{{route('perfil')}}" data-text="MATERIAL" id="mat-link" >MATERIAL</a>
+                @if($user->acesso == 0)
+                    <a href="{{route('adm')}}" data-text="ADMINISTRADOR" id="mat-link" >ADM</a>
+                @endif
                 <a href="{{route('logout')}}" data-text="SAIR" id="mat-link" >SAIR</a>
             </div>
         </div>

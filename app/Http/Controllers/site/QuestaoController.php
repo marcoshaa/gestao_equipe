@@ -37,20 +37,23 @@ class QuestaoController extends Controller
 
     private function primeiraQuestao(){
         $perguntas = Questao::offset(0)->limit(10)->get();
+        dd($perguntas);
         return $perguntas;
     }
 
     private function buscaQuestao(){
         $x = $this->buscaHistorico();
-        $falta = Questao::whereNotIn('id','!=','['.$x.']')->limit(10)->get();
+        $x = "[$x]";        
+        $falta = Questao::where('id','!=',$x)->inRandomOrder()->limit(10)->get();;
+        
         return $falta;
     }
 
     private function buscaHistorico(){
-        $questoes = HistoricoQuestao::where('id_user',$this->user()->id)->get(['id_alternativa']);
+        $questoes = HistoricoQuestao::where('id_user',$this->user()->id)->get(['id_alternativa']);        
         $volta = '';
         foreach($questoes as $questao){
-            $volta = $questao.','.$volta;
+            $volta = $questao->id_alternativa.','.$volta;
         }
         return $volta;
     }
@@ -66,25 +69,26 @@ class QuestaoController extends Controller
         $new->save();
     }
 
-    function validaId($str){
+    private function validaId($str){
         $id = intval(str_replace('answer_','',$str));
         $query = Questao::where('id',$id)->first();
         return $query;
     }
 
-    function recebeQuestao(){
-        $itens = $_POST['dados'];
+    public function recebeQuestao(){
+        $itens = $_POST['dados'];        
         if(count($itens) != 10){
             $x='erro';
            return json_encode($x);
         }
         foreach($itens as $index => $item){
-            $qt = $this->validaId($index);
+            $qt = $this->validaId($index);            
             $pontua = 0;
             if($item == $qt->alternativa_correta){
                 $pontua = 1;
             }
-            $newH = $this->historicoQuestao($pontua);            
+           //dd($pontua);
+            $newH = $this->historicoQuestao($qt,$pontua);            
         }
         return 'ok';
     }
@@ -94,12 +98,12 @@ class QuestaoController extends Controller
         return $x;
     }
 
-    private function historicoQuestao(){
+    private function historicoQuestao($questao,$pontua){
         $novoHistorico = new HistoricoQuestao();
         $novoHistorico->id_user=$this->user()->id;
-        $novoHistorico->id_materia=$this->materiaId();
-        $novoHistorico->id_alternativa=
-        $novoHistorico->resultado=
+        $novoHistorico->id_materia=$questao->id_materia;
+        $novoHistorico->id_alternativa=$questao->id;
+        $novoHistorico->resultado=$pontua;
         $novoHistorico->save();
     }
 }

@@ -41,4 +41,10 @@ class InicialController extends Controller
     public function quiz(){
         return view('site.perguntas');
     }
+
+    public function adm(){
+        $user = $this->getUser();   
+        return view('site.adm')
+        ->with('user',$user);
+    }
 }
