@@ -1,10 +1,65 @@
 @extends('site.template')
+@section('style')
+    <link href="{{ asset('/css/geral.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/loading.css')}}">
+    <style>
+        .card_element{
+            background:#ffffff8a;
+        }
+        .element_content{
+            justify-content: space-between;
+        }
+        .text_apresentacao{
+            color:white;
+            font-size:20px;
+        }
+    </style>
+@endsection
 
 @section('content')
     <div class="page_content">
         <div class="all_elements">
             <div class="topo_content">
-                <!-- grafico -->                
+                <div class="elemento_50_alt">
+                    <div class="espaco_elemento">    
+                        <div class="flex_card_element">
+                            <div class="card_element">
+                                <a class="element_content" href="{{route('usuarioAdm')}}">
+                                    <i class="bi bi-journal-code icon_sf"></i>
+                                    <p class="title_card">Matemática</p>
+                                </a>
+                            </div>
+                            <div class="card_element">
+                                <a class="element_content" href="{{route('novoMaterial')}}">
+                                    <i class="bi bi-journal-code icon_sf"></i>
+                                    <p class="title_card">Lógica</p>
+                                </a>
+                            </div>
+                            <div class="card_element">
+                                <a class="element_content" href="{{route('novaPergunta')}}">
+                                    <i class="bi bi-journal-code icon_sf"></i>
+                                    <p class="title_card">Algoritmo</p>
+                                </a>
+                            </div>
+                            <div class="card_element">
+                                <a class="element_content" href="{{route('novaPergunta')}}">
+                                    <i class="bi bi-journal-code icon_sf"></i>
+                                    <p class="title_card">Estrutura de<br>repetição</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="elemento_50_alt">
+                    <div class="espaco_elemento">
+                        <div class="text_apresentacao">
+                            <p>Ola <b class="text_destaque">{{$user->nome}}</b></p>
+                            <p>Com base nas sua avaliação, identificamos que você teve um excelente desempenho na materia (Varivel_melhor_Materia).
+                                No entanto, é importante que você melhore a suas habilidades (Varival_materia_a_melhorar).
+                            </p>
+                        </div> 
+                    </div>
+                </div>  
             </div>
         </div>
     </div>

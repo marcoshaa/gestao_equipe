@@ -1,5 +1,6 @@
 :root{
     --cor_padrao:#AE0233;
+    --corTextoDestaque:#ff497d;
 }
 
 .elemento_50_alt{
@@ -65,4 +66,8 @@
 
 .w100{
     width: 100% !important;
+}
+
+.text_destaque{
+    color:var(--corTextoDestaque);
 }

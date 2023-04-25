@@ -4,13 +4,13 @@ namespace App\Http\Controllers\site;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\HistoricoQuestao;
 use App\Models\User;
 use App\Models\Menu;
 
 class InicialController extends Controller
 {
     private $user;
-    private $menu;
 
     public function __construct(){
        $this->setUser();
@@ -24,16 +24,10 @@ class InicialController extends Controller
         return $this->user();
     }
 
-    public function getMenu(){
-        return $this->menu;
-    }
-
-    public function setMenu(){
-        $this->menu = menu::where('nivel', $this->user['niveis'])->get();
-    }
-
     public function index(){
         $user = $this->getUser();        
+        $ret = $this->notasGeral();
+        dd(Controller::resultados()->get());
         return view('site.inicio')
         ->with('user',$user);
     }
@@ -46,5 +40,12 @@ class InicialController extends Controller
         $user = $this->getUser();   
         return view('site.adm')
         ->with('user',$user);
+    }
+
+    private function notasGeral(){
+        $historicoQt = HistoricoQuestao::where('id_user',$this->getUser()->id);
+        $quantidade = $historicoQt->count();
+        $historicoQt->where('id_materia',1)->get();
+        return $historicoQt;
     }
 }

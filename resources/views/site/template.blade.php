@@ -132,6 +132,7 @@ if(empty(Auth::check())){
             height: 100%;
             display: flex;
             flex-wrap: wrap;
+            overflow-y: scroll;
         }
         .firstline{
             font-size: 30px;
