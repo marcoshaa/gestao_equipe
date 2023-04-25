@@ -71,3 +71,7 @@
 .text_destaque{
     color:var(--corTextoDestaque);
 }
+
+#form_data_nascimento{
+    color-scheme: dark;
+}

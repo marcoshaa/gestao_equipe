@@ -19,12 +19,12 @@ class Controller extends BaseController
         return $user;
     }
 
-    public static function resultados(){
-        $resultado = HistoricoQuestao::where('id_user',Controller::user()->id);
-        $total_de_respostas = $resultado->count();
+    // public static function resultados(){
+    //     $resultado = HistoricoQuestao::where('id_user',Controller::user()->id);
+    //     $total_de_respostas = $resultado->count();
         
         
-        return $resultados;
-    }
+    //     return $resultados;
+    // }
 
 }

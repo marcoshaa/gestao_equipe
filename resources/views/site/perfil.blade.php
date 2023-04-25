@@ -107,6 +107,9 @@
             display: flex;
             justify-content: center;
         }
+        #form_data_nascimento{
+            color-scheme: dark;
+        }
     </style>
 @endsection
 @section('content')
