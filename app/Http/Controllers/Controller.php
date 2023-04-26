@@ -19,7 +19,7 @@ class Controller extends BaseController
         return $user;
     }
 
-    public static function resultados(){
+    private static function resultados(){
         $resultado = HistoricoQuestao::where('id_user',Controller::user()->id)->get(['id_alternativa','id_materia','resultado']);
         $total_de_respostas = $resultado->count(); //retorna tds as questoes.
         $x=[];
@@ -29,17 +29,14 @@ class Controller extends BaseController
                             'materia'=>$value->id_materia,
                             'questao'=>$value->id_alternativa
                             );
-        }
-        // dd($x);
+        };
         $avaliacao = Controller::trataMaterias($x);
         return [$avaliacao,$total_de_respostas];
     }
 
     private static function trataMaterias($dados){
-        // dd($dados);
         $materias = array('1'=>array(),'2'=>array(),'3'=>array(),'4'=>array());
         foreach($dados as $key=>$value){
-            // dd($value['materia']);
             array_push($materias[$value['materia']],$value['resultado']);
         }
         $x=[];
@@ -50,7 +47,20 @@ class Controller extends BaseController
     }
 
     public static function retornoPorcento(){
-        
+        $tratativas = Controller::resultados();
+        $dados = [];
+        foreach($tratativas[0] as $tratativa){
+            if($tratativa['1']){
+                $dados[] = Controller::fgt($tratativa,$tratativas[1]);
+            }
+        }
+        dd($dados);
+        return $dados;
     }
 
+    private static function fgt($materia,$quantidade){
+        $acerto = $materia[1] ?? 0;
+        $erro = $materia[0] ?? 0;
+        dd($materia,$materia[0] ?? 0,$materia[1]);
+    }
 }
