@@ -20,11 +20,37 @@ class Controller extends BaseController
     }
 
     public static function resultados(){
-        $resultado = HistoricoQuestao::where('id_user',Controller::user()->id);
-        $total_de_respostas = $resultado->count();
+        $resultado = HistoricoQuestao::where('id_user',Controller::user()->id)->get(['id_alternativa','id_materia','resultado']);
+        $total_de_respostas = $resultado->count(); //retorna tds as questoes.
+        $x=[];
+        foreach($resultado as $key=>$value){
+            $x[$key]=array(
+                            'resultado'=>$value->resultado,
+                            'materia'=>$value->id_materia,
+                            'questao'=>$value->id_alternativa
+                            );
+        }
+        // dd($x);
+        $avaliacao = Controller::trataMaterias($x);
+        return [$avaliacao,$total_de_respostas];
+    }
+
+    private static function trataMaterias($dados){
+        // dd($dados);
+        $materias = array('1'=>array(),'2'=>array(),'3'=>array(),'4'=>array());
+        foreach($dados as $key=>$value){
+            // dd($value['materia']);
+            array_push($materias[$value['materia']],$value['resultado']);
+        }
+        $x=[];
+        foreach($materias as $reposta){
+            $x[]=array_count_values($reposta);
+        }
+        return $x;
+    }
+
+    public static function retornoPorcento(){
         
-        
-        return $resultados;
     }
 
 }

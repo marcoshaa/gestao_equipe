@@ -27,7 +27,7 @@ class InicialController extends Controller
     public function index(){
         $user = $this->getUser();        
         $ret = $this->notasGeral();
-        dd(Controller::resultados()->get());
+        dd(Controller::resultados());
         return view('site.inicio')
         ->with('user',$user);
     }
