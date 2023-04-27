@@ -50,17 +50,20 @@ class Controller extends BaseController
         $tratativas = Controller::resultados();
         $dados = [];
         foreach($tratativas[0] as $tratativa){
-            if($tratativa['1']){
-                $dados[] = Controller::fgt($tratativa,$tratativas[1]);
-            }
+            $dados[] = Controller::fgt($tratativa,$tratativas[1]);
         }
-        dd($dados);
         return $dados;
     }
 
     private static function fgt($materia,$quantidade){
         $acerto = $materia[1] ?? 0;
         $erro = $materia[0] ?? 0;
-        dd($materia,$materia[0] ?? 0,$materia[1]);
+        if($erro == 0 && $acerto == 0 || $acerto == 0){
+            $aproveitamento = 0;            
+        }else{
+            $aproveitamentoAcerto = number_format(($acerto*100)/($acerto + $erro),1,'.','');
+            $aproveitamento = $aproveitamentoAcerto;
+        }
+        return $aproveitamento;
     }
 }

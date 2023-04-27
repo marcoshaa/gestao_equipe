@@ -54,8 +54,8 @@
                     <div class="espaco_elemento">
                         <div class="text_apresentacao">
                             <p>Ola <b class="text_destaque">{{$user->nome}}</b></p>
-                            <p>Com base nas sua avaliação, identificamos que você teve um excelente desempenho na materia (Varivel_melhor_Materia).
-                                No entanto, é importante que você melhore a suas habilidades (Varival_materia_a_melhorar).
+                            <p>Com base nas sua avaliação, identificamos que você teve um excelente desempenho na materia <b class="text_destaque">{{$maior[0]}}</b> com uma media de <b class="text_destaque">{{$maior[1]}}%</b>.
+                                No entanto, é importante que você melhore a suas habilidades <b class="text_destaque">{{$menor[0]}}</b> com uma media de <b class="text_destaque">{{$menor[1]}}%</b>.
                             </p>
                         </div> 
                     </div>

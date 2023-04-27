@@ -5,6 +5,7 @@ namespace App\Http\Controllers\site;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HistoricoQuestao;
+use App\Models\Materias;
 use App\Models\User;
 use App\Models\Menu;
 
@@ -27,9 +28,38 @@ class InicialController extends Controller
     public function index(){
         $user = $this->getUser();        
         $ret = $this->notasGeral();
-        dd(Controller::retornoPorcento());
+        $menor=$this->menorRetorno(Controller::retornoPorcento());
+        $maior=$this->maiorRetorno(Controller::retornoPorcento());
+        
         return view('site.inicio')
-        ->with('user',$user);
+        ->with('user',$user)
+        ->with('maior',$maior)
+        ->with('menor',$menor);
+    }
+
+    private function maiorRetorno(array $tx){
+        //dd($tx);
+        $volta = 0;
+        $id = 1;
+        foreach($tx as $key=>$valor){
+            if($valor>$volta){
+                $volta = $valor;
+                $id = Materias::where('id',intval($key+1))->first('title');
+            }
+        }
+        return [$id->title,$volta];
+    }
+    private function menorRetorno(array $tx){
+        //dd($tx);
+        $volta = 0;
+        $id = 1;
+        foreach($tx as $key=>$valor){
+            if($valor<=$volta){
+                $volta = $valor;
+                $id = Materias::where('id',intval($key+1))->first();
+            }
+        }
+        return [$id->title,$volta];
     }
 
     public function quiz(){
