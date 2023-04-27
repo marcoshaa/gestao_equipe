@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\DetalhesUser;
 use App\Models\User;
 use App\Models\Materias;
-use App\Models\HistoricoQuestao;
 
 class PerfilController extends Controller
 {
@@ -26,8 +25,12 @@ class PerfilController extends Controller
         return $this->user();
     }
 
-    public function perfil(){
-       // dd($this->getUser());
+    public function retornaDadosGraficoUm(){
+        $grafico = Controller::acertosUsuario();
+        return json_encode($grafico);
+    }
+
+    public function perfil(){        
         return view('site.perfil');
     }    
 

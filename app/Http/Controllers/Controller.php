@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HistoricoQuestao;
+use App\Models\Materias;
 use App\Models\User;
 
 class Controller extends BaseController
@@ -31,6 +32,7 @@ class Controller extends BaseController
                             );
         };
         $avaliacao = Controller::trataMaterias($x);
+        //dd($avaliacao);
         return [$avaliacao,$total_de_respostas];
     }
 
@@ -43,19 +45,21 @@ class Controller extends BaseController
         foreach($materias as $reposta){
             $x[]=array_count_values($reposta);
         }
+        //dd($x);
         return $x;
     }
 
     public static function retornoPorcento(){
         $tratativas = Controller::resultados();
+        //dd($tratativas);
         $dados = [];
         foreach($tratativas[0] as $tratativa){
-            $dados[] = Controller::fgt($tratativa,$tratativas[1]);
-        }
+            $dados[] = Controller::fgt($tratativa);
+        }        
         return $dados;
     }
 
-    private static function fgt($materia,$quantidade){
+    private static function fgt($materia){
         $acerto = $materia[1] ?? 0;
         $erro = $materia[0] ?? 0;
         if($erro == 0 && $acerto == 0 || $acerto == 0){
@@ -65,5 +69,15 @@ class Controller extends BaseController
             $aproveitamento = $aproveitamentoAcerto;
         }
         return $aproveitamento;
+    }
+
+    public static function acertosUsuario(){
+        $materias = Materias::all();        
+        $volta=[];
+        foreach($materias as $materia){
+            $volta[] = array($materia->title=>HistoricoQuestao::where('id_user',Controller::user()->id)->where('id_materia',$materia->id)->where('resultado',1)->count());
+        }
+        //dd($volta);
+        return $volta;
     }
 }

@@ -1,6 +1,7 @@
 @extends('site.template')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{asset('/css/loading.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('/css/geral.css')}}">
     <style>
         .flex{
             display:flex;
@@ -20,24 +21,28 @@
             width:100%;
             margin-bottom:10px;
             margin-right: 10px;
+            display: flex;
+            flex-direction: column;
         }
-        .campoUser_input{
+        .campoUser_input {
+            padding: 7px;
+            border: 1px solid white;
+            background:none;
             border-radius:5px;
-            padding: 5px;
-            outline: none;
-            border: none;
+            color:white;
             width: 100%;
         }
         .labelUser{
-            color: white;
-            font-size: 16px;
+            color:#AE0233;            
+            font-size: 18px;
             font-weight: bold;
+            margin-bottom:10px;
         }
         .botao_perfil{
-            padding: 5px;
+            padding: 10px 1px;
             border-radius: 5px;
             border: none;
-            background: #ff3d00;
+            background: #AE0233;
             color: white;
             font-weight: bold;
             width: 100px;
@@ -122,16 +127,16 @@
                         @csrf
                         <div class="perfil_campo">  
                             <label class="labelUser" for="form_nome_register">Nome</label>
-                            <input class="campoUser_input" type="email" id="form_nome_register" name="form_nome_register" required>
+                            <input class="campoUser_input " type="email" id="form_nome_register" name="form_nome_register" required>
                         </div>
                         <div class="flex w100" style="justify-content: space-between;margin: 0px 10px 10px 0px;">
-                            <div class="w50">  
+                            <div class="perfil_campo w50">  
                                 <label class="labelUser" for="form_date_register">Data de Nascimento</label>
-                                <input class="campoUser_input" type="date" id="form_date_register" name="form_date_register" required>
+                                <input class="campoUser_input " type="date" id="form_data_nascimento" name="form_date_register" required>
                             </div>
-                            <div style="width: 47%;">  
+                            <div class="perfil_campo" style="width: 47%;">  
                                 <label class="labelUser" for="sexo_aluno">Sexo</label>
-                                <select class="campoUser_input">
+                                <select class="campoUser_input ">
                                     <option value="PREFIRO NÃO IDENTIFICAR">Prefiro não identificar</option>
                                     <option value="FEMININO">Feminino</option>
                                     <option value="MASCULINO">Masculino</option>
@@ -140,11 +145,11 @@
                         </div>
                         <!-- <div class=" perfil_campo">
                             <label class="labelUser" for="form_color">Cor do Perfil</label>
-                            <input class="campoUser_input" type="color" id="form_color" name="form_color" required>
+                            <input class="campoUser_input " type="color" id="form_color" name="form_color" required>
                         </div> -->
                         <div class="perfil_campo">
                             <label class="labelUser" for="form_color">Formação</label>
-                            <select class="campoUser_input">
+                            <select class="campoUser_input ">
                                 <option value="NAO_ALFABETIZADO">Não Alfabetizado</option>
                                 <option value="ENSINO_FUNDAMENTAL_INCOMPLETO">Ensino Fundamental Incompleto</option>
                                 <option value="ENSINO_FUNDAMENTAL_COMPLETO">Ensino Fundamental Completo</option>
@@ -160,13 +165,13 @@
                                 <div class="w20 div_divis">
                                     <div class="perfil_campo">
                                         <label class="labelUser" for="cep_registro">CEP</label>
-                                        <input class="campoUser_input" type="email" id="cep_registro" name="cep_registro">
+                                        <input class="campoUser_input " type="email" id="cep_registro" name="cep_registro">
                                     </div>
                                 </div>
                                 <div class="w30 div_divis">
                                     <div class="perfil_campo">
                                         <label class="labelUser" for="estado_casa">Estado</label>
-                                        <select class="campoUser_input" id="estado_casa" name="estado_casa">
+                                        <select class="campoUser_input " id="estado_casa" name="estado_casa">
                                             <option value="">Selecione o estado</option>
                                             <option value="AC">Acre</option>
                                             <option value="AL">Alagoas</option>
@@ -201,7 +206,7 @@
                                 <div class="completa_line">
                                     <div class="perfil_campo">
                                         <label class="labelUser" for="cidade_casa">Cidade</label>
-                                        <input class="campoUser_input" type="email" id="cidade_casa" name="cidade_casa">
+                                        <input class="campoUser_input " type="email" id="cidade_casa" name="cidade_casa">
                                     </div>
                                 </div>
                             </div>
@@ -209,19 +214,19 @@
                                 <div class="w40 div_divis">
                                     <div class="perfil_campo">
                                         <label class="labelUser" for="bairro_casa">Bairro</label>
-                                        <input class="campoUser_input" type="email" id="bairro_casa" name="bairro_casa">
+                                        <input class="campoUser_input " type="email" id="bairro_casa" name="bairro_casa">
                                     </div>
                                 </div>
                                 <div class="auto_largura_maior div_divis">
                                     <div class="perfil_campo">
                                         <label class="labelUser" for="rua_casa">Rua</label>
-                                        <input class="campoUser_input" type="email" id="rua_casa" name="rua_casa">
+                                        <input class="campoUser_input " type="email" id="rua_casa" name="rua_casa">
                                     </div>
                                 </div>
                                 <div class="">
                                     <div class="perfil_campo">
                                         <label class="labelUser" for="numero_casa">N°</label>
-                                        <input class="campoUser_input" type="email" id="numero_casa" name="numero_casa">
+                                        <input class="campoUser_input " type="email" id="numero_casa" name="numero_casa">
                                     </div>
                                 </div>
                             </div>
@@ -231,23 +236,23 @@
                         @csrf
                         <div class=" perfil_campo">  
                             <label class="labelUser" for="form_nome_register">Email Institucional</label>
-                            <input class="campoUser_input" type="email" id="form_nome_register" name="form_nome_register" required>
+                            <input class="campoUser_input " type="email" id="form_nome_register" name="form_nome_register" required>
                         </div>
                         <div class=" perfil_campo">  
                             <label class="labelUser" for="form_nome_register">RA</label>
-                            <input class="campoUser_input" type="email" id="form_nome_register" name="form_nome_register" required>
+                            <input class="campoUser_input " type="email" id="form_nome_register" name="form_nome_register" required>
                         </div>
                         <div class=" perfil_campo">  
                             <label class="labelUser" for="form_email_register">Instituição</label>
-                            <input class="campoUser_input" type="email" id="form_email_register" name="form_email_register" required>
+                            <input class="campoUser_input " type="email" id="form_email_register" name="form_email_register" required>
                         </div>
                         <div class=" perfil_campo">  
                             <label class="labelUser" for="form_email_register">Unidade</label>
-                            <input class="campoUser_input" type="email" id="form_email_register" name="form_email_register" required>
+                            <input class="campoUser_input " type="email" id="form_email_register" name="form_email_register" required>
                         </div>
                         <div class=" perfil_campo">  
                             <label class="labelUser" for="form_date_register">Data de Inicio do Curso</label>
-                            <input class="campoUser_input" type="date" id="form_date_register" name="form_date_register" required>
+                            <input class="campoUser_input " type="date" id="form_date_register" name="form_date_register" required>
                         </div>                                      
                     </form>-->
                 </div>
@@ -311,15 +316,15 @@
             html:`
                 <div class=" perfil_campo_swal">  
                     <label class="labelUser" for="senha_atual">senha atual</label>
-                    <input class="campoUser_input" type="password" id="senha_atual" name="senha_atual" required maxlength="6" minlength="6">
+                    <input class="campoUser_input " type="password" id="senha_atual" name="senha_atual" required maxlength="6" minlength="6">
                 </div>
                 <div class=" perfil_campo_swal">  
                     <label class="labelUser" for="senha_nova">Nova senha</label>
-                    <input class="campoUser_input" type="password" id="senha_nova" name="senha_nova" required maxlength="6" minlength="6">
+                    <input class="campoUser_input " type="password" id="senha_nova" name="senha_nova" required maxlength="6" minlength="6">
                 </div>
                 <div class=" perfil_campo_swal">  
                     <label class="labelUser" for="senha_nova_cf">Confirma nova senha</label>
-                    <input class="campoUser_input" type="password" id="senha_nova_cf" name="senha_nova_cf" required maxlength="6" minlength="6">
+                    <input class="campoUser_input " type="password" id="senha_nova_cf" name="senha_nova_cf" required maxlength="6" minlength="6">
                 </div>
             `
         }).then(function(isConfirm){
@@ -370,21 +375,40 @@
     })
 </script>
 <script>
+    $(function() {        
+        $.ajax({
+            method: 'POST',
+            url: "{{route('PrimeiroGrafico')}}",
+            data:{"_token":"{{ csrf_token() }}"},
+            dataType: 'json',        
+            success: function(result){
+                drawChart(result);           
+            }            
+        });
+    });
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
+    function dadosReal(dados){
+        let x='';
+        for(var i = 0; i<dados.length; i++ ){
+           x=x+`['${Object.keys(dados[i])}', ${dados[i][Object.keys(dados[i])]}],`;
+        }
+        return x;
+    } 
+    function drawChart(dados) {
+        // console.log(dados[0][Object.keys(dados[0])]);
+        // console.log(Object.keys(dados[0]));
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Topping');
         data.addColumn('number', 'Slices');
-        data.addRows([
-            ['Matematica', 3],
-            ['Logica', 2],
-            ['Algoritmo', 2],
-            ['LGPD', 2],
-            ['Logica Mat.', 2]
-        ]);
-
+        let x='';
+        x = dadosReal(dados);
+        console.log(x);
+        data.addRows([['Matematica', 1],['Logica', 2],['Algoritmo', 0],['Estrutura de repeticao', 0]])        
+            // ['Matematica', 3],
+            // ['Logica', 2],
+            // ['Algoritmo', 2],
+            // ['Estrutura de repeticao', 2],
         // Set chart options
         var options = {            
             'title':'Resumo',
@@ -399,7 +423,6 @@
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('in'));
         chart.draw(data, options);
-    }
-    drawChart();
+    }    
 </script>
 @endsection

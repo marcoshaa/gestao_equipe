@@ -56,6 +56,13 @@
     border-radius:5px;
     color:white;
 }
+.input_form{    
+    padding: 7px;
+    border: 1px solid white;
+    background:none;
+    border-radius:5px;
+    color:white;
+}
 .title_card_label{
     margin-bottom:10px;
 }

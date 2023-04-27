@@ -54,6 +54,7 @@ Route::prefix('/perfil')->group(function(){
     Route::get('/',[PerfilController::class, 'perfil'])->name('perfil');
     Route::post('/troca/senha',[PerfilController::class, 'trocaSenha'])->name('trocaSenha');
     Route::post('/troca/dados/user',[PerfilController::class, 'trocaDadosUser'])->name('trocaDadosUser');
+    Route::post('/recebe/dados/grafico',[PerfilController::class, 'retornaDadosGraficoUm'])->name('PrimeiroGrafico');
 });
 
 Route::prefix('/ADM')->group(function(){
