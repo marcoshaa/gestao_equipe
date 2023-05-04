@@ -136,7 +136,7 @@
                             </div>
                             <div class="perfil_campo" style="width: 47%;">  
                                 <label class="labelUser" for="sexo_aluno">Sexo</label>
-                                <select class="campoUser_input ">
+                                <select class="campoUser_input" name="sexo_registro" id="sexo_registro">
                                     <option value="PREFIRO NÃO IDENTIFICAR">Prefiro não identificar</option>
                                     <option value="FEMININO">Feminino</option>
                                     <option value="MASCULINO">Masculino</option>
@@ -149,7 +149,7 @@
                         </div> -->
                         <div class="perfil_campo">
                             <label class="labelUser" for="form_color">Formação</label>
-                            <select class="campoUser_input ">
+                            <select class="campoUser_input" name="formacao_registro" id="formacao_registro">
                                 <option value="NAO_ALFABETIZADO">Não Alfabetizado</option>
                                 <option value="ENSINO_FUNDAMENTAL_INCOMPLETO">Ensino Fundamental Incompleto</option>
                                 <option value="ENSINO_FUNDAMENTAL_COMPLETO">Ensino Fundamental Completo</option>

@@ -45,9 +45,17 @@ class PerfilController extends Controller
 
     public function trocaDadosUser(Request $r){
         $detalheUser = DetalhesUser::where('id',$this->user()->id)->first();
-        // $detalheUser->update([
-        //     ''=>
-        // ])
+        $detalheUser->update([
+            'sexo'=>$r->sexo_registro,
+            'form_data_nascimento'=>$r->formacao_registro,
+            'formacao'=>$r->formacao_registro,
+            'cep'=>$r->cep_registro,
+            'estado'=>$r->estado_casa,
+            'cidade'=>$r->cidade_casa,
+            'bairro'=>$r->bairro_casa,
+            'rua'=>$r->rua_casa,
+            'numero'=>$r->numero_casa,
+        ]);
     }
 
     public function dadosGrafico(){
