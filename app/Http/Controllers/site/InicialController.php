@@ -44,10 +44,13 @@ class InicialController extends Controller
         foreach($tx as $key=>$valor){
             if($valor>$volta){
                 $volta = $valor;
-                $id = Materias::where('id',intval($key+1))->first('title');
+                $tr = Materias::where('id',intval($key+1))->first('title');
+            }else{
+                $tr = Materias::where('id',intval($key+1))->first('title');
             }
         }
-        return [$id->title,$volta];
+        //dd($tr->title);
+        return [$tr->title,$volta];
     }
     private function menorRetorno(array $tx){
         //dd($tx);

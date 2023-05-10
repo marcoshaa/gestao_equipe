@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Questao;
 use App\Models\Materias;
+use App\Models\Material;
 use App\Models\User;
 use Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdmController extends Controller
 {
@@ -37,7 +39,9 @@ class AdmController extends Controller
     }
 
     public function novoMaterial(){
-        return view('adm.material');
+        $materiais = Materias::all();
+        return view('adm.material')
+        ->with('materiais',$materiais);
     }
 
     public function criaNovoUsuarioAdm(Request $r){        
@@ -81,6 +85,45 @@ class AdmController extends Controller
             $volta='ok';
         }else{
             $volta='erro';
+        }
+        return $volta;
+    }
+
+    public function criaMaterial(Request $r){
+        $diretorio = $this->pegaDiretorio(intval($r->form_material));
+        $pdf = $r->file('form_anexo')->store($diretorio[1],'s3');        
+        $rota = $this->s3replace(Storage::disk('s3')->url($pdf));
+        if(!empty($pdf)&& !empty($rota)){
+            $novo = new Material;
+            $novo->nome = $r->form_titulo;
+            $novo->id_materia = $diretorio[0];
+            $novo->endereco = $rota;
+            $novo->save();
+            
+            if($novo->id != 0){
+                $volta="ok";
+            }else{
+                $volta="erro";
+            }
+        }
+        return $volta ?? 'erro';  
+    }
+
+    private function s3replace($data){
+        $data = str_replace('https://', '',$data);
+        $data = str_replace(env('AWS_BUCKET').'.s3.'.env('AWS_DEFAULT_REGION').'.amazonaws.com', '',$data);
+        return $data;
+    }
+
+    private function pegaDiretorio($numero){
+        if($numero == 1){
+            $volta = [1,'matematica'];
+        }elseif($numero == 2){
+            $volta = [2,'logica'];
+        }elseif($numero == 3){
+            $volta = [3,'algoritmo'];
+        }else{
+            $volta = [4,'estruturaderepeticao'];
         }
         return $volta;
     }

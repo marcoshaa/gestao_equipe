@@ -169,7 +169,7 @@ if(empty(Auth::check())){
                 <a href="{{route('inicio')}}" data-text="INÍCIO" id="home-link" >INÍCIO</a>
                 <a href="{{route('perfil')}}" data-text="PERFIL" id="about-link" >PERFIL</a>
                 <a href="{{route('quiz')}}" data-text="QUIZ" id="quiz-link" >QUIZ</a>
-                <a href="{{route('perfil')}}" data-text="MATERIAL" id="mat-link" >MATERIAL</a>
+                <a href="{{route('viewMaterial')}}" data-text="MATERIAL" id="mat-link" >MATERIAL</a>
                 @if($user->acesso == 0)
                     <a href="{{route('adm')}}" data-text="ADMINISTRADOR" id="mat-link" >ADM</a>
                 @endif

@@ -6,6 +6,7 @@ use App\Http\Controllers\site\RegistroController;
 use App\Http\Controllers\site\PerfilController;
 use App\Http\Controllers\site\InicialController;
 use App\Http\Controllers\site\QuestaoController;
+use App\Http\Controllers\site\MaterialController;
 use App\Http\Controllers\admin\AdmController;
 
 // Página principal
@@ -61,6 +62,15 @@ Route::prefix('/ADM')->group(function(){
     Route::get('/usuario',[AdmController::class, 'usuarioAdm'])->name('usuarioAdm');
     Route::post('/usuario/envio-dados',[AdmController::class, 'criaNovoUsuarioAdm'])->name('newAdm');
     Route::post('/pergunta/envio-dados',[AdmController::class, 'criaPergunta'])->name('newPergunta');
+    Route::post('/material/envio-dados',[AdmController::class, 'criaMaterial'])->name('newMaterial');
     Route::get('/pergunta',[AdmController::class, 'novaPergunta'])->name('novaPergunta');
     Route::get('/material',[AdmController::class, 'novoMaterial'])->name('novoMaterial');
+});
+
+Route::prefix('/pdf')->group(function(){
+    Route::get('/{id}',[MaterialController::class, 'showPdf'])->name('showPdf');    
+});
+Route::middleware(['auth','verified'])->prefix('/')->group(function(){
+    Route::get('/materiais',[MaterialController::class, 'viewMaterial'])->name('viewMaterial');
+    Route::get('/materiais/painel/{materia}',[MaterialController::class, 'viewMaterialSelec'])->name('viewMaterialSelec');    
 });
