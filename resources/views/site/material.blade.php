@@ -25,25 +25,25 @@
                         <div class="flex_card_element">
                             <div class="card_element">
                                 <a class="element_content" href="{{route('viewMaterialSelec','matematica')}}">
-                                    <i class="bi bi-journal-code icon_sf"></i>
+                                    <i class="bi bi-folder icon_sf"></i>
                                     <p class="title_card">Matemática</p>
                                 </a>
                             </div>
                             <div class="card_element">
                                 <a class="element_content" href="{{route('viewMaterialSelec','logica')}}">
-                                    <i class="bi bi-journal-code icon_sf"></i>
+                                    <i class="bi bi-folder icon_sf"></i>
                                     <p class="title_card">Lógica</p>
                                 </a>
                             </div>
                             <div class="card_element">
                                 <a class="element_content" href="{{route('viewMaterialSelec','algoritmo')}}">
-                                    <i class="bi bi-journal-code icon_sf"></i>
+                                    <i class="bi bi-folder icon_sf"></i>
                                     <p class="title_card">Algoritmo</p>
                                 </a>
                             </div>
                             <div class="card_element">
                                 <a class="element_content" href="{{route('viewMaterialSelec','estruturaderepeticao')}}">
-                                    <i class="bi bi-journal-code icon_sf"></i>
+                                    <i class="bi bi-folder icon_sf"></i>
                                     <p class="title_card">Estrutura de<br>repetição</p>
                                 </a>
                             </div>

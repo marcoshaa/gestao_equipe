@@ -2,6 +2,7 @@
 @section('style')
     <link href="{{ asset('/css/geral.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('/css/loading.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
         .card_element{
             background:#ffffff8a;
@@ -13,6 +14,44 @@
             color:white;
             font-size:20px;
         }
+        .espaco_elemento {
+            margin: 20px;
+            padding: 5px 30px;
+            background: #393B3C;
+            border-radius: 5px;
+        }
+        .text_titulo{
+            color:#ae0233;
+            font-size:20px;
+            font-weight: bolder;
+        }
+        .grade_pdf{
+            display:grid;
+        }
+        .grade_pdf {
+            margin: 20px;
+            display: grid;
+            grid-template-columns: auto auto auto auto auto;
+            grid-template-rows: 150px 150px 150px;
+            gap: 90px 120px;
+        }
+        .bi-filetype-pdf {
+            font-size: 50px;
+            color: #ae0233;
+        }
+        .icone_pdf{
+            margin-bottom: 10px;
+        }
+        .elemento_card{
+            background: #393b3c;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 0px 8px #ae0233;
+            text-decoration-line: none;
+        }
     </style>
 @endsection
 
@@ -20,36 +59,21 @@
     <div class="page_content">
         <div class="all_elements">
             <div class="topo_content">
-                <div class="elemento_50_alt">
-                    <div class="espaco_elemento">    
-                        <div class="flex_card_element">
-                            <div class="card_element">
-                                <a class="element_content" href="{{route('usuarioAdm')}}">
-                                    <i class="bi bi-journal-code icon_sf"></i>
-                                    <p class="title_card">Matemática</p>
-                                </a>
+                <div class="espaco_elemento">
+                    <p class="text_titulo">storage/{{$link}}</p>
+                </div>
+                <div class="grade_pdf">
+                    @foreach($pdfs as $pdf)
+                        <a class="elemento_card" href="{{$pdf->link}}">
+                            <div class="icone_pdf">
+                                <i class="bi bi-filetype-pdf"></i>
                             </div>
-                            <div class="card_element">
-                                <a class="element_content" href="{{route('novoMaterial')}}">
-                                    <i class="bi bi-journal-code icon_sf"></i>
-                                    <p class="title_card">Lógica</p>
-                                </a>
+                            <div>
+                                <p class="text_titulo">{{$pdf->titulo}}</p>
                             </div>
-                            <div class="card_element">
-                                <a class="element_content" href="{{route('novaPergunta')}}">
-                                    <i class="bi bi-journal-code icon_sf"></i>
-                                    <p class="title_card">Algoritmo</p>
-                                </a>
-                            </div>
-                            <div class="card_element">
-                                <a class="element_content" href="{{route('novaPergunta')}}">
-                                    <i class="bi bi-journal-code icon_sf"></i>
-                                    <p class="title_card">Estrutura de<br>repetição</p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>                 
+                        </a>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

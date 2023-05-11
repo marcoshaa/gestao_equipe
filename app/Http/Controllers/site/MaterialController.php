@@ -23,6 +23,7 @@ class MaterialController extends Controller
         $documentos = Material::where('id_materia',$id)->get();
         $documentos = $this->traduzRota($documentos);
         return view('site.materialPorMateria')
+        ->with('link',$rota)
         ->with('pdfs',$documentos);
     }
 
