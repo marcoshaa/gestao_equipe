@@ -34,7 +34,7 @@ class CreateAlternativeTable extends Migration
                     'alternativa_2'=>'alternativa_2',
                     'alternativa_3'=>'alternativa_3',
                     'alternativa_4'=>'alternativa_4',
-                    'alternativa_correta'=>'alternativa'.$i,
+                    'alternativa_correta'=>'alternativa_2',
                 )
             );
         }

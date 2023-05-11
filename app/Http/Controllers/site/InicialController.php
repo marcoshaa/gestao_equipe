@@ -27,30 +27,37 @@ class InicialController extends Controller
 
     public function index(){
         $user = $this->getUser();        
-        $ret = $this->notasGeral();
-        $menor=$this->menorRetorno(Controller::retornoPorcento());
-        $maior=$this->maiorRetorno(Controller::retornoPorcento());
-        
+        $ret = $this->notasGeral();    
+        $medias=$this->maiorRetorno(Controller::retornoPorcento());
+        //dd($medias);
         return view('site.inicio')
         ->with('user',$user)
-        ->with('maior',$maior)
-        ->with('menor',$menor);
+        ->with('medias',$medias);
     }
 
     private function maiorRetorno(array $tx){
         //dd($tx);
-        $volta = 0;
+        $menor = 0;
+        $maior = 0;
+        $conjMaior = [];
+        $conjMenor = [];
         $id = 1;
         foreach($tx as $key=>$valor){
-            if($valor>$volta){
-                $volta = $valor;
+            if($valor>$maior){
+                $maior = $valor;
                 $tr = Materias::where('id',intval($key+1))->first('title');
+                $conjMaior=['titulo'=>$tr->title,'valor'=>$maior];
             }else{
                 $tr = Materias::where('id',intval($key+1))->first('title');
             }
+            if($valor<=$menor){
+                $menor = $valor;
+                $tr = Materias::where('id',intval($key+1))->first('title');
+                $conjMenor=['titulo'=>$tr->title,'valor'=>$menor];
+            }
+            
         }
-        //dd($tr->title);
-        return [$tr->title,$volta];
+        return [$conjMaior,$conjMenor];
     }
     private function menorRetorno(array $tx){
         //dd($tx);

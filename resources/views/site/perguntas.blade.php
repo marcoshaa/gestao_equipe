@@ -68,15 +68,26 @@
                         `
                     })
                 },
-                success: function(){
+                success: function(result){
+                    console.log(result);
                     Swal.close();
-                    Swal.fire({
-                        title:'Respostas Enviadas',
-                        icon:'success',
-                        showConfirmButton: true,
-                        background:'#272a2b', 
-                        color:"#fff",                       
-                    })
+                    if(result == "ok"){
+                        Swal.fire({
+                            title:'Respostas Enviadas',
+                            icon:'success',
+                            showConfirmButton: true,
+                            background:'#272a2b', 
+                            color:"#fff",                       
+                        });
+                    }else{
+                        Swal.fire({
+                            title:'Respostas não Enviadas, Confira as Questões',
+                            icon:'error',
+                            showConfirmButton: true,
+                            background:'#272a2b', 
+                            color:"#fff",                       
+                        });
+                    }
                 }
             })
         });
