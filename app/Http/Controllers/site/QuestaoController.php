@@ -36,8 +36,7 @@ class QuestaoController extends Controller
     }
 
     private function primeiraQuestao(){
-        $perguntas = Questao::offset(0)->limit(10)->get();
-        dd($perguntas);
+        $perguntas = Questao::offset(0)->limit(10)->get();        
         return $perguntas;
     }
 

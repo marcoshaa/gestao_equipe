@@ -143,10 +143,6 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- <div class=" perfil_campo">
-                            <label class="labelUser" for="form_color">Cor do Perfil</label>
-                            <input class="campoUser_input " type="color" id="form_color" name="form_color" required>
-                        </div> -->
                         <div class="perfil_campo">
                             <label class="labelUser" for="form_color">Formação</label>
                             <select class="campoUser_input" name="formacao_registro" id="formacao_registro">
@@ -232,29 +228,6 @@
                             </div>
                         </div>
                     </form>
-                    <!--<form id="formLogin" onsubmit="event.preventDefault();" class="formulario_login flex">
-                        @csrf
-                        <div class=" perfil_campo">  
-                            <label class="labelUser" for="form_nome_register">Email Institucional</label>
-                            <input class="campoUser_input " type="email" id="form_nome_register" name="form_nome_register" required>
-                        </div>
-                        <div class=" perfil_campo">  
-                            <label class="labelUser" for="form_nome_register">RA</label>
-                            <input class="campoUser_input " type="email" id="form_nome_register" name="form_nome_register" required>
-                        </div>
-                        <div class=" perfil_campo">  
-                            <label class="labelUser" for="form_email_register">Instituição</label>
-                            <input class="campoUser_input " type="email" id="form_email_register" name="form_email_register" required>
-                        </div>
-                        <div class=" perfil_campo">  
-                            <label class="labelUser" for="form_email_register">Unidade</label>
-                            <input class="campoUser_input " type="email" id="form_email_register" name="form_email_register" required>
-                        </div>
-                        <div class=" perfil_campo">  
-                            <label class="labelUser" for="form_date_register">Data de Inicio do Curso</label>
-                            <input class="campoUser_input " type="date" id="form_date_register" name="form_date_register" required>
-                        </div>                                      
-                    </form>-->
                 </div>
                 <div class="flex" style="justify-content: space-evenly;">
                     <div>
@@ -269,16 +242,61 @@
                 <div class="dados_ensino">
                     <h2 class="title_perfil">Resultados do Aluno</h2>
                 </div>
-                <div class="div_graficos_elemento" id="in"></div>
+                <div class="div_graficos_elemento" id="inGrafico"></div>
             </div>  
         </div>
     </div>
 @endsection
 
 @section('script')
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script>
+    $('#envia_dados').on("click", function(){        
+        $.ajax({
+            'type':'post',
+            'url':`{{route('trocaDadosUser')}}`,
+            data:$('#formLogin').serialize(),
+            datatype: 'json',
+            beforeSend: function() {
+                Swal.fire({
+                    position: 'Center',
+                    title:'Carregando',
+                    showConfirmButton: false,
+                    background:'#272a2b',
+                    color:"#fff",
+                    html:`
+                        <div class="div_load">
+                            <div class="carregando_espera"></div>
+                        </div>
+                    `
+                })
+            },
+            success: function(){
+                Swal.fire({
+                    title:'Dados salvos com Sucesso !',                    
+                    icon: 'success',
+                    background:'#272a2b',
+                    color:"#fff",
+                    showConfirmButton: true
+                })
+            } 
+        }); 
+    });
+</script>
+<script>
     $("#cep_registro").mask("99999-999");
+    $(function() {
+        document.getElementById("sexo_registro").value = "<?php echo $detalheUser->sexo; ?>";
+        document.getElementById("formacao_registro").value = "<?php echo $detalheUser->formacao; ?>";
+        document.getElementById("form_data_nascimento").value = "<?php echo $detalheUser->data_nascimento; ?>";
+        document.getElementById("cep_registro").value = "<?php echo $detalheUser->cep; ?>";
+        document.getElementById("estado_casa").value = "<?php echo $detalheUser->estado; ?>";
+        document.getElementById("cidade_casa").value = "<?php echo $detalheUser->cidade; ?>";
+        document.getElementById("bairro_casa").value = "<?php echo $detalheUser->bairro; ?>";
+        document.getElementById("rua_casa").value = "<?php echo $detalheUser->rua; ?>";
+        document.getElementById("numero_casa").value = "<?php echo $detalheUser->numero; ?>";
+    });
     $(function() {
         $('#cep_registro').change(function() {
         const cep = this.value.replace("-","");
@@ -328,51 +346,70 @@
                 </div>
             `
         }).then(function(isConfirm){
-            if(isConfirm){
-                let pAtu =document.getElementById("senha_atual").value;
-                let pNew =document.getElementById("senha_nova").value;
-                let pNewCf =document.getElementById("senha_nova_cf").value;
-                $.ajax({
-                    'type':post,
-                    'url':`{{route('trocaSenha')}}`,
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        'senhaAtual':pAtu,
-                        'senhaNova':pNew,
-                        'confirmSenhaNova':pNewCf,
-                    },
-                    datatype: 'json',
-                    beforeSend: function() {
+            let pAtu =document.getElementById("senha_atual").value;
+            let pNew =document.getElementById("senha_nova").value;
+            let pNewCf =document.getElementById("senha_nova_cf").value;
+            $.ajax({
+                'type':'post',
+                'url':`{{route('trocaSenha')}}`,
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    'senhaAtual':pAtu,
+                    'senhaNova':pNew,
+                    'confirmSenhaNova':pNewCf,
+                },
+                datatype: 'json',
+                beforeSend: function() {
+                    Swal.fire({
+                        title:'Carregando',
+                        showConfirmButton: false,
+                        background:'#272a2b',
+                        color:"#fff",
+                        html:`
+                            <div class="div_load">
+                                <div class="carregando_espera"></div>
+                            </div>
+                        `
+                    })
+                },
+                success: function(result){
+                    Swal.close();
+                    if(result != 'erro'){
                         Swal.fire({
-                            title:'Carregando',
-                            showConfirmButton: false,
+                            title:'Senha trocada com Sucesso !',                        
+                            icon: 'success',
                             background:'#272a2b',
                             color:"#fff",
-                            html:`
-                                <div class="div_load">
-                                    <div class="carregando_espera"></div>
-                                </div>
-                            `
+                            showConfirmButton: true
                         })
-                    },
-                });         
-            }
+                    }else{
+                        Swal.fire({
+                            title:'Erro ao trocar a Senha !',                    
+                            icon: 'error',
+                            background:'#272a2b',
+                            color:"#fff",
+                            showConfirmButton: true
+                        })
+                    }
+                }  
+            });         
+            
         })
     })
 
-    $('#cep_registro').on('change',function(){
-        let cep = document.getElementById("cep_registro").value;
-        $.ajax({
-            type:'get',
-            url:`https://brasilapi.com.br/api/cep/v1/${cep}`,
-            datatype:'json',
-        }).then(function(volta){
-            document.getElementById("estado_casa").value = volta.state;
-            document.getElementById("cidade_casa").value = volta.city;
-            document.getElementById("bairro_casa").value = volta.neighborhood;
-            document.getElementById("rua_casa").value = volta.street;
-        })
-    })
+    // $('#cep_registro').on('change',function(){
+    //     let cep = document.getElementById("cep_registro").value;
+    //     $.ajax({
+    //         type:'get',
+    //         url:`https://brasilapi.com.br/api/cep/v1/${cep}`,
+    //         datatype:'json',
+    //     }).then(function(volta){
+    //         document.getElementById("estado_casa").value = volta.state;
+    //         document.getElementById("cidade_casa").value = volta.city;
+    //         document.getElementById("bairro_casa").value = volta.neighborhood;
+    //         document.getElementById("rua_casa").value = volta.street;
+    //     })
+    // })
 </script>
 <script>
     $(function() {        
@@ -386,30 +423,54 @@
             }            
         });
     });
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load("current", {packages:["corechart"]});
     google.charts.setOnLoadCallback(drawChart);
-    function dadosReal(dados){
-        let x='';
-        for(var i = 0; i<dados.length; i++ ){
-           x=x+`['${Object.keys(dados[i])}', ${dados[i][Object.keys(dados[i])]}],`;
+
+    // function drawChart(result) {
+    //     // console.log(result[0][Object.keys(result[0])]);
+    //     // console.log(Object.keys(result[1]));
+    //     // console.log(result);
+    //     var data = google.visualization.arrayToDataTable([
+    //         ['Matematica', result[0][Object.keys(result[0])]],
+    //         ['Logica', result[1][Object.keys(result[0])]],
+    //         ['Algoritmo', result[2][Object.keys(result[0])]],
+    //         ['Estrutura de repeticao', result[3][Object.keys(result[0])]]
+    //     ]);
+    //     // Set chart options
+    //     var options = {            
+    //         'title':'Resumo',
+    //         'titleTextStyle':{'color':'#fff','bold':true,'fontSize':20},
+    //         'width':600,
+    //         'height':300,
+    //         'is3D': true,
+    //         'legend': { 'textStyle': { 'fontSize': 12,'color':'#fff' } },
+    //         'backgroundColor': '#272a2b'
+    //     };
+
+    //     // Instantiate and draw our chart, passing in some options.
+    //     var chart = new google.visualization.PieChart(document.getElementById('inGrafico'));
+    //     chart.draw(data, options);
+    // }
+    function trataGrafico(numero){
+        let volta;
+        if(numero == 0){
+            volta = 1;
+        }else{
+            volta = numero;
         }
-        return x;
-    } 
-    function drawChart(dados) {
-        // console.log(dados[0][Object.keys(dados[0])]);
-        // console.log(Object.keys(dados[0]));
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        let x='';
-        x = dadosReal(dados);
-        console.log(x);
-        data.addRows([['Matematica', 1],['Logica', 2],['Algoritmo', 0],['Estrutura de repeticao', 0]])        
-            // ['Matematica', 3],
-            // ['Logica', 2],
-            // ['Algoritmo', 2],
-            // ['Estrutura de repeticao', 2],
-        // Set chart options
+        return volta;
+    }
+    function drawChart(result) {
+        //console.log(result);
+        //console.log(Object.keys(result[2]));
+        var data = google.visualization.arrayToDataTable([
+            ['Task', 'Hours per Day'],
+            ['Matematica',trataGrafico(result[0].Matematica)],
+            ['Logica',trataGrafico(result[1].Logica)],
+            ['Algoritmo',trataGrafico(result[2].Algoritmo)],
+            ['Estrutura de repeticao',trataGrafico(result[3].Estruturaderepeticao)]
+        ]);
+
         var options = {            
             'title':'Resumo',
             'titleTextStyle':{'color':'#fff','bold':true,'fontSize':20},
@@ -420,8 +481,7 @@
             'backgroundColor': '#272a2b'
         };
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('in'));
+        var chart = new google.visualization.PieChart(document.getElementById('inGrafico'));
         chart.draw(data, options);
     }    
 </script>

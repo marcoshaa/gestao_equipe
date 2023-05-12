@@ -54,8 +54,8 @@
                     <div class="espaco_elemento">
                         <div class="text_apresentacao">
                             <p>Ola <b class="text_destaque">{{$user->nome}}</b></p>
-                            <p>Com base nas sua avaliação, identificamos que você teve um excelente desempenho na materia <b class="text_destaque">{{$medias[0]['titulo']}}</b> com uma media de <b class="text_destaque">{{$medias[0]['valor']}}%</b>.
-                                No entanto, é importante que você melhore a suas habilidades <b class="text_destaque">{{$medias[1]['titulo']}}</b> com uma media de <b class="text_destaque">{{$medias[1]['valor']}}%</b>.
+                            <p>Com base nas sua avaliação, identificamos que você teve um excelente desempenho na materia <b class="text_destaque">{{$medias[0]['titulo'] ?? 'Algoritmo'}}</b> com uma media de <b class="text_destaque">{{$medias[0]['valor']?? '0'}}%</b>.
+                                No entanto, é importante que você melhore a suas habilidades <b class="text_destaque">{{$medias[1]['titulo'] ?? 'Lógica'}}</b> com uma media de <b class="text_destaque">{{$medias[1]['valor'] ?? 0}}%</b>.
                             </p>
                         </div> 
                     </div>

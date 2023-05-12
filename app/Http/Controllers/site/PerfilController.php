@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\DetalhesUser;
 use App\Models\User;
 use App\Models\Materias;
+use Hash;
 
 class PerfilController extends Controller
 {
@@ -26,28 +27,41 @@ class PerfilController extends Controller
     }
 
     public function retornaDadosGraficoUm(){
-        $grafico = Controller::acertosUsuario();
-        return json_encode($grafico);
+        $acertos= Controller::acertosUsuario();
+        $retorno=[];
+        foreach($acertos as $key=>$value){      
+            foreach($value as $keyNew=>$valueNew){
+                $retorno[]=array( str_replace(' ','',$keyNew)=>trim($valueNew));
+            }
+        }
+        return json_encode($retorno);
     }
 
-    public function perfil(){        
-        return view('site.perfil');
+    public function perfil(){
+        $detalheUser = DetalhesUser::where('id',($this->user()->id-1))->first();
+        return view('site.perfil')        
+        ->with('detalheUser',$detalheUser);
     }    
 
-    public function trocaSenha(){
-
+    public function trocaSenha(Request $r){        
+        if(strlen($r->senhaNova) == 6 && !empty($r->senhaAtual)){            
+            if(Hash::check($r->senhaAtual, $this->user()->password)){
+                if($r->senhaNova == $r->confirmSenhaNova){
+                    $userNewPass = User::where('id',$this->user()->id)->update(['password'=>hash::make($r->senhaNova)]);
+                    $volta = 'ok';
+                }
+            }
+        }else{
+            $volta = 'erro';
+        }
+        return json_encode($volta);
     }
-//$this->getUser()->update(['name'=>'teste']) (retorna true, deu certo)
-
-    // public function trocaDadosUser(Request $r){
-    //     $detalheUser = DetalhesUser::where('id',$this->user['1']);
-    // }
 
     public function trocaDadosUser(Request $r){
-        $detalheUser = DetalhesUser::where('id',$this->user()->id)->first();
+        $detalheUser = DetalhesUser::where('id_user',($this->user()->id));                
         $detalheUser->update([
             'sexo'=>$r->sexo_registro,
-            'form_data_nascimento'=>$r->formacao_registro,
+            'data_nascimento'=>$r->form_data_nascimento,
             'formacao'=>$r->formacao_registro,
             'cep'=>$r->cep_registro,
             'estado'=>$r->estado_casa,
@@ -56,9 +70,5 @@ class PerfilController extends Controller
             'rua'=>$r->rua_casa,
             'numero'=>$r->numero_casa,
         ]);
-    }
-
-    public function dadosGrafico(){
-
     }
 }
