@@ -376,7 +376,7 @@
                     Swal.close();
                     if(result != 'erro'){
                         Swal.fire({
-                            title:'Senha trocada com Sucesso !',                        
+                            title:'Senha trocada com Sucesso !',
                             icon: 'success',
                             background:'#272a2b',
                             color:"#fff",
@@ -384,14 +384,24 @@
                         })
                     }else{
                         Swal.fire({
-                            title:'Erro ao trocar a Senha !',                    
+                            title:'Erro ao trocar a Senha !',
                             icon: 'error',
                             background:'#272a2b',
                             color:"#fff",
                             showConfirmButton: true
                         })
                     }
-                }  
+                },
+                error: function(volta) {
+                    Swal.fire({
+                        position: 'Center',
+                        icon: 'error',
+                        color:'#fff',
+                        background:'#272a2b',
+                        title:'Erro ao trocar a Senha !',
+                        showConfirmButton: true,                    
+                    });           
+                }
             });         
             
         })
