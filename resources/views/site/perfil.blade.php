@@ -243,6 +243,11 @@
                     <h2 class="title_perfil">Resultados do Aluno</h2>
                 </div>
                 <div class="div_graficos_elemento" id="inGrafico"></div>
+
+                <div class="dados_ensino">
+                    <h2 class="title_perfil">Presença do Aluno</h2>
+                </div>                
+                <div class="div_graficos_elemento" id="chart_div"></div>
             </div>  
         </div>
     </div>
@@ -287,15 +292,15 @@
 <script>
     $("#cep_registro").mask("99999-999");
     $(function() {
-        document.getElementById("sexo_registro").value = "<?php echo $detalheUser->sexo; ?>";
-        document.getElementById("formacao_registro").value = "<?php echo $detalheUser->formacao; ?>";
-        document.getElementById("form_data_nascimento").value = "<?php echo $detalheUser->data_nascimento; ?>";
-        document.getElementById("cep_registro").value = "<?php echo $detalheUser->cep; ?>";
-        document.getElementById("estado_casa").value = "<?php echo $detalheUser->estado; ?>";
-        document.getElementById("cidade_casa").value = "<?php echo $detalheUser->cidade; ?>";
-        document.getElementById("bairro_casa").value = "<?php echo $detalheUser->bairro; ?>";
-        document.getElementById("rua_casa").value = "<?php echo $detalheUser->rua; ?>";
-        document.getElementById("numero_casa").value = "<?php echo $detalheUser->numero; ?>";
+        document.getElementById("sexo_registro").value = "<?php echo $detalheUser->sexo ?? ''; ?>";
+        document.getElementById("formacao_registro").value = "<?php echo $detalheUser->formacao ?? ''; ?>";
+        document.getElementById("form_data_nascimento").value = "<?php echo $detalheUser->data_nascimento ?? ''; ?>";
+        document.getElementById("cep_registro").value = "<?php echo $detalheUser->cep ?? ''; ?>";
+        document.getElementById("estado_casa").value = "<?php echo $detalheUser->estado ?? ''; ?>";
+        document.getElementById("cidade_casa").value = "<?php echo $detalheUser->cidade ?? ''; ?>";
+        document.getElementById("bairro_casa").value = "<?php echo $detalheUser->bairro ?? ''; ?>";
+        document.getElementById("rua_casa").value = "<?php echo $detalheUser->rua ?? ''; ?>";
+        document.getElementById("numero_casa").value = "<?php echo $detalheUser->numero ?? ''; ?>";
     });
     $(function() {
         $('#cep_registro').change(function() {
@@ -471,14 +476,15 @@
         return volta;
     }
     function drawChart(result) {
-        //console.log(result);
+        //var mat = result['0'];
+        //(result);
         //console.log(Object.keys(result[2]));
         var data = google.visualization.arrayToDataTable([
             ['Task', 'Hours per Day'],
-            ['Matematica',trataGrafico(result[0].Matematica)],
-            ['Logica',trataGrafico(result[1].Logica)],
-            ['Algoritmo',trataGrafico(result[2].Algoritmo)],
-            ['Estrutura de repeticao',trataGrafico(result[3].Estruturaderepeticao)]
+            ['Matematica',result[0]],
+            ['Logica',result[1]],
+            ['Algoritmo',result[2]],
+            ['Estrutura de repeticao',result[3]]
         ]);
 
         var options = {            
@@ -494,5 +500,46 @@
         var chart = new google.visualization.PieChart(document.getElementById('inGrafico'));
         chart.draw(data, options);
     }    
+</script>
+<script>
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(fazGrafico);
+    function fazGrafico() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Mês');
+        data.addColumn('number', 'Presença');
+        data.addRows([
+            ['Janeiro', 20],
+            ['Fevereiro', 25],
+            ['Março', 18],
+            ['Abril', 22],
+            ['Maio', 19],
+            ['Junho', 24]
+        ]);
+
+        var options = {
+            title: 'Presença Mensal',
+            titleTextStyle:{color:'#fff'},
+            width: 1000,
+            height: 400,
+            hAxis: {
+                title: 'Mês',
+                textStyle:{
+                    color:'#fff'
+                }
+            },
+            vAxis: {
+                title: 'Presença',
+                textStyle:{
+                    color:'#fff'
+                }
+            },
+            backgroundColor: '#272a2b',
+            legend: { 'textStyle': { 'fontSize': 12,'color':'#fff' } },
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
 </script>
 @endsection

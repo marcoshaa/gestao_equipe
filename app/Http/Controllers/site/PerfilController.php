@@ -27,17 +27,16 @@ class PerfilController extends Controller
     }
 
     public function retornaDadosGraficoUm(){
-        $acertos= Controller::acertosUsuario();
-        $retorno=[];
-        foreach($acertos as $key=>$value){      
-            foreach($value as $keyNew=>$valueNew){
-                $retorno[]=array( str_replace(' ','',$keyNew)=>trim($valueNew));
-            }
-        }
-        return json_encode($retorno);
+        $acertos= Controller::acertosUsuario();         
+        $x=[];
+        array_push($x,$acertos[0]['Matematica']);
+        array_push($x,$acertos[1]['Logica']);
+        array_push($x,$acertos[2]['Algoritmo']);
+        array_push($x,$acertos[3]['EstruturaDeRepeticao']);        
+        return json_encode($x);
     }
 
-    public function perfil(){
+    public function perfil(){        
         $detalheUser = DetalhesUser::where('id',($this->user()->id-1))->first();
         return view('site.perfil')        
         ->with('detalheUser',$detalheUser);
