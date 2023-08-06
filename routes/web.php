@@ -8,6 +8,8 @@ use App\Http\Controllers\site\InicialController;
 use App\Http\Controllers\site\QuestaoController;
 use App\Http\Controllers\site\MaterialController;
 use App\Http\Controllers\admin\AdmController;
+use Illuminate\Support\Facades\Storage;
+
 
 // Página principal
 Route::get('/', function () {
@@ -67,10 +69,16 @@ Route::prefix('/ADM')->group(function(){
     Route::get('/material',[AdmController::class, 'novoMaterial'])->name('novoMaterial');
 });
 
-Route::prefix('/pdf')->group(function(){
-    Route::get('/{id}',[MaterialController::class, 'showPdf'])->name('showPdf');    
-});
+Route::get('/pdf{img}',[MaterialController::class, 'showPdf'])->name('showPdf');
+
 Route::middleware(['auth','verified'])->prefix('/')->group(function(){
     Route::get('/materiais',[MaterialController::class, 'viewMaterial'])->name('viewMaterial');
-    Route::get('/materiais/painel/{materia}',[MaterialController::class, 'viewMaterialSelec'])->name('viewMaterialSelec');    
+    Route::get('/materiais/painel/{materia}',[MaterialController::class, 'viewMaterialSelec'])->name('viewMaterialSelec');
 });
+
+Route::get('/img', function () {
+    // Obtenha a URL assinada do arquivo PDF no S3    
+    $url = Storage::disk('s3')->temporaryUrl("matematica/acSFpbaEVCmeqIuqqPsUVZRyWjSSAXrGBs5wkvVa.pdf", now()->addMinutes(120));
+
+    return $url;
+})->name('geralPdf');

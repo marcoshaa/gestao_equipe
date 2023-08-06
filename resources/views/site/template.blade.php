@@ -88,6 +88,7 @@ if(empty(Auth::check())){
             height: 100%;
             border-radius: 5px;
             background: var(--corNewblade);
+            position: relative;
         }
         .banner{
             display: flex;

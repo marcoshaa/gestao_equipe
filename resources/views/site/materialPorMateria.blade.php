@@ -64,12 +64,12 @@
                 </div>
                 <div class="grade_pdf">
                     @foreach($pdfs as $pdf)
-                        <a class="elemento_card" href="{{$pdf->link}}">
+                        <a class="elemento_card" href="{{$pdf['link']}}" target="_blank">
                             <div class="icone_pdf">
                                 <i class="bi bi-filetype-pdf"></i>
                             </div>
                             <div>
-                                <p class="text_titulo">{{$pdf->titulo}}</p>
+                                <p class="text_titulo">{{$pdf['titulo']}}</p>
                             </div>
                         </a>
                     @endforeach

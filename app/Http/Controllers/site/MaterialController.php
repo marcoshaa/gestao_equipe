@@ -11,7 +11,8 @@ class MaterialController extends Controller
 {
     public function showPdf($rota){
         //gera rota p/ acessar a imagen.
-        return Storage::disk('s3')->response($rota);
+        //return Storage::disk('s3')->url($rota);
+        return Storage::disk('s3')->temporaryUrl("$rota", now()->addMinutes(120));
     }
 
     public function viewMaterial(){
@@ -22,6 +23,7 @@ class MaterialController extends Controller
         $id = $this->pegaDiretorio($rota);
         $documentos = Material::where('id_materia',$id)->get();
         $documentos = $this->traduzRota($documentos);
+        //dd($documentos);
         return view('site.materialPorMateria')
         ->with('link',$rota)
         ->with('pdfs',$documentos);
@@ -42,12 +44,20 @@ class MaterialController extends Controller
 
     private function traduzRota($todos){
         $volta = [];
-        foreach($todos as $unico){
+        foreach($todos as $unico){            
             $volta[]=array(
                 'titulo'=>$unico->nome,
-                'link'=>$this->showPdf($unico->endereco),
+                'link'=>$this->novaRota($unico->endereco),
+                //'link'=>route('geralPdf',$unico->endereco)
             );
         }
         return $volta;
+    }
+
+    private function novaRota($rota){
+        $x = explode('/',$rota);
+        $url = $x[1]."/".$x[2];
+        $new = $this->showPdf($url);
+        return $new;
     }
 }

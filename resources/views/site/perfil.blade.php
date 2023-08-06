@@ -61,6 +61,8 @@
         }
         .h100{
             height: 100%;
+            position: absolute;
+            overflow: auto;
         }
         .perfil_campo_swal{
             display: flex;
@@ -514,7 +516,13 @@
             ['Março', 18],
             ['Abril', 22],
             ['Maio', 19],
-            ['Junho', 24]
+            ['Junho', 24],
+            ['Julho', 22],
+            ['Agosto', 19],
+            ['Setembro', 24],
+            ['Outubro', 24],
+            ['Novembro', 24],
+            ['Dezembro', 24]
         ]);
 
         var options = {
