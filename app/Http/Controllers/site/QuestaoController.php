@@ -89,6 +89,9 @@ class QuestaoController extends Controller
             }
             $newH = $this->historicoQuestao($qt,$pontua);
         }
+        if($this->user()->primeiro_acesso == 's'){
+            $this->atualizaPerfilAcesso();
+        }
         return 'ok';
     }
 
@@ -104,5 +107,9 @@ class QuestaoController extends Controller
         $novoHistorico->id_alternativa=$questao['id'];
         $novoHistorico->resultado=$pontua;
         $novoHistorico->save();
+    }
+
+    private function atualizaPerfilAcesso(){
+        $user = User::where('id','=',$this->user()->id)->update(['primeiro_acesso'=>'n']);
     }
 }

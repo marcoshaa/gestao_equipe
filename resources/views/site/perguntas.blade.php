@@ -8,18 +8,8 @@
     <div class="page_content">
         <div class="all_elements">
             <div class="topo_content">
-                <div class="progress-container">
+                <div class="progress-container" id="barraQuiz">
                     <div class="progress" id="progress"></div>
-                    <div class="circle active" id="circle1">1</div>
-                    <div class="circle" id="circle2">2</div>
-                    <div class="circle" id="circle3">3</div>
-                    <div class="circle" id="circle4">4</div>
-                    <div class="circle" id="circle5">5</div>
-                    <div class="circle" id="circle6">6</div>
-                    <div class="circle" id="circle7">7</div>
-                    <div class="circle" id="circle8">8</div>
-                    <div class="circle" id="circle9">9</div>
-                    <div class="circle" id="circle10">10</div>
                 </div>
                 <form id="perguntas_form" onsubmit="event.preventDefault();">
                     
@@ -69,7 +59,6 @@
                     })
                 },
                 success: function(result){
-                    console.log(result);
                     Swal.close();
                     if(result == "ok"){
                         Swal.fire({
@@ -114,39 +103,52 @@
                 success: function(result){
                     Swal.close();
                     let autoLop = document.getElementById("perguntas_form");
+                    let LopPerguntas = document.getElementById("barraQuiz");
+                    let classAtiva;                                   
                     if(result != 'erro'){
                         for(var i = 0; i<result.length; i++ ){
-                        autoLop.innerHTML +=
+                            if((i+1) == 1){
+                                classAtiva = 'active';
+                            }else{
+                                classAtiva = '';
+                            }
+                            LopPerguntas.innerHTML +=
                             `
-                        <div class="questao oculto" id="questao${i+1}">
-                            <div><p class="titulo_pergunta">${result[i].title}</p></div>
-                            <hr class="lineQuestao">
-                            <div>
-                                <ul>
-                                    <li class="li_questao">
-                                        <input type="radio" value="${result[i].alternativa_1}" name="answer_${result[i].id}" id="a_${i+1}">
-                                        <label for="a_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_1}</label>
-                                    </li>
-                                    <li class="li_questao">
-                                        <input type="radio" value="${result[i].alternativa_2}" name="answer_${result[i].id}" id="b_${i+1}">
-                                        <label for="b_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_2}</label>
-                                    </li>
-                                    <li class="li_questao">
-                                        <input type="radio" value="${result[i].alternativa_3}" name="answer_${result[i].id}" id="c_${i+1}">
-                                        <label for="c_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_3}</label>
-                                    </li>
-                                    <li class="li_questao">
-                                        <input type="radio" value="${result[i].alternativa_4}" name="answer_${result[i].id}" id="d_${i+1}">
-                                        <label for="d_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_4}</label>
-                                    </li>
-                                </ul>
+                                <div class="circle ${classAtiva}" id="circle${i+1}">${i+1}</div>
+                            `                        
+                            autoLop.innerHTML +=
+                             `
+                            <div class="questao oculto" id="questao${i+1}">
+                                <div><p class="titulo_pergunta">${result[i].title}</p></div>
+                                <hr class="lineQuestao">
+                                <div>
+                                    <ul>
+                                        <li class="li_questao">
+                                            <input type="radio" value="${result[i].alternativa_1}" name="answer_${result[i].id}" id="a_${i+1}">
+                                            <label for="a_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_1}</label>
+                                        </li>
+                                        <li class="li_questao">
+                                            <input type="radio" value="${result[i].alternativa_2}" name="answer_${result[i].id}" id="b_${i+1}">
+                                            <label for="b_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_2}</label>
+                                        </li>
+                                        <li class="li_questao">
+                                            <input type="radio" value="${result[i].alternativa_3}" name="answer_${result[i].id}" id="c_${i+1}">
+                                            <label for="c_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_3}</label>
+                                        </li>
+                                        <li class="li_questao">
+                                            <input type="radio" value="${result[i].alternativa_4}" name="answer_${result[i].id}" id="d_${i+1}">
+                                            <label for="d_${i+1}" id="a_text" class="label_questao">${result[i].alternativa_4}</label>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
                             `
                         }
-                    }
+                    }                 
+                }
+                }).then(function(){
                     let perguntaFrist = document.getElementById('questao1')
-                    perguntaFrist.classList.remove('oculto')                    
+                    perguntaFrist.classList.remove('oculto')
                     function questaoAtual(msg,id){
                         var after;
                         if(msg == 'avc'){
@@ -154,17 +156,16 @@
                         }else{
                             after = id+1;
                         }
-                        console.log(msg);
-                        var novoCls = document.getElementById('questao'+id);
-                        var antgCls = document.getElementById('questao'+after);
+                        let novoCls = document.getElementById('questao'+id);
+                        let antgCls = document.getElementById('questao'+after);
+                        console.log(msg,id);
+                        console.log(novoCls,antgCls);
                         novoCls.classList.remove('oculto');
                         antgCls.classList.add('oculto');
-                        console.log(novoCls,antgCls);
                     }
                     window.questaoAtual = questaoAtual;
-                }
                 })
-            })();
+            })();            
         });
-    </script>  
+    </script>    
 @endsection

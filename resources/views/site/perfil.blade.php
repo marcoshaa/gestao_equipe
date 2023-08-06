@@ -246,10 +246,10 @@
                 </div>
                 <div class="div_graficos_elemento" id="inGrafico"></div>
 
-                <div class="dados_ensino">
+                <div class="dados_ensino" style="display: none;">
                     <h2 class="title_perfil">Presença do Aluno</h2>
                 </div>                
-                <div class="div_graficos_elemento" id="chart_div"></div>
+                <div class="div_graficos_elemento" id="chart_div" style="display: none;"></div>
             </div>  
         </div>
     </div>
@@ -303,7 +303,7 @@
         document.getElementById("bairro_casa").value = "<?php echo $detalheUser->bairro ?? ''; ?>";
         document.getElementById("rua_casa").value = "<?php echo $detalheUser->rua ?? ''; ?>";
         document.getElementById("numero_casa").value = "<?php echo $detalheUser->numero ?? ''; ?>";
-    });
+    })();
     $(function() {
         $('#cep_registro').change(function() {
         const cep = this.value.replace("-","");
@@ -490,7 +490,7 @@
         ]);
 
         var options = {            
-            'title':'Resumo',
+            'title':'Acertos',
             'titleTextStyle':{'color':'#fff','bold':true,'fontSize':20},
             'width':600,
             'height':300,

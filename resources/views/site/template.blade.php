@@ -143,6 +143,10 @@ if(empty(Auth::check())){
             font-variant: petite-caps;
             font-weight: 200;
         }
+        option {
+            background: #272a2b;
+            color: white;
+        }
     </style>    
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>       
