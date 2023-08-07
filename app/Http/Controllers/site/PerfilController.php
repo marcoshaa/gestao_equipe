@@ -38,8 +38,9 @@ class PerfilController extends Controller
 
     public function perfil(){        
         $detalheUser = DetalhesUser::where('id',($this->user()->id-1))->first();
-        return view('site.perfil')        
-        ->with('detalheUser',$detalheUser);
+        return view('site.perfil')
+        ->with('detalheUser',$detalheUser)
+        ->with('user',$this->user());
     }    
 
     public function trocaSenha(Request $r){        
@@ -57,7 +58,8 @@ class PerfilController extends Controller
     }
 
     public function trocaDadosUser(Request $r){
-        $detalheUser = DetalhesUser::where('id_user',($this->user()->id));                
+        $detalheUser = DetalhesUser::where('id_user',($this->user()->id)); 
+        $user = User::where('id','=',$this->user()->id)->update(['nome'=>"$r->form_nome_register"]);               
         $detalheUser->update([
             'sexo'=>$r->sexo_registro,
             'data_nascimento'=>$r->form_data_nascimento,

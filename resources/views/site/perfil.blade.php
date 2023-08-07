@@ -224,7 +224,7 @@
                                 <div class="">
                                     <div class="perfil_campo">
                                         <label class="labelUser" for="numero_casa">N°</label>
-                                        <input class="campoUser_input " type="email" id="numero_casa" name="numero_casa">
+                                        <input class="campoUser_input " type="email" id="numero_casa" name="numero_casa" maxLength="3">
                                     </div>
                                 </div>
                             </div>
@@ -303,6 +303,7 @@
         document.getElementById("bairro_casa").value = "<?php echo $detalheUser->bairro ?? ''; ?>";
         document.getElementById("rua_casa").value = "<?php echo $detalheUser->rua ?? ''; ?>";
         document.getElementById("numero_casa").value = "<?php echo $detalheUser->numero ?? ''; ?>";
+        document.getElementById("form_nome_register").value = "<?php echo $user->nome ?? ''; ?>";
     })();
     $(function() {
         $('#cep_registro').change(function() {

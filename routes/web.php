@@ -79,6 +79,9 @@ Route::middleware(['auth','verified'])->prefix('/')->group(function(){
 Route::get('/img', function () {
     // Obtenha a URL assinada do arquivo PDF no S3    
     $url = Storage::disk('s3')->temporaryUrl("matematica/acSFpbaEVCmeqIuqqPsUVZRyWjSSAXrGBs5wkvVa.pdf", now()->addMinutes(120));
-
     return $url;
 })->name('geralPdf');
+
+Route::get('/FAQ', function(){ 
+    return view('site.faq');
+})->name('faq.view');
