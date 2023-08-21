@@ -43,7 +43,7 @@ Route::middleware(['auth','verified'])->prefix('/')->group(function(){
     // Route::post('inicio',[LoginController::class, 'index'])->name('inicio');
 });
 
-Route::prefix('/questao')->group(function(){
+Route::middleware(['auth','verified'])->prefix('/questao')->group(function(){
     Route::post('/quiz',[QuestaoController::class, 'primeiroAcesso'])->name('primeiroAcesso');
     Route::post('/envia_questao',[QuestaoController::class, 'questaoEnviada'])->name('questao_enviada');
     Route::post('/recebe_questao',[QuestaoController::class, 'recebeQuestao'])->name('recebeQuestao');
@@ -53,7 +53,7 @@ Route::middleware(['auth','verified'])->prefix('/inicio/analise')->group(functio
     Route::get('/',function (){return view('site.perguntas');});
 });
 
-Route::prefix('/perfil')->group(function(){
+Route::middleware(['auth','verified'])->prefix('/perfil')->group(function(){
     Route::get('/',[PerfilController::class, 'perfil'])->name('perfil');
     Route::post('/troca/senha',[PerfilController::class, 'trocaSenha'])->name('trocaSenha');
     Route::post('/troca/dados/user',[PerfilController::class, 'trocaDadosUser'])->name('trocaDadosUser');
@@ -82,6 +82,6 @@ Route::get('/img', function () {
     return $url;
 })->name('geralPdf');
 
-Route::get('/FAQ', function(){ 
+Route::middleware(['auth','verified'])->get('/FAQ', function(){ 
     return view('site.faq');
 })->name('faq.view');

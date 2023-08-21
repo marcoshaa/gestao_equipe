@@ -37,9 +37,12 @@ class PerfilController extends Controller
     }
 
     public function perfil(){        
-        $detalheUser = DetalhesUser::where('id',($this->user()->id-1))->first();
+        $detalheUser = DetalhesUser::where('id',($this->user()->id-1))->first();  
+        $x = Controller::tabelaDadosQuestao();      
+       // dd($x);
         return view('site.perfil')
         ->with('detalheUser',$detalheUser)
+        ->with('xs',$x)
         ->with('user',$this->user());
     }    
 
@@ -58,18 +61,35 @@ class PerfilController extends Controller
     }
 
     public function trocaDadosUser(Request $r){
+        $volta = 'sucesso';
         $detalheUser = DetalhesUser::where('id_user',($this->user()->id)); 
-        $user = User::where('id','=',$this->user()->id)->update(['nome'=>"$r->form_nome_register"]);               
-        $detalheUser->update([
-            'sexo'=>$r->sexo_registro,
-            'data_nascimento'=>$r->form_data_nascimento,
-            'formacao'=>$r->formacao_registro,
-            'cep'=>$r->cep_registro,
-            'estado'=>$r->estado_casa,
-            'cidade'=>$r->cidade_casa,
-            'bairro'=>$r->bairro_casa,
-            'rua'=>$r->rua_casa,
-            'numero'=>$r->numero_casa,
-        ]);
+        $user = User::where('id','=',$this->user()->id)->update(['nome'=>"$r->form_nome_register"]);
+        if($detalheUser == null){
+            $userNew = DetalhesUser::create([
+                'id_user'=>$this->user()->id,
+                'sexo'=>$r->sexo_registro,
+                'data_nascimento'=>$r->form_data_nascimento,
+                'formacao'=>$r->formacao_registro,
+                'cep'=>$r->cep_registro,
+                'estado'=>$r->estado_casa,
+                'cidade'=>$r->cidade_casa,
+                'bairro'=>$r->bairro_casa,
+                'rua'=>$r->rua_casa,
+                'numero'=>$r->numero_casa,
+            ]);
+        }else{        
+            $detalheUser->update([
+                'sexo'=>$r->sexo_registro,
+                'data_nascimento'=>$r->form_data_nascimento,
+                'formacao'=>$r->formacao_registro,
+                'cep'=>$r->cep_registro,
+                'estado'=>$r->estado_casa,
+                'cidade'=>$r->cidade_casa,
+                'bairro'=>$r->bairro_casa,
+                'rua'=>$r->rua_casa,
+                'numero'=>$r->numero_casa,
+            ]);
+        }
+        return json_encode($volta);
     }
 }

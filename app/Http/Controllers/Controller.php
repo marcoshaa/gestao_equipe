@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\HistoricoQuestao;
 use App\Models\Materias;
 use App\Models\User;
+use DB;
 
 class Controller extends BaseController
 {
@@ -79,5 +80,21 @@ class Controller extends BaseController
         }
         //dd($volta);
         return $volta;
+    }
+
+    public static function tabelaDadosQuestao(){
+        $gerador=[];
+        for($i = 1; $i<=4;$i++){
+            $gerador[] = array(
+                'resultado'=>HistoricoQuestao::where('id_user',Controller::user()->id)->where('id_materia', $i)
+                ->select(
+                    \DB::raw('SUM(CASE WHEN resultado = 0 THEN 1 ELSE 0 END) as erro'),
+                    \DB::raw('SUM(CASE WHEN resultado = 1 THEN 1 ELSE 0 END) as acerto'),
+                    \DB::raw('COUNT(*) as total')
+                )->first(),
+                'questao'=>Materias::where('id',$i)->first('title')
+                );
+        }
+        return $gerador;
     }
 }

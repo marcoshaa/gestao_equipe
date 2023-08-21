@@ -117,6 +117,19 @@
         #form_data_nascimento{
             color-scheme: dark;
         }
+        .tabelaContent{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            color: white;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 5px;
+        }
+        .centerTd{
+            text-align:center;
+        }
     </style>
 @endsection
 @section('content')
@@ -250,6 +263,28 @@
                     <h2 class="title_perfil">Presença do Aluno</h2>
                 </div>                
                 <div class="div_graficos_elemento" id="chart_div" style="display: none;"></div>
+                <div class="tabelaContent">
+                    <table style="width: 60%;">
+                        <thead>
+                            <tr>
+                                <th>Materia</th>
+                                <th>Acertos</th>
+                                <th>Erros</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($xs as $x)
+                                <tr>
+                                    <td>{{$x['questao']['title']}}</td>
+                                    <td class="centerTd">{{$x['resultado']['acerto']}}</td>
+                                    <td class="centerTd">{{$x['resultado']['erro']}}</td>
+                                    <td class="centerTd">{{$x['resultado']['total']}}</td>                            
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>  
         </div>
     </div>
@@ -304,7 +339,7 @@
         document.getElementById("rua_casa").value = "<?php echo $detalheUser->rua ?? ''; ?>";
         document.getElementById("numero_casa").value = "<?php echo $detalheUser->numero ?? ''; ?>";
         document.getElementById("form_nome_register").value = "<?php echo $user->nome ?? ''; ?>";
-    })();
+    }());
     $(function() {
         $('#cep_registro').change(function() {
         const cep = this.value.replace("-","");
@@ -382,7 +417,7 @@
                 },
                 success: function(result){
                     Swal.close();
-                    if(result != 'erro'){
+                    if(result == 'ok'){
                         Swal.fire({
                             title:'Senha trocada com Sucesso !',
                             icon: 'success',
