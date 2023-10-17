@@ -21,23 +21,25 @@ class Controller extends BaseController
         return $user;
     }
 
-    private static function resultados(){
+    private static function resultados()
+    {
         $resultado = HistoricoQuestao::where('id_user',Controller::user()->id)->get(['id_alternativa','id_materia','resultado']);
         $total_de_respostas = $resultado->count(); //retorna tds as questoes.
         $x=[];
         foreach($resultado as $key=>$value){
             $x[$key]=array(
-                            'resultado'=>$value->resultado,
-                            'materia'=>$value->id_materia,
-                            'questao'=>$value->id_alternativa
-                            );
+                'resultado'=>$value->resultado,
+                'materia'=>$value->id_materia,
+                'questao'=>$value->id_alternativa
+                );
         };
         $avaliacao = Controller::trataMaterias($x);
         //dd($avaliacao);
         return [$avaliacao,$total_de_respostas];
     }
 
-    private static function trataMaterias($dados){
+    private static function trataMaterias($dados)
+    {
         $materias = array('1'=>array(),'2'=>array(),'3'=>array(),'4'=>array());
         foreach($dados as $key=>$value){
             array_push($materias[$value['materia']],$value['resultado']);
@@ -50,7 +52,8 @@ class Controller extends BaseController
         return $x;
     }
 
-    public static function retornoPorcento(){
+    public static function retornoPorcento()
+    {
         $tratativas = Controller::resultados();
         //dd($tratativas);
         $dados = [];
@@ -60,7 +63,8 @@ class Controller extends BaseController
         return $dados;
     }
 
-    private static function fgt($materia){
+    private static function fgt($materia)
+    {
         $acerto = $materia[1] ?? 0;
         $erro = $materia[0] ?? 0;
         if($erro == 0 && $acerto == 0 || $acerto == 0){
@@ -72,7 +76,8 @@ class Controller extends BaseController
         return $aproveitamento;
     }
 
-    public static function acertosUsuario(){
+    public static function acertosUsuario()
+    {
         $materias = Materias::all();        
         $volta=[];
         foreach($materias as $materia){
@@ -82,7 +87,8 @@ class Controller extends BaseController
         return $volta;
     }
 
-    public static function tabelaDadosQuestao(){
+    public static function tabelaDadosQuestao()
+    {
         $gerador=[];
         for($i = 1; $i<=4;$i++){
             $gerador[] = array(
