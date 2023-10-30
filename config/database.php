@@ -64,13 +64,13 @@ return [
             // 'options'=>array(
             //     PDO::MYSQL_ATTR_SSL_CA =>'/etc/ssl/certs/ca-certificates.crt'
             // )
-            // 'options'=>array(
-            //     PDO::MYSQL_ATTR_SSL_CA =>'D:/xampp/htdocs/gestao/public/ca-certificates.crt'
-            // )
-            //servidor.
             'options'=>array(
-                PDO::MYSQL_ATTR_SSL_CA =>'/var/www/html/public/ca-certificates.crt'
+                PDO::MYSQL_ATTR_SSL_CA =>'D:/xampp/htdocs/gestao/public/ca-certificates.crt'
             )
+            //servidor.
+            // 'options'=>array(
+            //     PDO::MYSQL_ATTR_SSL_CA =>'/var/www/html/public/ca-certificates.crt'
+            // )
         ],
 
         'pgsql' => [

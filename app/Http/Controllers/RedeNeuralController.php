@@ -1,196 +1,184 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Phpml\Association\Apriori;
-// class RedeNeuralController extends Controller
-// {
-//     const ALPHA = 0.9;
-//     const ETA = 0.5;
-//     const SMALLWT = 0.5;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\HistoricoQuestao;
+use App\Models\Material;
+use App\Models\ViewMaterial;
 
-//     protected $cpuCores = 4;
-//     protected $desiredError;
+use Rubix\ML\Classifiers\ExtraTreeClassifier;
+use Rubix\ML\Classifiers\NaiveBayes;
+use Rubix\ML\Classifiers\SVC;
+use Rubix\ML\CrossValidation\Metrics\Accuracy;
+use Rubix\ML\Datasets\Labeled;
+use Rubix\ML\Extractors\CSV;
+use Rubix\ML\Kernels\SVM\Linear;
+use Rubix\ML\PersistentModel;
+use Rubix\ML\Persisters\Filesystem;
+use Rubix\ML\Classifiers\KNearestNeighbors;
+use Rubix\ML\Regressors\Ridge;
+use Rubix\ML\Datasets\Unlabeled;
 
-//     protected $inputNeurons = 0;
-//     protected $hiddenNeurons = 0;
-//     protected $outputNeurons = 0;
-
-//     protected $weightInputHidden;
-//     protected $weightHiddenOutput;
-
-//     public function __construct($neuronsPerLayer, $desiredError = 0.001)
-//     {
-//         $this->inputNeurons = $neuronsPerLayer[0];
-//         $this->hiddenNeurons = $neuronsPerLayer[1];
-//         $this->outputNeurons = $neuronsPerLayer[2];
-//         $this->desiredError = $desiredError;
-//     }
-
-//     public function getOutput($inputs)
-//     {
-//         array_unshift($inputs, 0.0);
-
-//         $sumHidden = array_fill(0, $this->hiddenNeurons + 1, 0.0);
-//         $sumOutput = array_fill(0, $this->outputNeurons + 1, 0.0);
-
-//         $hiddenNeuronValue = array_fill(0, $this->hiddenNeurons + 1, 0.0);
-//         $outputNeuronValue = array_fill(0, $this->outputNeurons + 1, 0.0);
-
-//         for ($j = 1; $j <= $this->hiddenNeurons; $j++) {
-//             $sumHidden[$j] = $this->weightInputHidden[0][$j];
-
-//             for ($i = 1; $i <= $this->inputNeurons; $i++) {
-//                 $sumHidden[$j] += $inputs[$i] * $this->weightInputHidden[$i][$j];
-//             }
-
-//             $hiddenNeuronValue[$j] = 1.0 / (1.0 + exp(-$sumHidden[$j]));
-//         }
-
-//         for ($k = 1; $k <=  $this->outputNeurons; $k++) {
-//             $sumOutput[$k] = $this->weightHiddenOutput[0][$k];
-
-//             for ($j = 1; $j <=  $this->hiddenNeurons; $j++) {
-//                 $sumOutput[$k] += $hiddenNeuronValue[$j] * $this->weightHiddenOutput[$j][$k];
-//             }
-
-//             $outputNeuronValue[$k] = 1.0 / (1.0 + exp(-$sumOutput[$k]));
-//         }
-
-//         array_shift($outputNeuronValue);
-
-//         return $outputNeuronValue;
-//     }
-
-//     protected function rando()
-//     {
-//         return rand() / (getrandmax() - 1);
-//     }
-
-//     public function train($inputsCollection, $outputsCollection)
-//     {
-//         $deltaOutput = array_fill(0, $this->outputNeurons + 1, 0.0);
-//         $deltaHidden = array_fill(0, $this->hiddenNeurons + 1, 0.0);
-
-//         $deltaWeightInputHidden = array_fill(0, $this->inputNeurons + 1, array_fill(0, $this->hiddenNeurons + 1, 0.0));
-//         $deltaWeightHiddenOutput = array_fill(0, $this->hiddenNeurons + 1, array_fill(0, $this->outputNeurons + 1, 0.0));
-
-//         $this->weightInputHidden = array_fill(0, $this->inputNeurons + 1, array_fill(0, $this->hiddenNeurons + 1, 2.0 * ($this->rando() - 0.5) * self::SMALLWT));
-//         $this->weightHiddenOutput = array_fill(0, $this->hiddenNeurons + 1, array_fill(0, $this->outputNeurons + 1, 0.0));
-
-//         $sumHidden = array_fill(0, $this->hiddenNeurons + 1, 0.0);
-//         $sumOutput = array_fill(0, $this->outputNeurons + 1, 0.0);
-
-//         $sumWeightHiddenOutput = array_fill(0, $this->hiddenNeurons + 1, 0.0);
-
-//         $hiddenNeuronValue = array_fill(0, $this->hiddenNeurons + 1, 0.0);
-//         $outputNeuronValue = array_fill(0, $this->outputNeurons + 1, 0.0);
-
-//         echo 'Arrays created' . PHP_EOL;
-
-//         $sizeOfInputsCollection = count($inputsCollection);
-
-//         for ($key = 0; $key < $sizeOfInputsCollection; $key++) {
-//             array_unshift($inputsCollection[$key], 0.0);
-//             array_unshift($outputsCollection[$key], 0.0);
-//         }
-
-//         for ($epoch = 0; $epoch < 1000000; $epoch++) {
-//             $error = 0.0;
-
-//             echo 'Epoch ' . $epoch . PHP_EOL;
-
-//             $forks = 0;
-
-//             for ($key = 0; $key < $sizeOfInputsCollection; $key++) {
-//                 $time = microtime(true);
-
-//                 $inputs = $inputsCollection[$key];
-//                 $outputs = $outputsCollection[$key];
-
-//                 for ($j = 1; $j <= $this->hiddenNeurons; $j++) {
-//                     $sumHidden[$j] = $this->weightInputHidden[0][$j];
-
-//                     for ($i = 1; $i <= $this->inputNeurons; $i++) {
-//                         $sumHidden[$j] += $inputs[$i] * $this->weightInputHidden[$i][$j];
-//                     }
-
-//                     $hiddenNeuronValue[$j] = 1.0 / (1.0 + exp(-$sumHidden[$j]));
-//                 }
-
-//                 for ($k = 1; $k <= $this->outputNeurons; $k++) {
-//                     $sumOutput[$k] = $this->weightHiddenOutput[0][$k];
-
-//                     for ($j = 1; $j <= $this->hiddenNeurons; $j++) {
-//                         $sumOutput[$k] += $hiddenNeuronValue[$j] * $this->weightHiddenOutput[$j][$k];
-//                     }
-
-//                     $outputNeuronValue[$k] = 1.0 / (1.0 + exp(-$sumOutput[$k]));
-
-//                     // Error SSE
-//                     $error += 0.5 * ($outputs[$k] - $outputNeuronValue[$k]) * ($outputs[$k] - $outputNeuronValue[$k]);
-//                     //DeltaO SSE
-//                     $deltaOutput[$k] = ($outputs[$k] - $outputNeuronValue[$k]) * $outputNeuronValue[$k] * (1.0 - $outputNeuronValue[$k]);
-//                 }
-
-//                 for ($j = 1; $j <= $this->hiddenNeurons; $j++) {
-//                     $sumWeightHiddenOutput[$j] = 0.0;
-
-//                     for ($k = 1; $k <= $this->outputNeurons; $k++) {
-//                         $sumWeightHiddenOutput[$j] += $this->weightHiddenOutput[$j][$k] * $deltaOutput[$k];
-//                     }
-
-//                     $deltaHidden[$j] = $sumWeightHiddenOutput[$j] * $hiddenNeuronValue[$j] * (1.0 - $hiddenNeuronValue[$j]);
-//                 }
-
-//                 for ($j = 1; $j <= $this->hiddenNeurons; $j++) {
-//                     $deltaWeightInputHidden[0][$j] = self::ETA * $deltaHidden[$j] + self::ALPHA * $deltaWeightInputHidden[0][$j];
-//                     $this->weightInputHidden[0][$j] += $deltaWeightInputHidden[0][$j];
-
-//                     $preCalc = self::ETA * $deltaHidden[$j];
-
-//                     for ($i = 1; $i <= $this->inputNeurons; $i++) {
-//                         $deltaWeightInputHidden[$i][$j] = ($inputs[$i] * $preCalc) + (self::ALPHA * $deltaWeightInputHidden[$i][$j]);
-//                         $this->weightInputHidden[$i][$j] += $deltaWeightInputHidden[$i][$j];
-//                     }
-//                 }
-
-//                 for ($k = 1; $k <= $this->outputNeurons; $k++) {
-//                     $deltaWeightHiddenOutput[0][$k] = self::ETA * $deltaOutput[$k] + self::ALPHA * $deltaWeightHiddenOutput[0][$k];
-//                     $this->weightHiddenOutput[0][$k] += $deltaWeightHiddenOutput[0][$k];
-
-//                     for ($j = 1; $j <= $this->hiddenNeurons; $j++) {
-//                         $deltaWeightHiddenOutput[$j][$k] = self::ETA * $hiddenNeuronValue[$j] * $deltaOutput[$k] + self::ALPHA * $deltaWeightHiddenOutput[$j][$k];
-//                         $this->weightHiddenOutput[$j][$k] += $deltaWeightHiddenOutput[$j][$k];
-//                     }
-//                 }
-
-//                 echo '.';
-//             }
-
-//             echo 'Error: ' . $error . PHP_EOL;
-
-//             if ($error < $this->desiredError) {
-//                 break;
-//             }
-//         }
-//     }
-// }
 class RedeNeuralController extends Controller
 {
-    //criar uma nova tabela que recebe se o usuario leu algum arquivo
-    public $samples = [[]];
-    public $labels  = [];
+    protected $user;
 
     public function __construct()
     {
+        //$this->setUser(Controller::user());
+        $this->setUser(User::find(1));
+    }
+
+    protected function setUser($us){
+        return $this->user=$us;
+    }
+
+    public function fristIa()
+    {
+        //dd(User::all(),HistoricoQuestao::where('id_user',1)->get(),Material::all());
+       // dd($this->user);
+        // $csvUrlStream = fopen('https://gist.githubusercontent.com/guilhermesilveira/2d2efa37d66b6c84a722ea627a897ced/raw/1"0"968b997d885cbded1c92938c7a9912ba41c615/tracking.csv', 'r');
+        // $headers = fgets($csvUrlStream);
+        
+        //$questoes = HistoricoQuestao::where('id_user',$this->user->id)->get();
+        $questoes = HistoricoQuestao::all();
+        //dd($questoes);
+        $qe = $this->findIdMateria(1);
+       //dd($qe,Material::all());
+        $samples = [];
+        $labels = [];
+        foreach($questoes as $questoe){
+
+            $labels[] = $this->locationMaterial($qe,$questoe);
+            $samples[] = [$questoe['id_materia'], $questoe['id_alternativa'], $questoe['resultado']];
+
+        }
+        
+        while (!feof($csvUrlStream)) {
+            //dd($csvUrlStream);
+            $line = fgetcsv($csvUrlStream);
+            $labels[] = $line[3] === '"0"' ? 'Não Compraria' : 'Compraria';
+
+            $samples[] = [$line["0"], $line[1], $line[2]];
+        }
+
+        //dd($samples);
+        $dataset = new Labeled($samples, $labels);
+
+        [$training, $testing] = $dataset->stratifiedSplit(0.90);
+
+        // $estimator = new SVC(kernel: new Linear());
+        $estimator = new NaiveBayes();
+        $estimator->train($training);
+        $predictions = $estimator->predict($testing);
+        /*
+
+            Salvar os dados em um .arquivo
+
+                // Salvando o modelo treinado
+                $model = new PersistentModel($estimator, new Filesystem('arqTreinamento.rbx'));
+                $model->save();
+
+                // Carregando o modelo treinado
+                $model = PersistentModel::load(new Filesystem('arqTreinamento.rbx'));
+
+        */
+        
+
+        $metric = new Accuracy();
+        $score = $metric->score($predictions, $testing->labels());
+        
+        dd($predictions,$samples,$score);
+
+        
+    }
+
+    private function locationMaterial($quiz,$questao)
+    {
+        $filename = 'segia.csv';
+        //$file = fopen($filename, 'a');
+        $file = fopen($filename, 'r');
+        
+        //$registroCSV = $questao->id_alternativa.','.$questao->resultado.','.$quiz[1] . "\n";
+        // Escreva o registro CSV no arquivo
+        // fwrite($file, $registroCSV);
+
+        // fclose($file);
+        // $ids = explode(',',$quiz[1]);
+
+        // $hist = ViewMaterial::where('id_user',$this->user->id ?? 1)->whereIn('id_material',$ids)->pluck('id_material')->toArray();
+        // $hist = implode(',', $hist);
+
+        $csvUrlStream = $file;
+        
+        while (!feof($csvUrlStream)) {
+            $line = fgetcsv($csvUrlStream);
+
+            $samples[] = [$line[0] ?? "0", $line[1] ?? "0", $line[2] ?? "0",$line[4] ?? "0",$line[5] ?? "0",$line[6] ?? "0",$line[7] ?? "0",$line[8] ?? "0"];
+            $label[] = $this->transformeArray($line);
+        }
+
+
+
+        // $hist = ViewMaterial::all()->pluck('id_material')->toArray();
+        // $hist = implode(',', $hist);
+        //dd($samples,$label);
+
+        $dataset = new Labeled($samples,$label);
+        [$training, $testing] = $dataset->stratifiedSplit(0.90);
+        $x = [50,0,4,0,0,0,0,0];
+        //dd($x,$testing);
+        // $estimator = new SVC(kernel: new Linear());
+        // $estimator = new NaiveBayes();
+        // $estimator->train($training);
+        // $predictions = $estimator->predict($x);
+
+        $tree = new ExtraTreeClassifier();
+        $tree->train($training);
+        $predictions = $tree->predict( new Unlabeled([
+            [50,0,4,0,0,0,0,0]
+        ]));
+        dd($predictions,$testing);
+
+        /*
+         O que falta {
+            - Fazer uma Rotina automatica para teste []
+            - Terminar de ajustar os retornos da IA []
+            - Fazer a parte escrita []
+            - fazer as função no js para capturar a leitura dos arquivos (uma unica vez) []
+            - Exibir a mensagem da IA para o usuario []
+            - Retornar com data ? a mensagem para que ele saiba o dia que exevutou a atividade?
+         }
+
+        */
+        
+    }
+
+    protected function findIdMateria($id)
+    {
+        $ids = Material::where('id_materia', $id)->pluck('id')->toArray();
+        $x["0"] = count($ids);
+        $x[1] = implode(',', $ids);
+        return $x;
     }
     
-    public function testeMesa()
+    protected function transformeArray($line)
     {
-        $associator = new Apriori($support = 0.5, $confidence = 0.5);
-        $associator->train($this->samples, $this->labels);
-        return $associator;
+        $x = '';
+        if (is_array($line)) {
+            $count = count($line);
+            for($i = 2; $i < $count; $i++ ) {
+            
+                $x .= $line[$i].',';
+            }
+        } else {
+            $x .= "0,0,0".',';
+        }
+        return $x;
     }
 }

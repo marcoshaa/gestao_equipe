@@ -8,6 +8,7 @@ use App\Http\Controllers\site\InicialController;
 use App\Http\Controllers\site\QuestaoController;
 use App\Http\Controllers\site\MaterialController;
 use App\Http\Controllers\admin\AdmController;
+use App\Http\Controllers\RedeNeuralController;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -85,3 +86,5 @@ Route::get('/img', function () {
 Route::middleware(['auth','verified'])->get('/FAQ', function(){ 
     return view('site.faq');
 })->name('faq.view');
+
+Route::get('/teste',[RedeNeuralController::class, "fristIa"]);
