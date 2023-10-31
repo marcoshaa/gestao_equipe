@@ -64,7 +64,7 @@
                 </div>
                 <div class="grade_pdf">
                     @foreach($pdfs as $pdf)
-                        <a class="elemento_card" href="{{$pdf['link']}}" target="_blank">
+                        <a class="elemento_card" onclick="dataView({{$pdf['id']}})" href="{{$pdf['link']}}" target="_blank">
                             <div class="icone_pdf">
                                 <i class="bi bi-filetype-pdf"></i>
                             </div>
@@ -80,5 +80,17 @@
 @endsection
 
 @section('script')
-
+<script>
+    function dataView(id){        
+        $.ajax({
+            type: "POST",
+            url: `{{Route('dataMaterial')}}`,
+            data:{
+                "_token": "{{ csrf_token() }}",
+                "id" : id
+            },
+            datatype: 'json',
+        });
+    }
+</script> 
 @endsection

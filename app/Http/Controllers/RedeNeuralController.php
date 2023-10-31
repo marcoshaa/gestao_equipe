@@ -13,16 +13,14 @@ use App\Models\ViewMaterial;
 
 use Rubix\ML\Classifiers\ExtraTreeClassifier;
 use Rubix\ML\Classifiers\NaiveBayes;
-use Rubix\ML\Classifiers\SVC;
 use Rubix\ML\CrossValidation\Metrics\Accuracy;
 use Rubix\ML\Datasets\Labeled;
-use Rubix\ML\Extractors\CSV;
-use Rubix\ML\Kernels\SVM\Linear;
 use Rubix\ML\PersistentModel;
 use Rubix\ML\Persisters\Filesystem;
-use Rubix\ML\Classifiers\KNearestNeighbors;
-use Rubix\ML\Regressors\Ridge;
 use Rubix\ML\Datasets\Unlabeled;
+
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class RedeNeuralController extends Controller
 {
@@ -39,14 +37,10 @@ class RedeNeuralController extends Controller
     }
 
     public function fristIa()
-    {
-        //dd(User::all(),HistoricoQuestao::where('id_user',1)->get(),Material::all());
-       // dd($this->user);
-        // $csvUrlStream = fopen('https://gist.githubusercontent.com/guilhermesilveira/2d2efa37d66b6c84a722ea627a897ced/raw/1"0"968b997d885cbded1c92938c7a9912ba41c615/tracking.csv', 'r');
-        // $headers = fgets($csvUrlStream);
+    {        
         
-        //$questoes = HistoricoQuestao::where('id_user',$this->user->id)->get();
-        $questoes = HistoricoQuestao::all();
+        $questoes = HistoricoQuestao::where('id_user',$this->user->id)->get();
+        
         //dd($questoes);
         $qe = $this->findIdMateria(1);
        //dd($qe,Material::all());
@@ -72,7 +66,6 @@ class RedeNeuralController extends Controller
 
         [$training, $testing] = $dataset->stratifiedSplit(0.90);
 
-        // $estimator = new SVC(kernel: new Linear());
         $estimator = new NaiveBayes();
         $estimator->train($training);
         $predictions = $estimator->predict($testing);
@@ -98,65 +91,28 @@ class RedeNeuralController extends Controller
         
     }
 
-    private function locationMaterial($quiz,$questao)
+    private function locationMaterial($quiz)
     {
-        $filename = 'segia.csv';
-        //$file = fopen($filename, 'a');
-        $file = fopen($filename, 'r');
-        
-        //$registroCSV = $questao->id_alternativa.','.$questao->resultado.','.$quiz[1] . "\n";
-        // Escreva o registro CSV no arquivo
-        // fwrite($file, $registroCSV);
+                
+        // Carregando o modelo treinado
+        $fileMl = Storage::path('rede/segia.ml', '');
+        $tree = PersistentModel::load(new Filesystem($fileMl));
 
-        // fclose($file);
-        // $ids = explode(',',$quiz[1]);
-
-        // $hist = ViewMaterial::where('id_user',$this->user->id ?? 1)->whereIn('id_material',$ids)->pluck('id_material')->toArray();
-        // $hist = implode(',', $hist);
-
-        $csvUrlStream = $file;
-        
-        while (!feof($csvUrlStream)) {
-            $line = fgetcsv($csvUrlStream);
-
-            $samples[] = [$line[0] ?? "0", $line[1] ?? "0", $line[2] ?? "0",$line[4] ?? "0",$line[5] ?? "0",$line[6] ?? "0",$line[7] ?? "0",$line[8] ?? "0"];
-            $label[] = $this->transformeArray($line);
-        }
-
-
-
-        // $hist = ViewMaterial::all()->pluck('id_material')->toArray();
-        // $hist = implode(',', $hist);
-        //dd($samples,$label);
-
-        $dataset = new Labeled($samples,$label);
-        [$training, $testing] = $dataset->stratifiedSplit(0.90);
-        $x = [50,0,4,0,0,0,0,0];
-        //dd($x,$testing);
-        // $estimator = new SVC(kernel: new Linear());
-        // $estimator = new NaiveBayes();
-        // $estimator->train($training);
-        // $predictions = $estimator->predict($x);
-
-        $tree = new ExtraTreeClassifier();
-        $tree->train($training);
         $predictions = $tree->predict( new Unlabeled([
-            [50,0,4,0,0,0,0,0]
+            $this->padSamples($quiz)
         ]));
-        dd($predictions,$testing);
+        
+        if ($predictions[0] != "zero") {
+            return $predictions[0];
+        }
 
         /*
          O que falta {
-            - Fazer uma Rotina automatica para teste []
-            - Terminar de ajustar os retornos da IA []
-            - Fazer a parte escrita []
-            - fazer as função no js para capturar a leitura dos arquivos (uma unica vez) []
             - Exibir a mensagem da IA para o usuario []
             - Retornar com data ? a mensagem para que ele saiba o dia que exevutou a atividade?
          }
 
         */
-        
     }
 
     protected function findIdMateria($id)
@@ -166,19 +122,100 @@ class RedeNeuralController extends Controller
         $x[1] = implode(',', $ids);
         return $x;
     }
-    
+    protected function namematerial($id){
+        $name = Material::find($id);
+
+        if ( !empty($name) ) {
+            $back = $name->nome;
+        }else {
+            $back = "zero";
+        }
+        return $back;
+    }
     protected function transformeArray($line)
     {
         $x = '';
         if (is_array($line)) {
             $count = count($line);
             for($i = 2; $i < $count; $i++ ) {
-            
-                $x .= $line[$i].',';
+                if ( !empty($line[$i]) ) {
+                    $x .= $this->namematerial($line[$i]).',';
+                } else {
+                    $x .= 'zero';
+                }
             }
         } else {
-            $x .= "0,0,0".',';
+            $x .= "zero";
         }
+        
         return $x;
+    }
+
+    public function trainingCsv()
+    {
+        $filePath = 'rede/segia.csv'; // Caminho relativo ao diretório "storage/app"
+        $fileMl = Storage::path('rede/segia.ml', '');
+
+        // Cria um novo arquivo CSV em branco (o arquivo anterior será substituído)
+        Storage::put($filePath, '');
+
+        $file = fopen(Storage::path($filePath), 'a');
+
+        $questoes = $this->dataQuestion();
+
+        foreach ($questoes as $questao) {
+            $quiz = $this->findIdMateria($questao->id_materia);
+            $registroCSV = $questao->id_alternativa . ',' . $questao->resultado . ',';
+            
+            if ($quiz[1] == ',') {
+                $registroCSV .= 0 ."\n";
+            } else {
+                $registroCSV .= $quiz[1] . "\n";
+            }
+
+            // Escreve o registro CSV no arquivo
+            fwrite($file, $registroCSV);
+        }
+        
+        $csvUrlStream = fopen(Storage::path($filePath), 'r');;
+        
+        while (!feof($csvUrlStream)) {
+            $line = fgetcsv($csvUrlStream);
+            
+            $samples[] = [$line[0] ?? "0", $line[1] ?? "0", $line[2] ?? "0",$line[4] ?? "0",$line[5] ?? "0",$line[6] ?? "0",$line[7] ?? "0",$line[8] ?? "0"];
+            $label[] = $this->transformeArray($line);
+        }
+        
+        // Treinamento do modelo
+        $dataset = new Labeled($samples,$label);
+        [$training, $testing] = $dataset->stratifiedSplit(0.90);
+
+        $tree = new ExtraTreeClassifier();
+        $tree->train($training);
+
+        $model = new PersistentModel($tree, new Filesystem($fileMl));
+        $model->save();
+        fclose($file);
+        fclose($csvUrlStream);
+    }
+
+    protected function dataQuestion()
+    {
+        $questoes = HistoricoQuestao::all();
+        return $questoes;
+    }
+
+    protected function padSamples($samples, $desiredDimensions = 8, $defaultValue = 0) {       
+        $currentDimensions = count($samples);
+
+        if ($currentDimensions < $desiredDimensions) {
+            // Preencha com valores padrão até atingir o número desejado de dimensões
+            $missingDimensions = $desiredDimensions - $currentDimensions;
+            for ($i = 0; $i < $missingDimensions; $i++) {
+                array_push($samples, $defaultValue);
+            }
+        }
+
+        return $samples;
     }
 }

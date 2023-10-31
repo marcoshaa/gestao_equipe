@@ -46,6 +46,7 @@ class MaterialController extends Controller
         $volta = [];
         foreach($todos as $unico){            
             $volta[]=array(
+                'id'=>$unico->id,
                 'titulo'=>$unico->nome,
                 'link'=>$this->novaRota($unico->endereco),
                 //'link'=>route('geralPdf',$unico->endereco)
