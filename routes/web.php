@@ -93,3 +93,4 @@ Route::middleware(['auth','verified'])->prefix('/material')->group(function(){
 });
 
 Route::get('/teste',[RedeNeuralController::class, "fristIa"]);
+Route::post('/ml/materias',[RedeNeuralController::class, "fristIa"])->name('urlML');

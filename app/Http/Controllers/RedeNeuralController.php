@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\HistoricoQuestao;
 use App\Models\Material;
+use App\Models\Materias;
 use App\Models\ViewMaterial;
 
 use Rubix\ML\Classifiers\ExtraTreeClassifier;
+use Rubix\ML\Classifiers\ClassificationTree;
 use Rubix\ML\Classifiers\NaiveBayes;
 use Rubix\ML\CrossValidation\Metrics\Accuracy;
 use Rubix\ML\Datasets\Labeled;
@@ -29,7 +31,6 @@ class RedeNeuralController extends Controller
     public function __construct()
     {
         $this->setUser(Controller::user());
-        //$this->trainingCsv();      
     }
     
     protected function setUser($us){
@@ -46,7 +47,6 @@ class RedeNeuralController extends Controller
         $materiais = Material::all();
         $totalResult = array();
         foreach($questoes as $questoe) {
-            //dd($questoe,$questoe['id_materia']);
             $x = $this->findIdMateria($questoe['id_materia']);
             $queryQ = [$questoe['id_alternativa'], $questoe['resultado']];
             $queryQ = array_merge($queryQ,$x[2]);
@@ -54,6 +54,7 @@ class RedeNeuralController extends Controller
             if ($this->locationMaterial($queryQ) != "zero") $totalResult[] = $this->locationMaterial($queryQ);
         }
         $unic = array_unique($totalResult);
+        $unic = $this->formeNameMaterias($unic);
         return $unic;
     }
 
@@ -149,6 +150,7 @@ class RedeNeuralController extends Controller
         [$training, $testing] = $dataset->stratifiedSplit(0.90);
 
         $tree = new ExtraTreeClassifier();
+        //$tree = new ClassificationTree();
         $tree->train($training);
 
         $model = new PersistentModel($tree, new Filesystem($fileMl));
@@ -175,5 +177,14 @@ class RedeNeuralController extends Controller
         }
 
         return $samples;
+    }
+
+    protected function formeNameMaterias($name)
+    {
+        $nameF = rtrim($name[0]);
+        $name = explode(',',$nameF);
+        $material = Material::whereIn('nome',[$name])->first();        
+        $materias = Materias::find($material->id_materia);
+        return ["Materia $materias->title, material(s): {$nameF}",strtolower($materias->title)];
     }
 }

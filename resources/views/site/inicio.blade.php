@@ -13,6 +13,10 @@
             color:white;
             font-size:20px;
         }
+        .edditLink{
+            color: white;
+            text-underline-position: under;
+        }
     </style>
 @endsection
 
@@ -57,6 +61,9 @@
                             <p>Com base nas sua avaliação, identificamos que você teve um excelente desempenho na materia <b class="text_destaque">{{$medias[0]['titulo'] ?? 'Algoritmo'}}</b> com uma media de <b class="text_destaque">{{$medias[0]['valor']?? '0'}}%</b>.
                                 No entanto, é importante que você melhore a suas habilidades <b class="text_destaque">{{$medias[1]['titulo'] ?? 'Lógica'}}</b> com uma media de <b class="text_destaque">{{$medias[1]['valor'] ?? 0}}%</b>.
                             </p>
+                            <br>
+                            <p>Com base nas questões que você resolveu recentemente, gostaríamos de recomendar alguns materiais de estudo que podem ser úteis para o seu aprendizado.</p>
+                            <p id="ia"></p>
                         </div> 
                     </div>
                 </div>  
@@ -85,4 +92,15 @@
             })();
         </script>
     @endif
+    <script>
+        $.ajax({
+            'type':'post',
+            'url':`{{route('urlML')}}`,
+            data: {"_token": "{{ csrf_token() }}"},
+            datatype: 'json',
+            success: function(backRt){
+                document.getElementById("ia").innerHTML = backRt[0] +`<br> <a class="edditLink" href="{{url('/materiais/painel')}}/${backRt[1]}">Acessar Materia</a>`;
+            } 
+        }); 
+    </script>
 @endsection
