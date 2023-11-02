@@ -52,6 +52,7 @@ class PerfilController extends Controller
                 if($r->senhaNova == $r->confirmSenhaNova){
                     $userNewPass = User::where('id',$this->user()->id)->update(['password'=>hash::make($r->senhaNova)]);
                     $volta = 'ok';
+                    Controller::log("Senha Atualizada com sucesso.");
                 }
             }
         }else{
@@ -77,6 +78,7 @@ class PerfilController extends Controller
                 'rua'=>$r->rua_casa,
                 'numero'=>$r->numero_casa,
             ]);
+            Controller::log("Perfil criado com sucesso.");
         }else{        
             $detalheUser->update([
                 'sexo'=>$r->sexo_registro,
@@ -89,6 +91,7 @@ class PerfilController extends Controller
                 'rua'=>$r->rua_casa,
                 'numero'=>$r->numero_casa,
             ]);
+            Controller::log("Perfil Atualizada com sucesso.");
         }
         return json_encode($volta);
     }

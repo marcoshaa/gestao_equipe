@@ -16,23 +16,24 @@ class ViewMaterialController extends Controller
     }
 
     protected function setUser($us){
-        return $this->user=$us;
+        $this->user=$us;
     }
 
     private function getUser(){
-        return $this->user();
+        return $this->user;
     }
 
     public function viewMaterial(Request $r)
     {        
-        $cad = ViewMaterial::where('id_user',$this->getUser()['id'])->where('id_material',$r->id)->first();
+        $cad = ViewMaterial::where('id_user', $this->user->id)->where('id_material', $r->id)->first();
         if (empty($cad)){
             $model = new ViewMaterial();
-            $model->id_user = $this->getUser()['id'];
+            $model->id_user = $this->user->id;
             $model->id_material = $r->id;
             $model->save();
             if (!empty($model->id)) {
                 $back = "success";
+                Controller::log("Material visualizado ($r->id)");
             } else {
                 $back = "error";
             }

@@ -17,7 +17,7 @@ class QuestaoController extends Controller
     }
 
     private function setUser($us){
-        return $this->user=$us;
+        $this->user=$us;
     }
 
     private function getUser(){
@@ -66,6 +66,7 @@ class QuestaoController extends Controller
         $new->alternativa_4 = $r->alternativa_4;
         $new->alternativa_correta = $r->alternativa_correta;
         $new->save();
+        Controller::log("Questão criada com sucesso ($new->id).");
     }
 
     private function validaId($str){
@@ -107,6 +108,7 @@ class QuestaoController extends Controller
         $novoHistorico->id_alternativa=$questao['id'];
         $novoHistorico->resultado=$pontua;
         $novoHistorico->save();
+        Controller::log("Historico criada com sucesso ($novoHistorico->id).");
     }
 
     private function atualizaPerfilAcesso(){

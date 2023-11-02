@@ -28,67 +28,33 @@ class RedeNeuralController extends Controller
 
     public function __construct()
     {
-        //$this->setUser(Controller::user());
-        $this->setUser(User::find(1));
+        $this->setUser(Controller::user());
+        //$this->trainingCsv();      
     }
-
+    
     protected function setUser($us){
         return $this->user=$us;
     }
 
+    private function getUser(){
+        return $this->user();
+    }
+
     public function fristIa()
-    {        
-        
-        $questoes = HistoricoQuestao::where('id_user',$this->user->id)->get();
-        
-        //dd($questoes);
-        $qe = $this->findIdMateria(1);
-       //dd($qe,Material::all());
-        $samples = [];
-        $labels = [];
-        foreach($questoes as $questoe){
+    {
+        $questoes = HistoricoQuestao::where('id_user',$this->getUser()->id)->get();
+        $materiais = Material::all();
+        $totalResult = array();
+        foreach($questoes as $questoe) {
+            //dd($questoe,$questoe['id_materia']);
+            $x = $this->findIdMateria($questoe['id_materia']);
+            $queryQ = [$questoe['id_alternativa'], $questoe['resultado']];
+            $queryQ = array_merge($queryQ,$x[2]);
 
-            $labels[] = $this->locationMaterial($qe,$questoe);
-            $samples[] = [$questoe['id_materia'], $questoe['id_alternativa'], $questoe['resultado']];
-
+            if ($this->locationMaterial($queryQ) != "zero") $totalResult[] = $this->locationMaterial($queryQ);
         }
-        
-        while (!feof($csvUrlStream)) {
-            //dd($csvUrlStream);
-            $line = fgetcsv($csvUrlStream);
-            $labels[] = $line[3] === '"0"' ? 'Não Compraria' : 'Compraria';
-
-            $samples[] = [$line["0"], $line[1], $line[2]];
-        }
-
-        //dd($samples);
-        $dataset = new Labeled($samples, $labels);
-
-        [$training, $testing] = $dataset->stratifiedSplit(0.90);
-
-        $estimator = new NaiveBayes();
-        $estimator->train($training);
-        $predictions = $estimator->predict($testing);
-        /*
-
-            Salvar os dados em um .arquivo
-
-                // Salvando o modelo treinado
-                $model = new PersistentModel($estimator, new Filesystem('arqTreinamento.rbx'));
-                $model->save();
-
-                // Carregando o modelo treinado
-                $model = PersistentModel::load(new Filesystem('arqTreinamento.rbx'));
-
-        */
-        
-
-        $metric = new Accuracy();
-        $score = $metric->score($predictions, $testing->labels());
-        
-        dd($predictions,$samples,$score);
-
-        
+        $unic = array_unique($totalResult);
+        return $unic;
     }
 
     private function locationMaterial($quiz)
@@ -102,24 +68,16 @@ class RedeNeuralController extends Controller
             $this->padSamples($quiz)
         ]));
         
-        if ($predictions[0] != "zero") {
-            return $predictions[0];
-        }
+        return $predictions[0];
 
-        /*
-         O que falta {
-            - Exibir a mensagem da IA para o usuario []
-            - Retornar com data ? a mensagem para que ele saiba o dia que exevutou a atividade?
-         }
-
-        */
     }
 
     protected function findIdMateria($id)
     {
         $ids = Material::where('id_materia', $id)->pluck('id')->toArray();
-        $x["0"] = count($ids);
+        $x[0] = count($ids);
         $x[1] = implode(',', $ids);
+        $x[2] = $ids;
         return $x;
     }
     protected function namematerial($id){

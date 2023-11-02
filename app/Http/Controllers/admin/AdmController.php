@@ -55,6 +55,7 @@ class AdmController extends Controller
         if(!empty($novoAdm->id)){
             $volta = 'ok';
             $this->criaDetalhesUser($novoAdm,$r->form_data_nascimento);
+            Controller::log("Usuario criado com sucesso ($novoAdm->id).");
         }else{
             $volta = 'erro';
         }
@@ -67,6 +68,7 @@ class AdmController extends Controller
             $newDt->id_user = $user->id;
             $newDt->data_nascimento = $data;
             $newDt->save();
+            Controller::log("Detalhes do usuario criado com sucesso ($newDt->id).");
         }
     }
 
@@ -83,6 +85,7 @@ class AdmController extends Controller
         $alternativa->save();
         if(!empty($alternativa->id)){
             $volta='ok';
+            Controller::log("Questão criada com sucesso ($alternativa->id).");
         }else{
             $volta='erro';
         }
@@ -102,6 +105,7 @@ class AdmController extends Controller
             
             if($novo->id != 0){
                 $volta="ok";
+                Controller::log("Material criado com sucesso ($novo->id).");
             }else{
                 $volta="erro";
             }

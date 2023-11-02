@@ -26,6 +26,7 @@ class RegistroController extends Controller
         if(!empty($user->id)){
             $x = "ok";
             $this->criaDetalhesUser($user,$request->form_date_register);
+            Controller::log("Usuario criado com sucesso ($user->id).");
         }else{
             $x = "fail";
         }
@@ -47,6 +48,7 @@ class RegistroController extends Controller
             $newDt->id_user = $user->id;
             $newDt->data_nascimento = $data;
             $newDt->save();
+            Controller::log("Detalhes do usuario criado com sucesso ($newDt->id).");
         }
     }
 }
