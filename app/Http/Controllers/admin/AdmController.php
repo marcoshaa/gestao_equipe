@@ -9,23 +9,28 @@ use App\Models\Questao;
 use App\Models\Materias;
 use App\Models\Material;
 use App\Models\User;
+use App\Models\Log;
 use Hash;
 use Illuminate\Support\Facades\Storage;
 
 class AdmController extends Controller
 {
-    private $user;
+    private $userTemplate;
 
-    public function __construct(){
-       $this->setUser();
+    public function __construct()
+    {       
+        //dd(Controller::user());
+       $this->userTemplate=Controller::user();
     }
 
-    private function setUser(){
-        $this->user = Controller::user();
+    private function setUser($user)
+    {
+        $this->userTemplate = $user;
     }
 
-    public function getUser(){
-        return $this->user();
+    public function getUser()
+    {
+        return $this->userTemplate;
     }
 
     public function usuarioAdm(){
@@ -130,5 +135,12 @@ class AdmController extends Controller
             $volta = [4,'estruturaderepeticao'];
         }
         return $volta;
+    }
+
+    public function logView()
+    {
+        $log = Log::all();
+        
+        return view('adm.log',['logs'=>$log]);
     }
 }

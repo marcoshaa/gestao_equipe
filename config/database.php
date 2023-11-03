@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 return [
 
@@ -61,16 +62,9 @@ return [
             // 'options' => extension_loaded('pdo_mysql') ? array_filter([
             //     PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             // ]) : [],
-            // 'options'=>array(
-            //     PDO::MYSQL_ATTR_SSL_CA =>'/etc/ssl/certs/ca-certificates.crt'
-            // )
             'options'=>array(
-                PDO::MYSQL_ATTR_SSL_CA =>'D:/xampp/htdocs/gestao/public/ca-certificates.crt'
+                PDO::MYSQL_ATTR_SSL_CA =>env('CERTIFICADO')
             )
-            //servidor.
-            // 'options'=>array(
-            //     PDO::MYSQL_ATTR_SSL_CA =>'/var/www/html/public/ca-certificates.crt'
-            // )
         ],
 
         'pgsql' => [

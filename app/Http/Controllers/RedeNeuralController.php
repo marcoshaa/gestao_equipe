@@ -26,24 +26,10 @@ use Illuminate\Support\Facades\Storage;
 
 class RedeNeuralController extends Controller
 {
-    protected $user;
-
-    public function __construct()
-    {
-        $this->setUser(Controller::user());
-    }
-    
-    protected function setUser($us){
-        return $this->user=$us;
-    }
-
-    private function getUser(){
-        return $this->user();
-    }
-
     public function fristIa()
     {
-        $questoes = HistoricoQuestao::where('id_user',$this->getUser()->id)->get();
+        $user = User::find(Auth::id());
+        $questoes = HistoricoQuestao::where('id_user',$user->id)->get();
         $materiais = Material::all();
         $totalResult = array();
         foreach($questoes as $questoe) {
@@ -183,7 +169,8 @@ class RedeNeuralController extends Controller
     {
         $nameF = rtrim($name[0]);
         $name = explode(',',$nameF);
-        $material = Material::whereIn('nome',[$name])->first();        
+        //dd($name);
+        $material = Material::where('nome',$name)->first();        
         $materias = Materias::find($material->id_materia);
         return ["Materia $materias->title, material(s): {$nameF}",strtolower($materias->title)];
     }

@@ -69,6 +69,7 @@ Route::prefix('/ADM')->group(function(){
     Route::post('/material/envio-dados',[AdmController::class, 'criaMaterial'])->name('newMaterial');
     Route::get('/pergunta',[AdmController::class, 'novaPergunta'])->name('novaPergunta');
     Route::get('/material',[AdmController::class, 'novoMaterial'])->name('novoMaterial');
+    Route::get('/log',[AdmController::class, 'logView'])->name('log');
 });
 
 Route::get('/pdf{img}',[MaterialController::class, 'showPdf'])->name('showPdf');
