@@ -37,9 +37,8 @@ class PerfilController extends Controller
     }
 
     public function perfil(){        
-        $detalheUser = DetalhesUser::where('id',($this->user()->id-1))->first();  
-        $x = Controller::tabelaDadosQuestao();      
-       // dd($x);
+        $detalheUser = DetalhesUser::where('id_user',($this->user()->id))->first();  
+        $x = Controller::tabelaDadosQuestao();
         return view('site.perfil')
         ->with('detalheUser',$detalheUser)
         ->with('xs',$x)
@@ -63,7 +62,7 @@ class PerfilController extends Controller
 
     public function trocaDadosUser(Request $r){
         $volta = 'sucesso';
-        $detalheUser = DetalhesUser::where('id_user',($this->user()->id)); 
+        $detalheUser = DetalhesUser::where('id_user',$this->user()->id)->first(); 
         $user = User::where('id','=',$this->user()->id)->update(['nome'=>"$r->form_nome_register"]);
         if($detalheUser == null){
             $userNew = DetalhesUser::create([
@@ -80,7 +79,7 @@ class PerfilController extends Controller
             ]);
             Controller::log("Perfil criado com sucesso.");
         }else{        
-            $detalheUser->update([
+            $x = DetalhesUser::where('id_user',$this->user()->id)->update([
                 'sexo'=>$r->sexo_registro,
                 'data_nascimento'=>$r->form_data_nascimento,
                 'formacao'=>$r->formacao_registro,
@@ -91,7 +90,7 @@ class PerfilController extends Controller
                 'rua'=>$r->rua_casa,
                 'numero'=>$r->numero_casa,
             ]);
-            Controller::log("Perfil Atualizada com sucesso.");
+            Controller::log("Perfil Atualizado com sucesso.");
         }
         return json_encode($volta);
     }

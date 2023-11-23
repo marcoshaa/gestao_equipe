@@ -111,4 +111,13 @@ class Controller extends BaseController
         $log->id_user = Controller::user()->id;
         $log->save();
     }
+
+    public static function logDetalheUser($titulo, $id)
+    {
+        $log = new Log();
+        $log->titulo = $titulo;
+        $log->id_user = $id;
+        $log->save();
+    }
+
 }

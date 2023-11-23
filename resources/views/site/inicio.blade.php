@@ -92,15 +92,17 @@
             })();
         </script>
     @endif
-    <script>
-        $.ajax({
-            'type':'post',
-            'url':`{{route('urlML')}}`,
-            data: {"_token": "{{ csrf_token() }}"},
-            datatype: 'json',
-            success: function(backRt){
-                document.getElementById("ia").innerHTML = backRt[0] +`<br> <a class="edditLink" href="{{url('/materiais/painel')}}/${backRt[1]}">Acessar Materia</a>`;
-            } 
-        }); 
-    </script>
+    @if($user->primeiro_acesso == 'n')
+        <script>
+            $.ajax({
+                'type':'post',
+                'url':`{{route('urlML')}}`,
+                data: {"_token": "{{ csrf_token() }}"},
+                datatype: 'json',
+                success: function(backRt){
+                    document.getElementById("ia").innerHTML = backRt[0] +`<br> <a class="edditLink" href="{{url('/materiais/painel')}}/${backRt[1]}">Acessar Materia</a>` ;
+                } 
+            }); 
+        </script>
+    @endif
 @endsection

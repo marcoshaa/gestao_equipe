@@ -146,8 +146,8 @@
                         </div>
                         <div class="flex w100" style="justify-content: space-between;margin: 0px 10px 10px 0px;">
                             <div class="perfil_campo w50">  
-                                <label class="labelUser" for="form_date_register">Data de Nascimento</label>
-                                <input class="campoUser_input " type="date" id="form_data_nascimento" name="form_date_register" required>
+                                <label class="labelUser" for="form_data_nascimento">Data de Nascimento</label>
+                                <input class="campoUser_input " type="date" id="form_data_nascimento" name="form_data_nascimento" required>
                             </div>
                             <div class="perfil_campo" style="width: 47%;">  
                                 <label class="labelUser" for="sexo_aluno">Sexo</label>
@@ -277,9 +277,9 @@
                             @foreach($xs as $x)
                                 <tr>
                                     <td>{{$x['questao']['title']}}</td>
-                                    <td class="centerTd">{{$x['resultado']['acerto']}}</td>
-                                    <td class="centerTd">{{$x['resultado']['erro']}}</td>
-                                    <td class="centerTd">{{$x['resultado']['total']}}</td>                            
+                                    <td class="centerTd">{{$x['resultado']['acerto'] ?? 0}}</td>
+                                    <td class="centerTd">{{$x['resultado']['erro'] ?? 0}}</td>
+                                    <td class="centerTd">{{$x['resultado']['total'] ?? 0}}</td>                            
                                 </tr>
                             @endforeach
                         </tbody>
@@ -329,7 +329,7 @@
 <script>
     $("#cep_registro").mask("99999-999");
     $(function() {
-        document.getElementById("sexo_registro").value = "<?php echo $detalheUser->sexo ?? ''; ?>";
+        document.getElementById("sexo_registro").value = "<?php echo $detalheUser->sexo ?? '';?>";
         document.getElementById("formacao_registro").value = "<?php echo $detalheUser->formacao ?? ''; ?>";
         document.getElementById("form_data_nascimento").value = "<?php echo $detalheUser->data_nascimento ?? ''; ?>";
         document.getElementById("cep_registro").value = "<?php echo $detalheUser->cep ?? ''; ?>";
@@ -449,61 +449,21 @@
             
         })
     })
-
-    // $('#cep_registro').on('change',function(){
-    //     let cep = document.getElementById("cep_registro").value;
-    //     $.ajax({
-    //         type:'get',
-    //         url:`https://brasilapi.com.br/api/cep/v1/${cep}`,
-    //         datatype:'json',
-    //     }).then(function(volta){
-    //         document.getElementById("estado_casa").value = volta.state;
-    //         document.getElementById("cidade_casa").value = volta.city;
-    //         document.getElementById("bairro_casa").value = volta.neighborhood;
-    //         document.getElementById("rua_casa").value = volta.street;
-    //     })
-    // })
 </script>
 <script>
-    $(function() {        
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(function() {        
         $.ajax({
             method: 'POST',
             url: "{{route('PrimeiroGrafico')}}",
             data:{"_token":"{{ csrf_token() }}"},
             dataType: 'json',        
-            success: function(result){
-                drawChart(result);           
+            success: function(result){                
+                let chaveGrafico = result;
+                drawChart(chaveGrafico);           
             }            
         });
     });
-    google.charts.load("current", {packages:["corechart"]});
-    google.charts.setOnLoadCallback(drawChart);
-
-    // function drawChart(result) {
-    //     // console.log(result[0][Object.keys(result[0])]);
-    //     // console.log(Object.keys(result[1]));
-    //     // console.log(result);
-    //     var data = google.visualization.arrayToDataTable([
-    //         ['Matematica', result[0][Object.keys(result[0])]],
-    //         ['Logica', result[1][Object.keys(result[0])]],
-    //         ['Algoritmo', result[2][Object.keys(result[0])]],
-    //         ['Estrutura de repeticao', result[3][Object.keys(result[0])]]
-    //     ]);
-    //     // Set chart options
-    //     var options = {            
-    //         'title':'Resumo',
-    //         'titleTextStyle':{'color':'#fff','bold':true,'fontSize':20},
-    //         'width':600,
-    //         'height':300,
-    //         'is3D': true,
-    //         'legend': { 'textStyle': { 'fontSize': 12,'color':'#fff' } },
-    //         'backgroundColor': '#272a2b'
-    //     };
-
-    //     // Instantiate and draw our chart, passing in some options.
-    //     var chart = new google.visualization.PieChart(document.getElementById('inGrafico'));
-    //     chart.draw(data, options);
-    // }
     function trataGrafico(numero){
         let volta;
         if(numero == 0){
@@ -513,31 +473,30 @@
         }
         return volta;
     }
-    function drawChart(result) {
-        //var mat = result['0'];
-        //(result);
-        //console.log(Object.keys(result[2]));
-        var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-            ['Matematica',result[0]],
-            ['Logica',result[1]],
-            ['Algoritmo',result[2]],
-            ['Estrutura de repeticao',result[3]]
-        ]);
+    function drawChart(chaveGrafico) {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Matematica', chaveGrafico[0] ?? 0],
+                ['Logica', chaveGrafico[1] ?? 0],
+                ['Algoritmo', chaveGrafico[2] ?? 0],
+                ['Estrutura de repeticao', chaveGrafico[3] ?? 0]
+            ]);
 
-        var options = {            
-            'title':'Acertos',
-            'titleTextStyle':{'color':'#fff','bold':true,'fontSize':20},
-            'width':600,
-            'height':300,
-            'is3D': true,
-            'legend': { 'textStyle': { 'fontSize': 12,'color':'#fff' } },
-            'backgroundColor': '#272a2b'
-        };
+            var options = {            
+                'title': 'Acertos',
+                'titleTextStyle': { 'color': '#fff', 'bold': true, 'fontSize': 20 },
+                'width': 600,
+                'height': 300,
+                'is3D': true,
+                'legend': { 'textStyle': { 'fontSize': 12, 'color': '#fff' } },
+                'backgroundColor': '#272a2b'
+            };
 
-        var chart = new google.visualization.PieChart(document.getElementById('inGrafico'));
-        chart.draw(data, options);
-    }    
+            var chart = new google.visualization.PieChart(document.getElementById('inGrafico'));
+            chart.draw(data, options);
+       
+    }
+
 </script>
 <script>
     google.charts.load('current', { packages: ['corechart'] });

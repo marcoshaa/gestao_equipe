@@ -174,8 +174,9 @@
                     })
                 },
                 success: function(volta){
+                    console.log(volta);
                     Swal.close();
-                    if(volta == 'ok'){
+                    if(volta[0] == 'ok'){
                         Swal.fire({
                             position: 'Center',
                             icon: 'success',
@@ -188,14 +189,14 @@
                                 window.location.href = "{{route('login')}}";
                             }
                         })
-                    }else if(volta == 'fail'){
+                    }else if(volta[0] == 'fail'){
                         Swal.fire({
                             position: 'Center',
                             icon: 'error',
                             color:'#fff',
                             background:'#272a2b',
                             title: 'Falha ao realizar o Cadastro !',
-                            html:`<div id="resolErros">${volta}</div>`,
+                            html:`<div id="resolErros">${volta[1]}</div>`,
                             showConfirmButton: true,                    
                         });  
                     }  
@@ -208,7 +209,7 @@
                         color:'#fff',
                         background:'#272a2b',
                         title: 'Falha ao realizar o Cadastro !',
-                        html:`<div id="resolErros">${volta}</div>`,
+                        html:`<div id="resolErros">${volta[1]}</div>`,
                         showConfirmButton: true,                    
                     });           
                 },
